@@ -2,24 +2,31 @@ package com.fanxuankai.commons.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.sql.BatchUpdateException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author fanxuankai
  */
 public class ThrowableUtils {
+
     /**
      * 获取错误的堆栈信息
      *
      * @param throwable 异常
      */
     public static String getStackTrace(Throwable throwable) {
-        StringWriter stringWriter = new StringWriter();
-        try (PrintWriter printWriter = new PrintWriter(stringWriter)) {
-            throwable.printStackTrace(printWriter);
-            return stringWriter.toString();
+        List<StringWriter> list = new ArrayList<>();
+        while (throwable != null) {
+            StringWriter stringWriter = new StringWriter();
+            try (PrintWriter printWriter = new PrintWriter(stringWriter)) {
+                throwable.printStackTrace(printWriter);
+                list.add(stringWriter);
+            }
+            throwable = throwable.getCause();
         }
+        return list.stream().map(Object::toString).collect(Collectors.joining());
     }
 
     /**
@@ -44,10 +51,5 @@ public class ThrowableUtils {
             throw new RuntimeException(throwable);
         }
         checkException(throwable.getCause(), ignoreThrowable);
-    }
-
-    public static void main(String[] args) {
-        checkException(new BatchUpdateException(new SQLIntegrityConstraintViolationException()),
-                SQLIntegrityConstraintViolationException.class);
     }
 }
