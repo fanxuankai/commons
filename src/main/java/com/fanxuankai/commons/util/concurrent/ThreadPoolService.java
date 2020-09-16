@@ -47,7 +47,7 @@ public class ThreadPoolService {
                 @Override
                 public Thread newThread(Runnable r) {
                     Thread thread = new Thread(r);
-                    thread.setName("ZeusThreadPool-worker-" + count.getAndIncrement());
+                    thread.setName("ThreadPool-worker-" + count.getAndIncrement());
                     return thread;
                 }
             });
