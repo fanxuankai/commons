@@ -10,7 +10,7 @@ public class Threads {
         try {
             timeUnit.sleep(timeout);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
         }
     }
 }

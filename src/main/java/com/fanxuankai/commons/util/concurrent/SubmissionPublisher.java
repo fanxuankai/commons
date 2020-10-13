@@ -62,7 +62,7 @@ public class SubmissionPublisher<T> implements Flow.Publisher<T>, AutoCloseable 
             try {
                 items.put(item);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                Thread.currentThread().interrupt();
             }
         }
 
@@ -75,7 +75,7 @@ public class SubmissionPublisher<T> implements Flow.Publisher<T>, AutoCloseable 
             try {
                 requests.put(n);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                Thread.currentThread().interrupt();
             }
         }
 
@@ -103,7 +103,7 @@ public class SubmissionPublisher<T> implements Flow.Publisher<T>, AutoCloseable 
                             }
                         }
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        Thread.currentThread().interrupt();
                     }
                 }
                 subscriber.onComplete();
