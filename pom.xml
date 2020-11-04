@@ -3,26 +3,128 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>com.fanxuankai</groupId>
-        <artifactId>parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-
+    <groupId>com.fanxuankai</groupId>
     <artifactId>commons</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>Commons</name>
+    <description>Commons</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <java.source.version>1.8</java.source.version>
+        <java.target.version>1.8</java.target.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <skipTests>true</skipTests>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <jmockdata.version>4.2.0</jmockdata.version>
+        <sharding-jdbc-self-id-generator.version>1.4.1</sharding-jdbc-self-id-generator.version>
+        <lombok.version>1.18.12</lombok.version>
+    </properties>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>fanxuankai</name>
+            <email>fan_xuankai@126.com</email>
+            <url>https://github.com/fanxuankai</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/fanxuankai/commons</url>
+    </scm>
 
     <dependencies>
         <dependency>
             <groupId>com.github.jsonzou</groupId>
             <artifactId>jmockdata</artifactId>
+            <version>${jmockdata.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.dangdang</groupId>
             <artifactId>sharding-jdbc-self-id-generator</artifactId>
+            <version>${sharding-jdbc-self-id-generator.version}</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <doclint>none</doclint>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>runlion</id>
+            <distributionManagement>
+                <repository>
+                    <id>runlion-staging</id>
+                    <url>http://192.168.173.83:8081/repository/releases/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>runlion-snapshots</id>
+                    <url>http://192.168.173.83:8081/repository/snapshots/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 
 </project>
