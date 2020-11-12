@@ -22,7 +22,6 @@
         <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
         <jmockdata.version>4.2.0</jmockdata.version>
         <sharding-jdbc-self-id-generator.version>1.4.1</sharding-jdbc-self-id-generator.version>
-        <lombok.version>1.18.12</lombok.version>
     </properties>
 
     <licenses>
@@ -57,11 +56,6 @@
             <artifactId>sharding-jdbc-self-id-generator</artifactId>
             <version>${sharding-jdbc-self-id-generator.version}</version>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
         </dependency>
     </dependencies>
 
