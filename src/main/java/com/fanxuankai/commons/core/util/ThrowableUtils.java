@@ -1,4 +1,6 @@
-package com.fanxuankai.commons.util;
+package com.fanxuankai.commons.core.util;
+
+import cn.hutool.core.exceptions.ExceptionUtil;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -8,6 +10,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author fanxuankai
+ * @deprecated {@link ExceptionUtil}
  */
 public class ThrowableUtils {
 
@@ -15,6 +18,8 @@ public class ThrowableUtils {
      * 获取错误的堆栈信息
      *
      * @param throwable 异常
+     * @return /
+     * @see ExceptionUtil#stacktraceToString(Throwable)
      */
     public static String getStackTrace(Throwable throwable) {
         List<StringWriter> list = new ArrayList<>();
@@ -34,6 +39,7 @@ public class ThrowableUtils {
      *
      * @param throwable       异常
      * @param ignoreThrowable 忽略的异常
+     * @see ExceptionUtil#isCausedBy(Throwable, Class[])
      */
     public static void checkException(Throwable throwable, Class<?>... ignoreThrowable) {
         if (throwable == null) {

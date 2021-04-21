@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.util;
+package com.fanxuankai.commons.core.util;
 
 import com.github.jsonzou.jmockdata.JMockData;
 
@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 /**
  * @author fanxuankai
  */
-public class MockUtils {
+public class MockUtils extends JMockData {
 
     /**
      * Mock Data
@@ -25,5 +25,4 @@ public class MockUtils {
                 .mapToObj(o -> JMockData.mock(clazz))
                 .collect(Collectors.toList());
     }
-
 }

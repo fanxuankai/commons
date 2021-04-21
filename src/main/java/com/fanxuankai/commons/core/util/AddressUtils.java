@@ -1,12 +1,16 @@
-package com.fanxuankai.commons.util;
+package com.fanxuankai.commons.core.util;
+
+import cn.hutool.core.net.NetUtil;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
  * @author fanxuankai
+ * @deprecated {@link NetUtil}
  */
 public class AddressUtils {
+
     public static String getHostAddress() {
         InetAddress address;
         try {
@@ -15,9 +19,5 @@ public class AddressUtils {
             return null;
         }
         return address.getHostAddress();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getHostAddress());
     }
 }

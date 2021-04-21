@@ -1,9 +1,12 @@
-package com.fanxuankai.commons.util;
+package com.fanxuankai.commons.core.util;
+
+import cn.hutool.system.SystemUtil;
 
 import java.util.Optional;
 
 /**
  * @author fanxuankai
+ * @deprecated {@link SystemUtil}
  */
 public class SystemProperties {
 
@@ -24,5 +27,4 @@ public class SystemProperties {
         }
         return Optional.ofNullable(value);
     }
-
 }

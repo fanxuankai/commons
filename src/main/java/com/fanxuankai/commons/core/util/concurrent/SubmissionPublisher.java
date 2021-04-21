@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.util.concurrent;
+package com.fanxuankai.commons.core.util.concurrent;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 
-import static com.fanxuankai.commons.util.concurrent.Flow.DEFAULT_BUFFER_SIZE;
+import static com.fanxuankai.commons.core.util.concurrent.Flow.DEFAULT_BUFFER_SIZE;
 
 /**
  * @author fanxuankai
@@ -17,7 +17,7 @@ public class SubmissionPublisher<T> implements Flow.Publisher<T>, AutoCloseable 
     private final int maxBufferCapacity;
 
     public SubmissionPublisher() {
-        this(ThreadPoolService.getInstance(), DEFAULT_BUFFER_SIZE);
+        this(ThreadPool.INSTANCE.getExecutor(), DEFAULT_BUFFER_SIZE);
     }
 
     public SubmissionPublisher(Executor executor, int maxBufferCapacity) {
