@@ -54,7 +54,6 @@
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-
         <!-- Extra Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
