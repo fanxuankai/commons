@@ -12,8 +12,8 @@ import java.util.function.Function;
  *
  * @author fanxuankai
  */
-public class MybatisPlusPageUtil {
-    private MybatisPlusPageUtil() {
+public class MybatisPlusPageUtils {
+    private MybatisPlusPageUtils() {
     }
 
     /**

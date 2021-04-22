@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.extra.spring;
+package com.fanxuankai.commons.extra.spring.util;
 
 import com.fanxuankai.commons.domain.Page;
 import com.fanxuankai.commons.domain.PageResult;
@@ -11,8 +11,8 @@ import java.util.function.Function;
  *
  * @author fanxuankai
  */
-public class SpringPageUtil {
-    private SpringPageUtil() {
+public class SpringPageUtils {
+    private SpringPageUtils() {
     }
 
     /**
