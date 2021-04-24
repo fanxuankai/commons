@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.extra.mybatis;
+package com.fanxuankai.commons.extra.mybatis.util;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fanxuankai.commons.domain.Page;

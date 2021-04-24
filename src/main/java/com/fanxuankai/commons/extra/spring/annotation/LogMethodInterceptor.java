@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.extra.spring.log;
+package com.fanxuankai.commons.extra.spring.annotation;
 
 import cn.hutool.json.JSONUtil;
 import org.aopalliance.intercept.MethodInterceptor;

@@ -11,6 +11,12 @@ import java.net.UnknownHostException;
  */
 public class AddressUtils {
 
+    /**
+     * 获取本机网卡IP地址
+     *
+     * @return /
+     * @see NetUtil#getLocalhostStr()
+     */
     public static String getHostAddress() {
         InetAddress address;
         try {

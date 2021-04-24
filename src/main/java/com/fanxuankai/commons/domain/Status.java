@@ -7,7 +7,7 @@ package com.fanxuankai.commons.domain;
  */
 public interface Status {
     /**
-     * 代码码
+     * 代码
      *
      * @return /
      */

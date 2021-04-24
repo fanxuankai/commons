@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.extra.mybatis;
+package com.fanxuankai.commons.extra.mybatis.domain;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

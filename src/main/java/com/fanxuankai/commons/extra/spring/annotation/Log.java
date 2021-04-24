@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.extra.spring.log;
+package com.fanxuankai.commons.extra.spring.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
