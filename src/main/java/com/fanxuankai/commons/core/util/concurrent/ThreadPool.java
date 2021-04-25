@@ -19,7 +19,7 @@ public enum ThreadPool {
     private static final String PROPERTY_PREFIX = "com.fanxuankai.commons";
     public static final String PROPERTY_CPS = PROPERTY_PREFIX + ".corePoolSize";
     public static final String PROPERTY_KAT = PROPERTY_PREFIX + ".keepAliveTime";
-    private ExecutorService executor;
+    private ThreadPoolExecutor executor;
 
     ThreadPool() {
         init();
@@ -41,7 +41,7 @@ public enum ThreadPool {
         });
     }
 
-    public ExecutorService getExecutor() {
+    public ThreadPoolExecutor getExecutor() {
         return executor;
     }
 
