@@ -27,10 +27,7 @@ import java.util.Date;
  *
  * @author fanxuankai
  */
-public final class DateUtils {
-    private DateUtils() {
-    }
-
+public class DateUtils {
     /**
      * 标准日期时间格式 yyyy-MM-dd HH:mm:ss
      *

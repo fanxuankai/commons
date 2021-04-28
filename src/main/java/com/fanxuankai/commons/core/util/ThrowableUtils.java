@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
  * @deprecated {@link ExceptionUtil}
  */
 public class ThrowableUtils {
-
     /**
      * 获取错误的堆栈信息
      *

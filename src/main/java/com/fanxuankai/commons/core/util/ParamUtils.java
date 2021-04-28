@@ -13,9 +13,6 @@ import java.util.stream.Collectors;
  * @author fanxuankai
  */
 public class ParamUtils {
-    private ParamUtils() {
-    }
-
     /**
      * 判断参数是否为空
      *
