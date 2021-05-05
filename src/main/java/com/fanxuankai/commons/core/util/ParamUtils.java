@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -27,9 +28,9 @@ public class ParamUtils {
      * 判断参数是否为空
      *
      * @param param        参数
-     * @param runIfChecked 校验通过时执行任务
+     * @param runIfChecked 校验通过时执行
      */
-    public static void isEmpty(Object param, Runnable runIfChecked) {
+    public static <T> void isEmpty(T param, Runnable runIfChecked) {
         if (ObjectUtil.isEmpty(param)) {
             runIfChecked.run();
         }
@@ -78,12 +79,12 @@ public class ParamUtils {
     /**
      * 判断参数是否不为空
      *
-     * @param param        参数
-     * @param runIfChecked 校验通过时执行任务
+     * @param param            参数
+     * @param consumeIfChecked 校验通过时消费
      */
-    public static void isNotEmpty(Object param, Runnable runIfChecked) {
+    public static <T> void isNotEmpty(T param, Consumer<T> consumeIfChecked) {
         if (ObjectUtil.isNotEmpty(param)) {
-            runIfChecked.run();
+            consumeIfChecked.accept(param);
         }
     }
 

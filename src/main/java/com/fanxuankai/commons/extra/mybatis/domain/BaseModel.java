@@ -35,13 +35,13 @@ public class BaseModel implements Serializable {
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
-    private Date gmtCreate;
+    private Date createDate;
 
     /**
      * 修改时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date gmtModified;
+    private Date lastModifiedDate;
 
     /**
      * 是否删除：0：否 1：是
@@ -73,20 +73,20 @@ public class BaseModel implements Serializable {
         this.modifiedUserId = modifiedUserId;
     }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
-    public Date getGmtModified() {
-        return gmtModified;
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
     }
 
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     public Integer getDeleted() {
