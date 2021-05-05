@@ -83,6 +83,11 @@
             <artifactId>spring-data-redis</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- Extra Mybatis Plus -->
         <dependency>
