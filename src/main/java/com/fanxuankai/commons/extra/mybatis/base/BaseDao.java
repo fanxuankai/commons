@@ -72,6 +72,16 @@ public interface BaseDao<T, C> extends IService<T> {
     }
 
     /**
+     * 是否存在
+     *
+     * @param criteria 条件参数
+     * @return boolean
+     */
+    default boolean exists(C criteria) {
+        return count(criteria) > 0;
+    }
+
+    /**
      * 更新
      *
      * @param t        实体类
