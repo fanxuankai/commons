@@ -1,24 +1,25 @@
 package com.fanxuankai.commons.domain;
 
 /**
- * 状态码: 10000000-99999999
- * 第 1 至 3 位: 项目编号
- * 第 4 至 5 位: 模块编号
- * 第 6 至 8 位: 业务编号
+ * HTTP 状态码
+ * 200      成功
+ * 500      系统未知错误
+ * 3****	重定向
+ * 4****	客户端请求错误
+ * 5****	服务器内部错误
  *
  * @author fanxuankai
  */
-public enum StatusEnum implements Status {
-
-    //系统相关 start
+public enum SimpleStatus implements Status {
     /**
      * 操作成功
      */
-    SUCCESS(0, "操作成功"),
+    SUCCESS(200, "操作成功"),
+
     /**
      * 操作失败
      */
-    FAILED(1, "操作失败"),
+    FAILED(50000, "操作失败"),
     SYSTEM_BUSY(-1, "系统繁忙~请稍后再试~"),
     SYSTEM_TIMEOUT(-2, "系统维护中~请稍后再试~"),
     PARAM_EX(-3, "参数类型解析异常"),
@@ -64,23 +65,11 @@ public enum StatusEnum implements Status {
     DATA_UPDATE_ERROR(2001, "修改数据失败"),
     TOO_MUCH_DATA_ERROR(2002, "批量新增数据过多"),
     DATA_NOT_FOUND(2003, "找不到数据"),
-    //jwt token 相关 start
-
-    JWT_BASIC_INVALID(40000, "无效的基本身份验证令牌"),
-    JWT_TOKEN_EXPIRED(40001, "会话超时，请重新登录"),
-    JWT_SIGNATURE(40002, "不合法的token，请认真比对 token 的签名"),
-    JWT_ILLEGAL_ARGUMENT(40003, "缺少token参数"),
-    JWT_GEN_TOKEN_FAIL(40004, "生成token失败"),
-    JWT_PARSER_TOKEN_FAIL(40005, "解析用户身份错误，请重新登录！"),
-    JWT_USER_INVALID(40006, "用户名或密码错误"),
-    JWT_USER_ENABLED(40007, "用户已经被禁用！"),
-    JWT_OFFLINE(40008, "您已在另一个设备登录！"),
-    JWT_NOT_LOGIN(40009, "请先登录！"),
     ;
     private final int code;
     private final String message;
 
-    StatusEnum(int code, String message) {
+    SimpleStatus(int code, String message) {
         this.code = code;
         this.message = message;
     }

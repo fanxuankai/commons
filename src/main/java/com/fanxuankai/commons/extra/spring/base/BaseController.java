@@ -1,5 +1,6 @@
 package com.fanxuankai.commons.extra.spring.base;
 
+import com.fanxuankai.commons.core.util.ResultUtils;
 import com.fanxuankai.commons.domain.Page;
 import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.domain.Result;
@@ -46,7 +47,7 @@ public class BaseController<D, V, C, S extends BaseService<D, V, C>> {
      */
     @GetMapping("page")
     public Result<PageResult<V>> page(C criteria, Page page) {
-        return Result.newResult(service.page(criteria, page));
+        return ResultUtils.newResult(service.page(criteria, page));
     }
 
     /**
@@ -57,7 +58,7 @@ public class BaseController<D, V, C, S extends BaseService<D, V, C>> {
      */
     @GetMapping("list")
     public Result<List<V>> list(C criteria) {
-        return Result.newResult(service.list(criteria));
+        return ResultUtils.newResult(service.list(criteria));
     }
 
     /**
@@ -68,7 +69,7 @@ public class BaseController<D, V, C, S extends BaseService<D, V, C>> {
      */
     @GetMapping("get/{id}")
     public Result<V> get(@PathVariable Long id) {
-        return Result.newResult(service.get(id));
+        return ResultUtils.newResult(service.get(id));
     }
 
     /**
@@ -80,7 +81,7 @@ public class BaseController<D, V, C, S extends BaseService<D, V, C>> {
     @PostMapping("create")
     public Result<Void> create(@Validated @RequestBody D dto) {
         service.create(dto);
-        return Result.newResult();
+        return ResultUtils.newResult();
     }
 
     /**
@@ -93,7 +94,7 @@ public class BaseController<D, V, C, S extends BaseService<D, V, C>> {
     @PutMapping("update/{id}")
     public Result<Void> update(@PathVariable Long id, @Validated @RequestBody D dto) {
         service.update(id, dto);
-        return Result.newResult();
+        return ResultUtils.newResult();
     }
 
     /**
@@ -105,6 +106,6 @@ public class BaseController<D, V, C, S extends BaseService<D, V, C>> {
     @DeleteMapping("delete")
     public Result<Void> delete(@RequestBody Long[] ids) {
         service.deleteAll(ids);
-        return Result.newResult();
+        return ResultUtils.newResult();
     }
 }

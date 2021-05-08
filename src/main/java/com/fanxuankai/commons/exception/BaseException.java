@@ -2,7 +2,7 @@ package com.fanxuankai.commons.exception;
 
 import com.fanxuankai.commons.core.util.ParamUtils;
 import com.fanxuankai.commons.domain.Status;
-import com.fanxuankai.commons.domain.StatusEnum;
+import com.fanxuankai.commons.domain.SimpleStatus;
 
 import java.text.MessageFormat;
 
@@ -15,7 +15,7 @@ public class BaseException extends RuntimeException {
     private final Status status;
 
     public BaseException() {
-        this(StatusEnum.FAILED);
+        this(SimpleStatus.FAILED);
     }
 
     public BaseException(Status status) {

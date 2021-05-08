@@ -3,7 +3,7 @@ package com.fanxuankai.commons.extra.mybatis.base;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fanxuankai.commons.domain.Page;
 import com.fanxuankai.commons.domain.PageResult;
-import com.fanxuankai.commons.domain.StatusEnum;
+import com.fanxuankai.commons.domain.SimpleStatus;
 import com.fanxuankai.commons.exception.ApiException;
 import com.fanxuankai.commons.extra.mybatis.util.MybatisPlusPageUtils;
 import com.fanxuankai.commons.extra.mybatis.util.QueryHelper;
@@ -36,7 +36,7 @@ public interface BaseDao<T, C> extends IService<T> {
      * @return T, 查询不到会抛出异常
      */
     default T getOne(Long id) {
-        return Optional.ofNullable(getById(id)).orElseThrow(() -> new ApiException(StatusEnum.DATA_NOT_FOUND));
+        return Optional.ofNullable(getById(id)).orElseThrow(() -> new ApiException(SimpleStatus.DATA_NOT_FOUND));
     }
 
     /**
