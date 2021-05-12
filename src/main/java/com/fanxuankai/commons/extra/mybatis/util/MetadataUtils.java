@@ -18,12 +18,14 @@ public class MetadataUtils {
 
     /**
      * 如果有必要则修改元数据,包括库名、表名、字段名等信息
-     * 需要在 resources 目录下创建 table-info.json 文件
+     * 需要在 resources 目录下创建 json 文件
      * 格式为 com.fanxuankai.commons.extra.mybatis.util.MetadataUtils.MetaData 数组
+     *
+     * @param resource 文件路径, 相对路径 resources
      */
-    public static void modifyMetadataIfNecessary() {
+    public static void modifyMetadataIfNecessary(String resource) {
         try {
-            String json = ResourceUtil.readStr("table-info.json", Charset.defaultCharset());
+            String json = ResourceUtil.readStr(resource, Charset.defaultCharset());
             List<Metadata> metadataList = JSONUtil.toList(json, Metadata.class);
             for (Metadata metadata : metadataList) {
                 Class<?> entityClass = Class.forName(metadata.getClassName());
@@ -32,16 +34,37 @@ public class MetadataUtils {
                 AnnotationUtils.modifyFieldInfo(entityClass, metadata.getFieldMap());
             }
         } catch (NoResourceException e) {
-            LOGGER.info("not found table-info.json");
+            LOGGER.info("资源文件或资源不存在异常");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * 默认文件名: table-info.json
+     *
+     * @see MetadataUtils#modifyMetadataIfNecessary(java.lang.String)
+     */
+    public static void modifyMetadataIfNecessary() {
+        modifyMetadataIfNecessary("table-info.json");
+    }
+
     public static class Metadata {
+        /**
+         * 类名
+         */
         private String className;
+        /**
+         * 库名
+         */
         private String schemaName;
+        /**
+         * 表名
+         */
         private String tableName;
+        /**
+         * key: Java 属性名 value: 数据库字段名
+         */
         private Map<String, String> fieldMap;
 
         public String getClassName() {

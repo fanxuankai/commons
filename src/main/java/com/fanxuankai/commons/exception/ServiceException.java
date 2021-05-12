@@ -13,6 +13,10 @@ public class ServiceException extends BaseException {
         super(status);
     }
 
+    public ServiceException(int code, String message) {
+        super(code, message);
+    }
+
     public ServiceException(Status status, Object... params) {
         super(status, params);
     }

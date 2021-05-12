@@ -3,7 +3,7 @@ package com.fanxuankai.commons.core.util;
 import com.fanxuankai.commons.domain.Result;
 import com.fanxuankai.commons.domain.Status;
 
-import static com.fanxuankai.commons.domain.SimpleStatus.SUCCESS;
+import static com.fanxuankai.commons.domain.DefaultStatus.SUCCESS;
 
 /**
  * Result 工具类

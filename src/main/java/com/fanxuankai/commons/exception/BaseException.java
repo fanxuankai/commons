@@ -1,8 +1,8 @@
 package com.fanxuankai.commons.exception;
 
 import com.fanxuankai.commons.core.util.ParamUtils;
+import com.fanxuankai.commons.domain.DefaultStatus;
 import com.fanxuankai.commons.domain.Status;
-import com.fanxuankai.commons.domain.SimpleStatus;
 
 import java.text.MessageFormat;
 
@@ -15,11 +15,25 @@ public class BaseException extends RuntimeException {
     private final Status status;
 
     public BaseException() {
-        this(SimpleStatus.FAILED);
+        this(DefaultStatus.FAILED);
     }
 
     public BaseException(Status status) {
         this.status = status;
+    }
+
+    public BaseException(int code, String message) {
+        this(new Status() {
+            @Override
+            public int getCode() {
+                return code;
+            }
+
+            @Override
+            public String getMessage() {
+                return message;
+            }
+        });
     }
 
     public BaseException(Status status, Object... params) {

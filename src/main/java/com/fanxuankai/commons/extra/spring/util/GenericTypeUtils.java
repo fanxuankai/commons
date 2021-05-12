@@ -76,7 +76,7 @@ public class GenericTypeUtils {
                 .entrySet()
                 .stream()
                 .filter(entry -> genericDeclaration.isAssignableFrom((Class<?>) entry.getKey().getGenericDeclaration()))
-                .collect(Collectors.toMap(o -> o.getKey().getName(), Map.Entry::getValue));
+                .collect(Collectors.toMap(o -> o.getKey().getName(), Map.Entry::getValue, (o, o2) -> o2));
     }
 
 }

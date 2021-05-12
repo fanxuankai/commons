@@ -13,6 +13,10 @@ public class ApiException extends BaseException {
         super(status);
     }
 
+    public ApiException(int code, String message) {
+        super(code, message);
+    }
+
     public ApiException(Status status, Object... params) {
         super(status, params);
     }

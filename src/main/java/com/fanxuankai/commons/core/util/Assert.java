@@ -11,7 +11,6 @@ import java.util.function.Supplier;
  * @author fanxuankai
  */
 public class Assert {
-
     /**
      * 非空断言
      *

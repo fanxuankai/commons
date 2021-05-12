@@ -13,6 +13,10 @@ public class ParamCheckedException extends BaseException {
         super(status);
     }
 
+    public ParamCheckedException(int code, String message) {
+        super(code, message);
+    }
+
     public ParamCheckedException(Status status, Object... params) {
         super(status, params);
     }

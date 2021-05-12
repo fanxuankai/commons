@@ -10,6 +10,7 @@ public enum DefaultStatus implements Status {
      * /
      */
     SUCCESS(200, "操作成功"),
+    FAILED(500, "操作失败"),
     ;
     private final int code;
     private final String message;
