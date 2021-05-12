@@ -18,15 +18,9 @@ public class RedisAutoIdGenerator implements InitializingBean {
 
     public static final String DEFAULT_DATE_PATTERN = "yyyyMMdd";
     public static final int DEFAULT_LENGTH = 3;
-
+    private static RedisTemplate<String, Object> rt;
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
-    private static RedisTemplate<String, Object> rt;
-
-    @Override
-    public void afterPropertiesSet() {
-        RedisAutoIdGenerator.rt = redisTemplate;
-    }
 
     /**
      * title+日期+增量数字, 基于 hash
@@ -100,6 +94,11 @@ public class RedisAutoIdGenerator implements InitializingBean {
      */
     public static String increment(String key, String hashKey) {
         return increment(key, hashKey, DEFAULT_LENGTH, 1);
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        RedisAutoIdGenerator.rt = redisTemplate;
     }
 
 }

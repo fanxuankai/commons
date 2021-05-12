@@ -1,17 +1,13 @@
 package com.fanxuankai.commons.extra.mybatis.base;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fanxuankai.commons.domain.DefaultStatus;
 import com.fanxuankai.commons.domain.Page;
 import com.fanxuankai.commons.domain.PageResult;
-import com.fanxuankai.commons.domain.Status;
-import com.fanxuankai.commons.exception.DataBaseException;
 import com.fanxuankai.commons.extra.mybatis.util.MybatisPlusPageUtils;
 import com.fanxuankai.commons.extra.mybatis.util.QueryHelper;
 import com.fanxuankai.commons.extra.spring.util.GenericTypeUtils;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * DAO 接口
@@ -28,26 +24,6 @@ public interface BaseDao<T, C> extends IService<T> {
      */
     default Class<T> entityClass() {
         return GenericTypeUtils.getGenericType(getClass(), BaseDao.class, "T");
-    }
-
-    /**
-     * 根据 ID 查询
-     *
-     * @param id ID
-     * @return T, 查询不到会抛出异常
-     */
-    default T getOne(Long id) {
-        return Optional.ofNullable(getById(id)).orElseThrow(() -> new DataBaseException(new Status() {
-            @Override
-            public int getCode() {
-                return DefaultStatus.FAILED.getCode();
-            }
-
-            @Override
-            public String getMessage() {
-                return "找不到数据";
-            }
-        }));
     }
 
     /**

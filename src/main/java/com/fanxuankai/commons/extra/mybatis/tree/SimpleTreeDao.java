@@ -3,7 +3,7 @@ package com.fanxuankai.commons.extra.mybatis.tree;
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fanxuankai.commons.core.util.IdUtils;
+import com.fanxuankai.commons.util.IdUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;

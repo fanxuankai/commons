@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.core.util;
+package com.fanxuankai.commons.util;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 

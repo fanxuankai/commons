@@ -1,10 +1,10 @@
 package com.fanxuankai.commons.extra.spring.base;
 
-import com.fanxuankai.commons.core.util.ResultUtils;
 import com.fanxuankai.commons.domain.Page;
 import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.domain.Result;
 import com.fanxuankai.commons.extra.mybatis.base.BaseService;
+import com.fanxuankai.commons.util.ResultUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

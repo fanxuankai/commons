@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.core.util.concurrent;
+package com.fanxuankai.commons.util.concurrent;
 
 import cn.hutool.system.SystemUtil;
 
@@ -23,6 +23,10 @@ public enum ThreadPool {
 
     ThreadPool() {
         init();
+    }
+
+    public static void main(String[] args) {
+        ThreadPool.INSTANCE.execute(() -> System.out.println(1));
     }
 
     private void init() {
@@ -59,9 +63,5 @@ public enum ThreadPool {
 
     public <T> Future<T> submit(Runnable task, T result) {
         return executor.submit(task, result);
-    }
-
-    public static void main(String[] args) {
-        ThreadPool.INSTANCE.execute(() -> System.out.println(1));
     }
 }

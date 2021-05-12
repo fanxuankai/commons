@@ -1,8 +1,8 @@
 package com.fanxuankai.commons.exception;
 
-import com.fanxuankai.commons.core.util.ParamUtils;
 import com.fanxuankai.commons.domain.DefaultStatus;
 import com.fanxuankai.commons.domain.Status;
+import com.fanxuankai.commons.util.ParamUtils;
 
 import java.text.MessageFormat;
 

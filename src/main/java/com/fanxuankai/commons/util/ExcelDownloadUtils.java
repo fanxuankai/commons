@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.web.util;
+package com.fanxuankai.commons.util;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
@@ -18,8 +18,7 @@ import java.util.Map;
  *
  * @author fanxuankai
  */
-public class ExcelUtils {
-
+public class ExcelDownloadUtils {
     /**
      * 系统临时目录
      * <br>
@@ -59,5 +58,4 @@ public class ExcelUtils {
         //此处记得关闭输出Servlet流
         IoUtil.close(out);
     }
-
 }

@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.core.util;
+package com.fanxuankai.commons.util;
 
 import com.fanxuankai.commons.domain.Result;
 import com.fanxuankai.commons.domain.Status;

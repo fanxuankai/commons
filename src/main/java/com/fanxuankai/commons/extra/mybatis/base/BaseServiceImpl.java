@@ -19,7 +19,7 @@ import java.util.List;
  * @author fanxuankai
  */
 public class BaseServiceImpl<T extends BaseModel, D, V, Criteria,
-        Converter extends com.fanxuankai.commons.core.util.Converter<T, D, V>,
+        Converter extends com.fanxuankai.commons.util.Converter<T, D, V>,
         DAO extends BaseDao<T, Criteria>> implements BaseService<D, V, Criteria> {
     @Resource
     private Converter converter;
@@ -38,7 +38,7 @@ public class BaseServiceImpl<T extends BaseModel, D, V, Criteria,
 
     @Override
     public V get(Long id) {
-        return converter.toVo(dao.getOne(id));
+        return converter.toVo(dao.getById(id));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class BaseServiceImpl<T extends BaseModel, D, V, Criteria,
 
     @Override
     public void update(Long id, D dto) {
-        T existsUser = dao.getOne(id);
+        T existsUser = dao.getById(id);
         T t = converter.toEntity(dto);
         t.setId(existsUser.getId());
         dao.updateById(t);

@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.core.util.concurrent;
+package com.fanxuankai.commons.util.concurrent;
 
 import cn.hutool.core.thread.ThreadUtil;
 

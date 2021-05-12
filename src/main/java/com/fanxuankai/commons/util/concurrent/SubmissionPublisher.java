@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.core.util.concurrent;
+package com.fanxuankai.commons.util.concurrent;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 
-import static com.fanxuankai.commons.core.util.concurrent.Flow.DEFAULT_BUFFER_SIZE;
+import static com.fanxuankai.commons.util.concurrent.Flow.DEFAULT_BUFFER_SIZE;
 
 /**
  * @author fanxuankai

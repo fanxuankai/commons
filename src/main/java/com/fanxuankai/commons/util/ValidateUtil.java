@@ -1,4 +1,4 @@
-package com.fanxuankai.commons.core.util;
+package com.fanxuankai.commons.util;
 
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.IdcardUtil;
@@ -14,22 +14,6 @@ import java.util.regex.Pattern;
  * @author fanxuankai
  */
 public class ValidateUtil {
-    /**
-     * 中国电信号码格式验证 手机段： 133,153,180,181,189,177,1700,173
-     **/
-    private static final String CHINA_TELECOM_PATTERN = "(?:^(?:\\+86)?1(?:33|53|7[37]|8[019])\\d{8}$)|(?:^(?:\\+86)" +
-            "?1700\\d{7}$)";
-    /**
-     * 中国联通号码格式验证 手机段：130,131,132,155,156,185,186,145,176,1707,1708,1709,175
-     **/
-    private static final String CHINA_UNICOM_PATTERN = "(?:^(?:\\+86)?1(?:3[0-2]|4[5]|5[56]|7[56]|8[56])\\d{8}$)|(?:^" +
-            "(?:\\+86)?170[7-9]\\d{7}$)";
-    /**
-     * 中国移动号码格式验证 手机段：134,135,136,137,138,139,150,151,152,157,158,159,182,183,184,187,188,147,178,1705
-     **/
-    private static final String CHINA_MOBILE_PATTERN = "(?:^(?:\\+86)?1(?:3[4-9]|4[7]|5[0-27-9]|7[8]|8[2-478])" +
-            "\\d{8}$)|" +
-            "(?:^(?:\\+86)?1705\\d{7}$)";
     /**
      * 密码规则（6-16位字母、数字）
      */
@@ -50,6 +34,22 @@ public class ValidateUtil {
      * 正整数规则
      */
     public static final String POSITIVE_INTEGER_PATTERN = "^\\+?[1-9][0-9]*$";
+    /**
+     * 中国电信号码格式验证 手机段： 133,153,180,181,189,177,1700,173
+     **/
+    private static final String CHINA_TELECOM_PATTERN = "(?:^(?:\\+86)?1(?:33|53|7[37]|8[019])\\d{8}$)|(?:^(?:\\+86)" +
+            "?1700\\d{7}$)";
+    /**
+     * 中国联通号码格式验证 手机段：130,131,132,155,156,185,186,145,176,1707,1708,1709,175
+     **/
+    private static final String CHINA_UNICOM_PATTERN = "(?:^(?:\\+86)?1(?:3[0-2]|4[5]|5[56]|7[56]|8[56])\\d{8}$)|(?:^" +
+            "(?:\\+86)?170[7-9]\\d{7}$)";
+    /**
+     * 中国移动号码格式验证 手机段：134,135,136,137,138,139,150,151,152,157,158,159,182,183,184,187,188,147,178,1705
+     **/
+    private static final String CHINA_MOBILE_PATTERN = "(?:^(?:\\+86)?1(?:3[4-9]|4[7]|5[0-27-9]|7[8]|8[2-478])" +
+            "\\d{8}$)|" +
+            "(?:^(?:\\+86)?1705\\d{7}$)";
 
     /**
      * 验证是否为手机号码（中国）

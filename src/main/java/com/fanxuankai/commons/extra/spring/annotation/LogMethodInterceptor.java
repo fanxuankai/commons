@@ -65,17 +65,6 @@ public class LogMethodInterceptor implements MethodInterceptor {
         private Object returnValue;
         private long timeMillis;
 
-        public void setParams(MethodInvocation methodInvocation) {
-            Object[] arguments = methodInvocation.getArguments();
-            Parameter[] parameters = methodInvocation.getMethod().getParameters();
-            if (arguments != null && arguments.length > 0) {
-                params = new HashMap<>(arguments.length);
-                for (int i = 0; i < parameters.length; i++) {
-                    params.put(parameters[i].getName(), arguments[i]);
-                }
-            }
-        }
-
         public String getClassName() {
             return className;
         }
@@ -94,6 +83,17 @@ public class LogMethodInterceptor implements MethodInterceptor {
 
         public Map<String, Object> getParams() {
             return params;
+        }
+
+        public void setParams(MethodInvocation methodInvocation) {
+            Object[] arguments = methodInvocation.getArguments();
+            Parameter[] parameters = methodInvocation.getMethod().getParameters();
+            if (arguments != null && arguments.length > 0) {
+                params = new HashMap<>(arguments.length);
+                for (int i = 0; i < parameters.length; i++) {
+                    params.put(parameters[i].getName(), arguments[i]);
+                }
+            }
         }
 
         public void setParams(Map<String, Object> params) {
