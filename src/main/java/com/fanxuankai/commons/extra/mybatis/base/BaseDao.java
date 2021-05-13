@@ -5,7 +5,6 @@ import com.fanxuankai.commons.domain.Page;
 import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.extra.mybatis.util.MybatisPlusPageUtils;
 import com.fanxuankai.commons.extra.mybatis.util.QueryHelper;
-import com.fanxuankai.commons.extra.spring.util.GenericTypeUtils;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public interface BaseDao<T, C> extends IService<T> {
      * @return /
      */
     default Class<T> entityClass() {
-        return GenericTypeUtils.getGenericType(getClass(), BaseDao.class, "T");
+        return EntityClassCache.entityClass(getClass());
     }
 
     /**

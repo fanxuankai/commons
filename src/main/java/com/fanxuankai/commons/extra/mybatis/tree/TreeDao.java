@@ -1,6 +1,7 @@
 package com.fanxuankai.commons.extra.mybatis.tree;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Optional;
  * @author fanxuankai
  */
 public interface TreeDao<T extends TreeNode, C> extends BaseDao<T, C> {
+    int ROOT_LEVEL = 1;
 
     // 查询
 
@@ -51,7 +53,9 @@ public interface TreeDao<T extends TreeNode, C> extends BaseDao<T, C> {
      * @param id 节点 id
      * @return /
      */
-    List<T> children(Long id);
+    default List<T> children(Long id) {
+        return list(Wrappers.lambdaQuery(entityClass()).eq(T::getPid, id));
+    }
 
     /**
      * 兄弟节点 拥有同一父节点的子节点
@@ -136,7 +140,13 @@ public interface TreeDao<T extends TreeNode, C> extends BaseDao<T, C> {
      * @param wrapper wrapper
      * @return /
      */
-    List<T> roots(LambdaQueryWrapper<T> wrapper);
+    default List<T> roots(LambdaQueryWrapper<T> wrapper) {
+        if (wrapper == null) {
+            return list(Wrappers.lambdaQuery(entityClass()).eq(T::getLevel, ROOT_LEVEL));
+        } else {
+            return list(wrapper.eq(T::getLevel, ROOT_LEVEL));
+        }
+    }
 
     // 增删改
 
