@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  */
 public class TreeUtils {
     /**
-     * 构建祖先对象
+     * 构建祖先对象,非直系祖先节点会被过滤掉
      *
      * @param pid       父节点 id
      * @param ancestors 祖先
@@ -70,7 +70,23 @@ public class TreeUtils {
     }
 
     /**
-     * 获取所有子孙
+     * 扁平化祖先节点,第一个为父节点
+     *
+     * @param ancestor 祖先
+     * @param <T>      节点类型
+     * @return /
+     */
+    public static <T extends TreeNode> List<T> flat(Ancestor<T> ancestor) {
+        List<T> list = new ArrayList<>(16);
+        while (ancestor != null) {
+            list.add(ancestor.getItem());
+            ancestor = ancestor.getParent();
+        }
+        return list;
+    }
+
+    /**
+     * 扁平化子孙节点
      *
      * @param descendants 子孙
      * @param <T>         节点类型
