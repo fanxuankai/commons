@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -162,11 +161,7 @@ public interface TreeDao<T extends TreeNode, C> extends BaseDao<T, C> {
      *
      * @param id 节点 id
      */
-    default void removeNode(Long id) {
-        List<Long> ids = new ArrayList<>(TreeUtils.allIds(descendants(id)));
-        ids.add(id);
-        removeByIds(ids);
-    }
+    void removeNode(Long id);
 
     /**
      * 移动节点

@@ -11,6 +11,38 @@ import java.util.stream.Collectors;
  */
 public class TreeUtils {
     /**
+     * 构建祖先对象
+     *
+     * @param pid       父节点 id
+     * @param ancestors 祖先
+     * @param <T>       节点类型
+     * @return /
+     */
+    public static <T extends TreeNode> Ancestor<T> buildAncestor(Long pid, List<T> ancestors) {
+        if (CollectionUtil.isEmpty(ancestors)) {
+            return null;
+        }
+        Map<Long, T> map = ancestors.stream().collect(Collectors.toMap(T::getId, Function.identity()));
+        return buildAncestor(pid, map);
+    }
+
+    /**
+     * 构建祖先对象
+     *
+     * @param pid 父节点 id
+     * @param map key: id value: 节点
+     * @param <T> 节点类型
+     * @return /
+     */
+    private static <T extends TreeNode> Ancestor<T> buildAncestor(Long pid, Map<Long, T> map) {
+        T parent = map.get(pid);
+        if (parent == null) {
+            return null;
+        }
+        return new Ancestor<>(parent, buildAncestor(parent.getPid(), map));
+    }
+
+    /**
      * 构建子孙对象
      *
      * @param id          节点 id
@@ -24,38 +56,6 @@ public class TreeUtils {
         }
         Map<Long, List<T>> groupedByPid = descendants.stream().collect(Collectors.groupingBy(T::getPid));
         return buildDescendants(id, descendants, groupedByPid);
-    }
-
-    /**
-     * 构建祖先对象
-     *
-     * @param pid       父节点 id
-     * @param ancestors 祖先
-     * @param <T>       节点类型
-     * @return /
-     */
-    public static <T extends TreeNode> Ancestor<T> buildAncestor(Long pid, List<T> ancestors) {
-        if (CollectionUtil.isEmpty(ancestors)) {
-            return null;
-        }
-        Map<Long, T> map = ancestors.stream().collect(Collectors.toMap(T::getId, Function.identity()));
-        return buildDescendants(pid, map);
-    }
-
-    /**
-     * 构建祖先对象
-     *
-     * @param pid 父节点 id
-     * @param map key: id value: 节点
-     * @param <T> 节点类型
-     * @return /
-     */
-    private static <T extends TreeNode> Ancestor<T> buildDescendants(Long pid, Map<Long, T> map) {
-        T parent = map.get(pid);
-        if (parent == null) {
-            return null;
-        }
-        return new Ancestor<>(parent, buildDescendants(parent.getPid(), map));
     }
 
     /**
