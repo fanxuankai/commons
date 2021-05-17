@@ -15,21 +15,33 @@ import java.util.stream.Collectors;
  */
 public class TreeUtils {
     /**
-     * 计算 height
+     * 计算高度
      *
      * @param descendants 子孙
      * @param <T>         实体类类型
      * @return /
      */
     public static <T> int calcHeight(List<Descendant<T>> descendants) {
-        List<List<T>> list = new ArrayList<>();
+        int level = 0;
         for (Descendant<T> descendant : descendants) {
-            list.add(flat(Collections.singletonList(descendant)));
+            level = Math.max(level, maxLevel(descendant));
         }
-        return list.stream()
-                .map(List::size)
-                .max(Integer::compareTo)
-                .orElse(0);
+        return level - 1;
+    }
+
+    /**
+     * 获取最大阶度
+     *
+     * @param descendant 子孙
+     * @param <T>        实体类类型
+     * @return /
+     */
+    private static <T> int maxLevel(Descendant<T> descendant) {
+        int level = descendant.getLevel();
+        for (Descendant<T> e : descendant.getDescendants()) {
+            level = Math.max(level, maxLevel(e));
+        }
+        return level;
     }
 
     /**

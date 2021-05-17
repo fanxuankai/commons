@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author fanxuankai
@@ -54,10 +53,7 @@ public class AdjacencyList {
          */
         @Override
         default List<Descendant<T>> descendants(Long id) {
-            return children(id)
-                    .stream()
-                    .map(o -> new Descendant<>(o, descendants(o.getId())))
-                    .collect(Collectors.toList());
+            return AdjacencyListUtils.descendants(this, id);
         }
 
         /**

@@ -196,5 +196,7 @@ public interface TreeDao<T extends Entity> extends IService<T> {
      * @param id        节点 id
      * @param targetPid 目标父节点 id
      */
-    void moveNode(Long id, Long targetPid);
+    default void moveNode(Long id, Long targetPid) {
+
+    }
 }

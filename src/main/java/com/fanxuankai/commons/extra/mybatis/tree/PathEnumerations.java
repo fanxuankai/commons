@@ -99,8 +99,8 @@ public class PathEnumerations {
             Class<T> entityClass = entityClass();
             ColumnCache codeColumnCache = TreeUtils.getColumnCache(entityClass, T::getCode);
             ColumnCache pathColumnCache = TreeUtils.getColumnCache(entityClass, T::getPath);
-            String last = String.format(" AND %s = CONCAT( '%s', %s)", pathColumnCache.getColumnSelect(), parentPath,
-                    codeColumnCache.getColumnSelect());
+            String last = String.format(" AND %s = CONCAT( '%s', '%s', %s)", pathColumnCache.getColumnSelect(),
+                    parentPath, StrPool.SLASH, codeColumnCache.getColumnSelect());
             return list(Wrappers.lambdaQuery(entityClass)
                     .ne(T::getId, id)
                     .last(last));

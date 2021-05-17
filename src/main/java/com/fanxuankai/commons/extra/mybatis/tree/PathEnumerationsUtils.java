@@ -24,7 +24,7 @@ public class PathEnumerationsUtils {
         }
         Map<String, List<T>> groupedByPid =
                 descendants.stream().collect(Collectors.groupingBy(PathEnumerationsUtils::getParentPath));
-        return buildDescendants(getParentPath(node), descendants, groupedByPid);
+        return buildDescendants(node.getPath(), 2, descendants, groupedByPid);
     }
 
     /**
@@ -37,6 +37,7 @@ public class PathEnumerationsUtils {
      * @return /
      */
     private static <T extends PathEnumerations.Node> List<Descendant<T>> buildDescendants(String parentPath,
+                                                                                          int level,
                                                                                           List<T> descendants,
                                                                                           Map<String, List<T>> groupedByPid) {
         if (CollectionUtil.isEmpty(descendants)) {
@@ -47,8 +48,8 @@ public class PathEnumerationsUtils {
             return Collections.emptyList();
         }
         return children.stream()
-                .map(t -> new Descendant<T>(t, buildDescendants(t.getPath(), groupedByPid.get(getParentPath(t)),
-                        groupedByPid)))
+                .map(o -> new Descendant<T>(o, buildDescendants(o.getPath(),
+                        level + 1, groupedByPid.get(getParentPath(o)), groupedByPid), level))
                 .collect(Collectors.toList());
     }
 
