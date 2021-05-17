@@ -1,31 +1,59 @@
 package com.fanxuankai.commons.extra.mybatis.tree;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fanxuankai.commons.extra.mybatis.base.BaseDao;
+import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+/*
+https://baike.baidu.com/item/%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84
+
+                        阶度
+          A             - 1
+         /|\
+       /  |  \
+     /    |    \
+    B     C     D       - 2
+   / \    |    / \
+  E   F   G   H   I     - 3
+ /   / \     / \
+J   K   L   M   N       - 4
+
+根节点: A
+叶节点: G I J K L M N
+*/
 
 /**
+ * 树的通用 DAO
+ *
+ * @param <T> 实体类泛型
  * @author fanxuankai
  */
-public interface TreeDao<T extends TreeNode, C> extends BaseDao<T, C> {
-    int ROOT_LEVEL = 1;
+public interface TreeDao<T extends Entity> extends IService<T> {
+    /**
+     * 获取实体类类型
+     *
+     * @return /
+     */
+    default Class<T> entityClass() {
+        return EntityClassCache.entityClass(getClass());
+    }
 
-    // 查询
+    // Query Operations
 
     /**
-     * 祖先
+     * 祖先(ancestor)节点：A是所有节点的祖先，F是K与L的祖先。
      *
      * @param id 节点 id
-     * @return Ancestor
+     * @return /
      */
-    Ancestor<T> ancestor(Long id);
+    List<T> ancestors(Long id);
 
     /**
-     * 子孙
+     * 子孙(descendant)节点：所有节点是A的子孙，K与L是F的子孙。
      *
      * @param id 节点 id
      * @return /
@@ -33,63 +61,73 @@ public interface TreeDao<T extends TreeNode, C> extends BaseDao<T, C> {
     List<Descendant<T>> descendants(Long id);
 
     /**
-     * 父节点
+     * 父节点(parent node)：B直接连到E与F且只差一个阶度，则B为E与F的父节点
      *
      * @param id 节点 id
      * @return T
      */
-    default T parent(Long id) {
-        T node = getById(id);
-        if (node.getPid() == null) {
-            return null;
+    T parent(Long id);
+
+    /**
+     * 子节点(children node)：B直接连到E与F且只差一个阶度，则E与F为B的子节点。
+     *
+     * @param id 节点 id
+     * @return /
+     */
+    List<T> children(Long id);
+
+    /**
+     * 兄弟节点(sibling node)：拥有同一父节点的子节点。如：E与F。
+     *
+     * @param id 节点 id
+     * @return /
+     */
+    default List<T> sibling(Long id) {
+        T parent = parent(id);
+        if (parent == null) {
+            return Collections.emptyList();
         }
-        return getById(node.getPid());
+        List<T> list = children(parent.getId());
+        list.removeIf(o -> Objects.equals(o.getId(), id));
+        return list;
     }
 
     /**
-     * 子节点
+     * 叶节点(leaf node)或终点节点(terminal node)：没有子节点的节点。如：J、K等。
      *
-     * @param id 节点 id
+     * @param wrapper /
      * @return /
      */
-    default List<T> children(Long id) {
-        return list(Wrappers.lambdaQuery(entityClass()).eq(T::getPid, id));
+    default List<T> leaf(LambdaQueryWrapper<T> wrapper) {
+        return list(wrapper)
+                .stream()
+                .filter(o -> children(o.getId()).isEmpty())
+                .collect(Collectors.toList());
     }
 
     /**
-     * 兄弟节点 拥有同一父节点的子节点
+     * 非叶节点(non-leaf node)或非终点节点(non-terminal node)：有子节点的节点。 如：A、B、F等等。
      *
-     * @param id 节点 id
+     * @param wrapper /
      * @return /
      */
-    List<T> sibling(Long id);
+    default List<T> nonLeaf(LambdaQueryWrapper<T> wrapper) {
+        return list(wrapper)
+                .stream()
+                .filter(o -> !children(o.getId()).isEmpty())
+                .collect(Collectors.toList());
+    }
 
     /**
-     * 叶节点 没有子节点的节点
+     * 根节点(root node)：没有父节点的节点，为树的源头。 如：A。
      *
-     * @param id 节点 id
+     * @param wrapper /
      * @return /
      */
-    List<T> leaf(Long id);
+    List<T> roots(LambdaQueryWrapper<T> wrapper);
 
     /**
-     * 非叶节点 有子节点的节点
-     *
-     * @param id 节点 id
-     * @return /
-     */
-    List<T> nonLeaf(Long id);
-
-    /**
-     * 根节点 没有父节点的节点
-     *
-     * @param id 节点 id
-     * @return /
-     */
-    T root(Long id);
-
-    /**
-     * 分支度 指一个节点有几个子节点
+     * 分支度(degree)：指一个节点有几个子节点。 如：A为3、B为2、C为1、M为0。
      *
      * @param id 节点 id
      * @return /
@@ -99,69 +137,58 @@ public interface TreeDao<T extends TreeNode, C> extends BaseDao<T, C> {
     }
 
     /**
-     * 阶度 为树中的第几代，而根节点为第一代，阶度为1
+     * 阶度(level)：为树中的第几代，而根节点为第一代，阶度为1。
      *
      * @param id 节点 id
      * @return /
      */
     default int level(Long id) {
-        return getById(id).getLevel();
+        return ancestors(id).size() + 1;
     }
 
     /**
-     * 高度 指一节点往下走到叶节点的最长路径
+     * 高度(height)：指一节点往下走到叶节点的最长路径。 如：A为3、F为1、L为0。
      *
      * @param id 节点 id
      * @return /
      */
     default int height(Long id) {
-        T node = getById(id);
-        List<Descendant<T>> descendants = descendants(id);
-        Optional<T> max = TreeUtils.flat(descendants)
-                .stream()
-                .max(Comparator.comparing(T::getLevel));
-        return max.map(t -> t.getLevel() - node.getLevel()).orElse(0);
+        return TreeUtils.calcHeight(descendants(id));
     }
 
     /**
-     * 深度 指从根节点到某一节点的最长路径
+     * 深度(depth)：指从根节点到某一节点的最长路径。如：C为1、M为3。
      *
      * @param id 节点 id
      * @return /
      */
     default int depth(Long id) {
-        return getById(id).getLevel() - 1;
+        return level(id) - 1;
     }
 
-    /**
-     * 根节点列表
-     *
-     * @param wrapper wrapper
-     * @return /
-     */
-    default List<T> roots(LambdaQueryWrapper<T> wrapper) {
-        if (wrapper == null) {
-            return list(Wrappers.lambdaQuery(entityClass()).eq(T::getLevel, ROOT_LEVEL));
-        } else {
-            return list(wrapper.eq(T::getLevel, ROOT_LEVEL));
-        }
-    }
-
-    // 增删改
+    // Modification Operations
 
     /**
      * 插入新节点
      *
      * @param node 节点
      */
-    void insertNode(T node);
+    default void insertNode(T node) {
+        save(node);
+    }
 
     /**
      * 删除节点
      *
-     * @param id 节点 id
+     * @param id               节点 id
+     * @param removeDescendant 是否删除子孙节点
      */
-    void removeNode(Long id);
+    default void removeNode(Long id, boolean removeDescendant) {
+        removeById(id);
+        if (removeDescendant) {
+            children(id).forEach(o -> removeNode(o.getId(), true));
+        }
+    }
 
     /**
      * 移动节点

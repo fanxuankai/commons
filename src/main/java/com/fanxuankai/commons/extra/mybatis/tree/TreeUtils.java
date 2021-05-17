@@ -1,9 +1,13 @@
 package com.fanxuankai.commons.extra.mybatis.tree;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.toolkit.LambdaUtils;
+import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.core.toolkit.support.SerializedLambda;
+import org.apache.ibatis.reflection.property.PropertyNamer;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -11,88 +15,31 @@ import java.util.stream.Collectors;
  */
 public class TreeUtils {
     /**
-     * 构建祖先对象,非直系祖先节点会被过滤掉
-     *
-     * @param pid       父节点 id
-     * @param ancestors 祖先
-     * @param <T>       节点类型
-     * @return /
-     */
-    public static <T extends TreeNode> Ancestor<T> buildAncestor(Long pid, List<T> ancestors) {
-        if (CollectionUtil.isEmpty(ancestors)) {
-            return null;
-        }
-        Map<Long, T> map = ancestors.stream().collect(Collectors.toMap(T::getId, Function.identity()));
-        return buildAncestor(pid, map);
-    }
-
-    /**
-     * 构建祖先对象
-     *
-     * @param pid 父节点 id
-     * @param map key: id value: 节点
-     * @param <T> 节点类型
-     * @return /
-     */
-    private static <T extends TreeNode> Ancestor<T> buildAncestor(Long pid, Map<Long, T> map) {
-        T parent = map.get(pid);
-        if (parent == null) {
-            return null;
-        }
-        return new Ancestor<>(parent, buildAncestor(parent.getPid(), map));
-    }
-
-    /**
-     * 构建子孙对象
-     *
-     * @param id          节点 id
-     * @param descendants 子孙
-     * @param <T>         节点类型
-     * @return /
-     */
-    public static <T extends TreeNode> List<Descendant<T>> buildDescendants(Long id, List<T> descendants) {
-        if (CollectionUtil.isEmpty(descendants)) {
-            return Collections.emptyList();
-        }
-        Map<Long, List<T>> groupedByPid = descendants.stream().collect(Collectors.groupingBy(T::getPid));
-        return buildDescendants(id, descendants, groupedByPid);
-    }
-
-    /**
-     * 获取所有子孙 id
+     * 计算 height
      *
      * @param descendants 子孙
-     * @param <T>         节点类型
+     * @param <T>         实体类类型
      * @return /
      */
-    public static <T extends TreeNode> List<Long> allIds(List<Descendant<T>> descendants) {
-        return flat(descendants).stream().map(TreeNode::getId).collect(Collectors.toList());
-    }
-
-    /**
-     * 扁平化祖先节点,第一个为父节点
-     *
-     * @param ancestor 祖先
-     * @param <T>      节点类型
-     * @return /
-     */
-    public static <T extends TreeNode> List<T> flat(Ancestor<T> ancestor) {
-        List<T> list = new ArrayList<>(16);
-        while (ancestor != null) {
-            list.add(ancestor.getItem());
-            ancestor = ancestor.getParent();
+    public static <T> int calcHeight(List<Descendant<T>> descendants) {
+        List<List<T>> list = new ArrayList<>();
+        for (Descendant<T> descendant : descendants) {
+            list.add(flat(Collections.singletonList(descendant)));
         }
-        return list;
+        return list.stream()
+                .map(List::size)
+                .max(Integer::compareTo)
+                .orElse(0);
     }
 
     /**
      * 扁平化子孙节点
      *
      * @param descendants 子孙
-     * @param <T>         节点类型
+     * @param <T>         实体类类型
      * @return /
      */
-    public static <T extends TreeNode> List<T> flat(List<Descendant<T>> descendants) {
+    public static <T> List<T> flat(List<Descendant<T>> descendants) {
         if (CollectionUtil.isEmpty(descendants)) {
             return Collections.emptyList();
         }
@@ -106,25 +53,19 @@ public class TreeUtils {
     }
 
     /**
-     * 构建子孙对象
+     * 获取所有子孙 id
      *
-     * @param id           节点 id
-     * @param descendants  子孙
-     * @param groupedByPid key: 父节点 value: 子节点列表
-     * @param <T>          节点类型
+     * @param descendants 子孙
+     * @param <T>         节点类型
      * @return /
      */
-    private static <T extends TreeNode> List<Descendant<T>> buildDescendants(Long id, List<T> descendants,
-                                                                             Map<Long, List<T>> groupedByPid) {
-        if (CollectionUtil.isEmpty(descendants)) {
-            return Collections.emptyList();
-        }
-        List<T> children = groupedByPid.get(id);
-        if (CollectionUtil.isEmpty(children)) {
-            return Collections.emptyList();
-        }
-        return children.stream()
-                .map(t -> new Descendant<T>(t, buildDescendants(t.getId(), groupedByPid.get(t.getId()), groupedByPid)))
-                .collect(Collectors.toList());
+    public static <T extends Entity> List<Long> allIds(List<Descendant<T>> descendants) {
+        return flat(descendants).stream().map(Entity::getId).collect(Collectors.toList());
+    }
+
+    public static <T> ColumnCache getColumnCache(Class<T> entityClass, SFunction<T, String> function) {
+        Map<String, ColumnCache> columnMap = LambdaUtils.getColumnMap(entityClass);
+        SerializedLambda pathResolve = LambdaUtils.resolve(function);
+        return columnMap.get(LambdaUtils.formatKey(PropertyNamer.methodToProperty(pathResolve.getImplMethodName())));
     }
 }
