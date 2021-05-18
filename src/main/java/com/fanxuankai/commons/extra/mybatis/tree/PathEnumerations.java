@@ -138,7 +138,6 @@ public class PathEnumerations {
                 return;
             }
             List<Descendant<T>> descendants = descendants(id);
-            List<T> descendantNodes = TreeUtils.flat(descendants);
             String path;
             if (targetPid == null) {
                 // 改为根节点
@@ -146,6 +145,7 @@ public class PathEnumerations {
             } else {
                 // 修改上级节点
                 // 需要移动节点以及所有子节点
+                List<T> descendantNodes = TreeUtils.flat(descendants);
                 if (descendantNodes.stream().anyMatch(t -> Objects.equals(t.getId(), targetPid))) {
                     throw new IllegalArgumentException("不能以子孙节点作为自己的父节点");
                 }
@@ -154,8 +154,8 @@ public class PathEnumerations {
             T nodeEntity = ReflectUtil.newInstance(entityClass());
             nodeEntity.setPath(path);
             // 修改本身
-            update(nodeEntity, Wrappers.lambdaUpdate(entityClass())
-                    .eq(T::getId, id));
+            update(nodeEntity, Wrappers.lambdaUpdate(entityClass()).eq(T::getId, id));
+            // 修改子孙节点
             for (Map.Entry<Long, String> entry : PathEnumerationsUtils.updatePath(path, descendants).entrySet()) {
                 nodeEntity.setPath(entry.getValue());
                 update(nodeEntity, Wrappers.lambdaUpdate(entityClass()).eq(T::getId, entry.getKey()));
