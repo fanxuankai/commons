@@ -24,32 +24,27 @@ public class PathEnumerationsUtils {
         }
         Map<String, List<T>> groupedByPid =
                 descendants.stream().collect(Collectors.groupingBy(PathEnumerationsUtils::getParentPath));
-        return buildDescendants(node.getPath(), 2, descendants, groupedByPid);
+        return buildDescendants(node.getPath(), 2, groupedByPid);
     }
 
     /**
      * 构建子孙对象
      *
      * @param parentPath   父节点路径
-     * @param descendants  子孙
      * @param groupedByPid key: 父节点 value: 子节点列表
      * @param <T>          节点类型
      * @return /
      */
     private static <T extends PathEnumerations.Node> List<Descendant<T>> buildDescendants(String parentPath,
                                                                                           int level,
-                                                                                          List<T> descendants,
                                                                                           Map<String, List<T>> groupedByPid) {
-        if (CollectionUtil.isEmpty(descendants)) {
-            return Collections.emptyList();
-        }
         List<T> children = groupedByPid.get(parentPath);
         if (CollectionUtil.isEmpty(children)) {
             return Collections.emptyList();
         }
         return children.stream()
-                .map(o -> new Descendant<T>(o, buildDescendants(o.getPath(),
-                        level + 1, groupedByPid.get(getParentPath(o)), groupedByPid), level))
+                .map(o -> new Descendant<>(o, buildDescendants(o.getPath(),
+                        level + 1, groupedByPid), level))
                 .collect(Collectors.toList());
     }
 
