@@ -2,6 +2,7 @@ package com.fanxuankai.commons.extra.mybatis.tree;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.text.StrPool;
+import com.fanxuankai.commons.util.Node;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,14 +21,14 @@ public class ClosureTableUtils {
      * @param <T>         节点类型
      * @return /
      */
-    public static <T extends ClosureTable.Entity> List<Descendant<T>> buildDescendants(Long id, List<T> descendants) {
+    public static <T extends ClosureTable.Entity> List<Node<T>> buildDescendants(Long id, List<T> descendants) {
         if (CollectionUtil.isEmpty(descendants)) {
             return Collections.emptyList();
         }
         Map<String, List<T>> groupedByPid =
                 descendants.stream().collect(Collectors.groupingBy(o -> getParentIdentify(o.getAncestor(),
                         o.getDepth())));
-        return buildDescendants(id, 1, 2, groupedByPid);
+        return buildDescendants(id, 1, groupedByPid);
     }
 
     /**
@@ -38,16 +39,15 @@ public class ClosureTableUtils {
      * @param <T>          节点类型
      * @return /
      */
-    private static <T extends ClosureTable.Entity> List<Descendant<T>> buildDescendants(Long ancestor,
-                                                                                        int depth,
-                                                                                        int level,
-                                                                                        Map<String, List<T>> groupedByPid) {
+    private static <T extends ClosureTable.Entity> List<Node<T>> buildDescendants(Long ancestor,
+                                                                                  int depth,
+                                                                                  Map<String, List<T>> groupedByPid) {
         List<T> children = groupedByPid.get(getParentIdentify(ancestor, depth));
         if (CollectionUtil.isEmpty(children)) {
             return Collections.emptyList();
         }
         return children.stream()
-                .map(o -> new Descendant<>(o, buildDescendants(ancestor, depth + 1, level + 1, groupedByPid), level))
+                .map(o -> new Node<>(o, buildDescendants(ancestor, depth + 1, groupedByPid)))
                 .collect(Collectors.toList());
     }
 

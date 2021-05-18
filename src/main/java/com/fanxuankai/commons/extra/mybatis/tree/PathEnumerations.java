@@ -5,6 +5,7 @@ import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
+import com.fanxuankai.commons.util.Node;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -62,7 +63,7 @@ public class PathEnumerations {
          * @return /
          */
         @Override
-        default List<Descendant<T>> descendants(Long id) {
+        default List<Node<T>> descendants(Long id) {
             T node = getById(id);
             List<T> nodes = list(Wrappers.lambdaQuery(entityClass())
                     .ne(T::getId, node.getId())
@@ -137,7 +138,7 @@ public class PathEnumerations {
             if (Objects.equals(PathEnumerationsUtils.getParentPath(node), parent.getPath())) {
                 return;
             }
-            List<Descendant<T>> descendants = descendants(id);
+            List<Node<T>> nodes = descendants(id);
             String path;
             if (targetPid == null) {
                 // 改为根节点
@@ -145,7 +146,7 @@ public class PathEnumerations {
             } else {
                 // 修改上级节点
                 // 需要移动节点以及所有子节点
-                List<T> descendantNodes = TreeUtils.flat(descendants);
+                List<T> descendantNodes = TreeUtils.flat(nodes);
                 if (descendantNodes.stream().anyMatch(t -> Objects.equals(t.getId(), targetPid))) {
                     throw new IllegalArgumentException("不能以子孙节点作为自己的父节点");
                 }
@@ -156,7 +157,7 @@ public class PathEnumerations {
             // 修改本身
             update(nodeEntity, Wrappers.lambdaUpdate(entityClass()).eq(T::getId, id));
             // 修改子孙节点
-            for (Map.Entry<Long, String> entry : PathEnumerationsUtils.updatePath(path, descendants).entrySet()) {
+            for (Map.Entry<Long, String> entry : PathEnumerationsUtils.updatePath(path, nodes).entrySet()) {
                 nodeEntity.setPath(entry.getValue());
                 update(nodeEntity, Wrappers.lambdaUpdate(entityClass()).eq(T::getId, entry.getKey()));
             }

@@ -2,6 +2,7 @@ package com.fanxuankai.commons.extra.mybatis.tree;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fanxuankai.commons.util.Node;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,16 +12,16 @@ import java.util.stream.Collectors;
 /*
 https://baike.baidu.com/item/%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84
 
-                        阶度
-          A             - 1
+                        阶度     高度    深度
+          A             - 1     - 3     - 0
          /|\
        /  |  \
      /    |    \
-    B     C     D       - 2
+    B     C     D       - 2     - 2     - 1
    / \    |    / \
-  E   F   G   H   I     - 3
+  E   F   G   H   I     - 3     - 1     - 2
  /   / \     / \
-J   K   L   M   N       - 4
+J   K   L   M   N       - 4     - 0     - 3
 
 根节点: A
 叶节点: G I J K L M N
@@ -53,12 +54,24 @@ public interface TreeDao<T extends BaseEntity> extends IService<T> {
     List<T> ancestors(Long id);
 
     /**
+     * 加载树
+     *
+     * @param id 节点
+     * @return /
+     */
+    default Node<T> tree(Long id) {
+        T node = getById(id);
+        List<Node<T>> descendants = descendants(id);
+        return new Node<>(node, descendants);
+    }
+
+    /**
      * 子孙(descendant)节点：所有节点是A的子孙，K与L是F的子孙。
      *
      * @param id 节点 id
      * @return /
      */
-    List<Descendant<T>> descendants(Long id);
+    List<Node<T>> descendants(Long id);
 
     /**
      * 父节点(parent node)：B直接连到E与F且只差一个阶度，则B为E与F的父节点
@@ -153,7 +166,7 @@ public interface TreeDao<T extends BaseEntity> extends IService<T> {
      * @return /
      */
     default int height(Long id) {
-        return TreeUtils.calcHeight(descendants(id));
+        return TreeUtils.calcHeight(tree(id));
     }
 
     /**

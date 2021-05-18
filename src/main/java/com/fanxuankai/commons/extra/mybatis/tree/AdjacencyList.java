@@ -2,10 +2,12 @@ package com.fanxuankai.commons.extra.mybatis.tree;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.fanxuankai.commons.util.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author fanxuankai
@@ -52,8 +54,11 @@ public class AdjacencyList {
          * @return /
          */
         @Override
-        default List<Descendant<T>> descendants(Long id) {
-            return AdjacencyListUtils.descendants(this, id);
+        default List<Node<T>> descendants(Long id) {
+            return children(id)
+                    .stream()
+                    .map(o -> new Node<>(o, descendants(o.getId())))
+                    .collect(Collectors.toList());
         }
 
         /**

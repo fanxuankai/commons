@@ -4,6 +4,7 @@ import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.commons.util.IdUtils;
+import com.fanxuankai.commons.util.Node;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
@@ -90,7 +91,7 @@ public class ClosureTable {
          * @return /
          */
         @Override
-        default List<Descendant<T>> descendants(Long id) {
+        default List<Node<T>> descendants(Long id) {
             List<T> list = list(Wrappers.lambdaQuery(entityClass())
                     .eq(T::getAncestor, id)
                     .ne(T::getDescendant, id));
