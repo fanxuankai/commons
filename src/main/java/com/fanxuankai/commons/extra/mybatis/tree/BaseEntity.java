@@ -3,7 +3,7 @@ package com.fanxuankai.commons.extra.mybatis.tree;
 /**
  * @author fanxuankai
  */
-public interface Entity {
+public interface BaseEntity {
     /**
      * get 主键
      *

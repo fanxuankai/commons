@@ -11,7 +11,7 @@ import java.util.List;
  * @author fanxuankai
  */
 public class AdjacencyList {
-    public interface Node extends Entity {
+    public interface Entity extends BaseEntity {
         /**
          * 父节点 id
          *
@@ -20,7 +20,7 @@ public class AdjacencyList {
         Long getPid();
     }
 
-    public interface Dao<T extends Node> extends TreeDao<T> {
+    public interface Dao<T extends Entity> extends TreeDao<T> {
         /**
          * 祖先(ancestor)节点：A是所有节点的祖先，F是K与L的祖先。
          *

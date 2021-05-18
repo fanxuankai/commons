@@ -15,7 +15,7 @@ public class AdjacencyListUtils {
      * @param id  节点 id
      * @return /
      */
-    public static <T extends AdjacencyList.Node> List<Descendant<T>> descendants(AdjacencyList.Dao<T> dao, Long id) {
+    public static <T extends AdjacencyList.Entity> List<Descendant<T>> descendants(AdjacencyList.Dao<T> dao, Long id) {
         return descendants(dao, id, 2);
     }
 
@@ -28,8 +28,8 @@ public class AdjacencyListUtils {
      * @param level 相对阶度
      * @return /
      */
-    private static <T extends AdjacencyList.Node> List<Descendant<T>> descendants(AdjacencyList.Dao<T> dao,
-                                                                                  Long id, int level) {
+    private static <T extends AdjacencyList.Entity> List<Descendant<T>> descendants(AdjacencyList.Dao<T> dao,
+                                                                                    Long id, int level) {
         return dao.children(id)
                 .stream()
                 .map(o -> new Descendant<>(o, descendants(dao, o.getId(), level + 1), level))

@@ -71,8 +71,8 @@ public class TreeUtils {
      * @param <T>         节点类型
      * @return /
      */
-    public static <T extends Entity> List<Long> allIds(List<Descendant<T>> descendants) {
-        return flat(descendants).stream().map(Entity::getId).collect(Collectors.toList());
+    public static <T extends BaseEntity> List<Long> allIds(List<Descendant<T>> descendants) {
+        return flat(descendants).stream().map(BaseEntity::getId).collect(Collectors.toList());
     }
 
     public static <T> ColumnCache getColumnCache(Class<T> entityClass, SFunction<T, String> function) {

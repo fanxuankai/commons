@@ -16,7 +16,7 @@ import java.util.Objects;
  * @author fanxuankai
  */
 public class ClosureTable {
-    public interface Node extends Entity {
+    public interface Entity extends BaseEntity {
         /**
          * id
          *
@@ -67,7 +67,7 @@ public class ClosureTable {
         void setDepth(Integer depth);
     }
 
-    public interface Dao<T extends ClosureTable.Node> extends TreeDao<T> {
+    public interface Dao<T extends Entity> extends TreeDao<T> {
         /**
          * 祖先(ancestor)节点：A是所有节点的祖先，F是K与L的祖先。
          *
@@ -79,7 +79,7 @@ public class ClosureTable {
             List<T> list = list(Wrappers.lambdaQuery(entityClass())
                     .ne(T::getAncestor, id)
                     .eq(T::getDescendant, id));
-            list.sort(Comparator.comparing(Node::getDepth));
+            list.sort(Comparator.comparing(Entity::getDepth));
             return list;
         }
 

@@ -32,7 +32,7 @@ J   K   L   M   N       - 4
  * @param <T> 实体类泛型
  * @author fanxuankai
  */
-public interface TreeDao<T extends Entity> extends IService<T> {
+public interface TreeDao<T extends BaseEntity> extends IService<T> {
     /**
      * 获取实体类类型
      *

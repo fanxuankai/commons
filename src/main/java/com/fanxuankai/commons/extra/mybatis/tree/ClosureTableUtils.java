@@ -20,7 +20,7 @@ public class ClosureTableUtils {
      * @param <T>         节点类型
      * @return /
      */
-    public static <T extends ClosureTable.Node> List<Descendant<T>> buildDescendants(Long id, List<T> descendants) {
+    public static <T extends ClosureTable.Entity> List<Descendant<T>> buildDescendants(Long id, List<T> descendants) {
         if (CollectionUtil.isEmpty(descendants)) {
             return Collections.emptyList();
         }
@@ -38,10 +38,10 @@ public class ClosureTableUtils {
      * @param <T>          节点类型
      * @return /
      */
-    private static <T extends ClosureTable.Node> List<Descendant<T>> buildDescendants(Long ancestor,
-                                                                                      int depth,
-                                                                                      int level,
-                                                                                      Map<String, List<T>> groupedByPid) {
+    private static <T extends ClosureTable.Entity> List<Descendant<T>> buildDescendants(Long ancestor,
+                                                                                        int depth,
+                                                                                        int level,
+                                                                                        Map<String, List<T>> groupedByPid) {
         List<T> children = groupedByPid.get(getParentIdentify(ancestor, depth));
         if (CollectionUtil.isEmpty(children)) {
             return Collections.emptyList();

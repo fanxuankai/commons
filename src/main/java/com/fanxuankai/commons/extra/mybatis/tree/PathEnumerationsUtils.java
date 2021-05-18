@@ -18,7 +18,7 @@ public class PathEnumerationsUtils {
      * @param <T>         节点类型
      * @return /
      */
-    public static <T extends PathEnumerations.Node> List<Descendant<T>> buildDescendants(T node, List<T> descendants) {
+    public static <T extends PathEnumerations.Entity> List<Descendant<T>> buildDescendants(T node, List<T> descendants) {
         if (CollectionUtil.isEmpty(descendants)) {
             return Collections.emptyList();
         }
@@ -35,9 +35,9 @@ public class PathEnumerationsUtils {
      * @param <T>          节点类型
      * @return /
      */
-    private static <T extends PathEnumerations.Node> List<Descendant<T>> buildDescendants(String parentPath,
-                                                                                          int level,
-                                                                                          Map<String, List<T>> groupedByPid) {
+    private static <T extends PathEnumerations.Entity> List<Descendant<T>> buildDescendants(String parentPath,
+                                                                                            int level,
+                                                                                            Map<String, List<T>> groupedByPid) {
         List<T> children = groupedByPid.get(parentPath);
         if (CollectionUtil.isEmpty(children)) {
             return Collections.emptyList();
@@ -55,7 +55,7 @@ public class PathEnumerationsUtils {
      * @param <T>  节点类型
      * @return /
      */
-    public static <T extends PathEnumerations.Node> String getParentPath(T node) {
+    public static <T extends PathEnumerations.Entity> String getParentPath(T node) {
         String path = StrPool.SLASH + node.getCode();
         if (Objects.equals(node.getPath(), path)) {
             return null;
@@ -72,8 +72,8 @@ public class PathEnumerationsUtils {
      * @param <T>         节点类型
      * @return key: id value: 路径
      */
-    public static <T extends PathEnumerations.Node> Map<Long, String> updatePath(String parentPath,
-                                                                                 List<Descendant<T>> descendants) {
+    public static <T extends PathEnumerations.Entity> Map<Long, String> updatePath(String parentPath,
+                                                                                   List<Descendant<T>> descendants) {
         Map<Long, String> map = new HashMap<>(16);
         for (Descendant<T> descendant : descendants) {
             T item = descendant.getItem();
