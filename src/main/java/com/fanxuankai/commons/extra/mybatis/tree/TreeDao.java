@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fanxuankai.commons.util.Node;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /*
 https://baike.baidu.com/item/%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84
@@ -33,7 +30,7 @@ J   K   L   M   N       - 4     - 0     - 3
  * @param <T> 实体类泛型
  * @author fanxuankai
  */
-public interface TreeDao<T extends BaseEntity> extends IService<T> {
+public interface TreeDao<T> extends IService<T> {
     /**
      * 获取实体类类型
      *
@@ -95,15 +92,7 @@ public interface TreeDao<T extends BaseEntity> extends IService<T> {
      * @param id 节点 id
      * @return /
      */
-    default List<T> sibling(Long id) {
-        T parent = parent(id);
-        if (parent == null) {
-            return Collections.emptyList();
-        }
-        List<T> list = children(parent.getId());
-        list.removeIf(o -> Objects.equals(o.getId(), id));
-        return list;
-    }
+    List<T> sibling(Long id);
 
     /**
      * 叶节点(leaf node)或终点节点(terminal node)：没有子节点的节点。如：J、K等。
@@ -111,12 +100,7 @@ public interface TreeDao<T extends BaseEntity> extends IService<T> {
      * @param wrapper /
      * @return /
      */
-    default List<T> leaf(LambdaQueryWrapper<T> wrapper) {
-        return list(wrapper)
-                .stream()
-                .filter(o -> children(o.getId()).isEmpty())
-                .collect(Collectors.toList());
-    }
+    List<T> leaf(LambdaQueryWrapper<T> wrapper);
 
     /**
      * 非叶节点(non-leaf node)或非终点节点(non-terminal node)：有子节点的节点。 如：A、B、F等等。
@@ -124,12 +108,7 @@ public interface TreeDao<T extends BaseEntity> extends IService<T> {
      * @param wrapper /
      * @return /
      */
-    default List<T> nonLeaf(LambdaQueryWrapper<T> wrapper) {
-        return list(wrapper)
-                .stream()
-                .filter(o -> !children(o.getId()).isEmpty())
-                .collect(Collectors.toList());
-    }
+    List<T> nonLeaf(LambdaQueryWrapper<T> wrapper);
 
     /**
      * 根节点(root node)：没有父节点的节点，为树的源头。 如：A。
@@ -185,10 +164,9 @@ public interface TreeDao<T extends BaseEntity> extends IService<T> {
      * 插入新节点
      *
      * @param node 节点
+     * @param pid  父节点
      */
-    default void insertNode(T node) {
-        save(node);
-    }
+    void insertNode(T node, Long pid);
 
     /**
      * 删除节点
@@ -196,12 +174,7 @@ public interface TreeDao<T extends BaseEntity> extends IService<T> {
      * @param id               节点 id
      * @param removeDescendant 是否删除子孙节点
      */
-    default void removeNode(Long id, boolean removeDescendant) {
-        removeById(id);
-        if (removeDescendant) {
-            children(id).forEach(o -> removeNode(o.getId(), true));
-        }
-    }
+    void removeNode(Long id, boolean removeDescendant);
 
     /**
      * 移动节点
@@ -209,7 +182,5 @@ public interface TreeDao<T extends BaseEntity> extends IService<T> {
      * @param id        节点 id
      * @param targetPid 目标父节点 id
      */
-    default void moveNode(Long id, Long targetPid) {
-
-    }
+    void moveNode(Long id, Long targetPid);
 }

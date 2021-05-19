@@ -23,13 +23,16 @@ public class TreeUtils {
      */
     public static <T> int calcHeight(Node<T> node) {
         if (node == null) {
+            return -1;
+        }
+        if (node.getChildren().isEmpty()) {
             return 0;
         }
         int max = 0;
         for (int i = 0; i < node.getChildren().size(); i++) {
             max = Math.max(max, calcHeight(node.getChildren().get(i)));
         }
-        return max;
+        return max + 1;
     }
 
     /**

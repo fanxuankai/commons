@@ -38,7 +38,7 @@ public class PathEnumerations {
         void setPath(String path);
     }
 
-    public interface Dao<T extends Entity> extends TreeDao<T> {
+    public interface Dao<T extends Entity> extends IdentifyTreeDao<T> {
         /**
          * 祖先(ancestor)节点：A是所有节点的祖先，F是K与L的祖先。
          *
@@ -124,6 +124,38 @@ public class PathEnumerations {
         }
 
         /**
+         * 插入新节点
+         *
+         * @param node 节点
+         * @param pid  父节点
+         */
+        @Override
+        default void insertNode(T node, Long pid) {
+            String path = null;
+            if (pid != null) {
+                path = getById(pid).getPath() + StrPool.SLASH + node.getCode();
+            }
+            node.setPath(path);
+            save(node);
+        }
+
+        /**
+         * 删除节点
+         *
+         * @param id               节点 id
+         * @param removeDescendant 是否删除子孙节点
+         */
+        @Override
+        default void removeNode(Long id, boolean removeDescendant) {
+            if (removeDescendant) {
+                T node = getById(id);
+                remove(Wrappers.lambdaQuery(entityClass()).likeRight(T::getPath, node.getPath()));
+            } else {
+                removeById(id);
+            }
+        }
+
+        /**
          * 移动节点
          *
          * @param id        节点 id
@@ -160,22 +192,6 @@ public class PathEnumerations {
             for (Map.Entry<Long, String> entry : PathEnumerationsUtils.updatePath(path, nodes).entrySet()) {
                 nodeEntity.setPath(entry.getValue());
                 update(nodeEntity, Wrappers.lambdaUpdate(entityClass()).eq(T::getId, entry.getKey()));
-            }
-        }
-
-        /**
-         * 删除节点
-         *
-         * @param id               节点 id
-         * @param removeDescendant 是否删除子孙节点
-         */
-        @Override
-        default void removeNode(Long id, boolean removeDescendant) {
-            if (removeDescendant) {
-                T node = getById(id);
-                remove(Wrappers.lambdaQuery(entityClass()).likeRight(T::getPath, node.getPath()));
-            } else {
-                removeById(id);
             }
         }
     }
