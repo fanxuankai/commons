@@ -74,7 +74,7 @@ public interface TreeDao<T> extends IService<T> {
      * 父节点(parent node)：B直接连到E与F且只差一个阶度，则B为E与F的父节点
      *
      * @param id 节点 id
-     * @return T
+     * @return /
      */
     T parent(Long id);
 

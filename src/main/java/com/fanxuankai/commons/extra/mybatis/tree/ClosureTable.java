@@ -109,7 +109,7 @@ public class ClosureTable {
          * 父节点(parent node)：B直接连到E与F且只差一个阶度，则B为E与F的父节点
          *
          * @param id 节点 id
-         * @return T
+         * @return /
          */
         @Override
         default T parent(Long id) {
@@ -269,6 +269,7 @@ public class ClosureTable {
          * @param removeDescendant 是否删除子孙节点
          */
         @Override
+        @Transactional(rollbackFor = Exception.class)
         default void removeNode(Long id, boolean removeDescendant) {
             // 移除与祖先的关联关系
             remove(Wrappers.lambdaQuery(entityClass())

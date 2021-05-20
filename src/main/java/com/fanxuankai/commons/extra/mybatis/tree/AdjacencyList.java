@@ -12,23 +12,10 @@ import java.util.List;
  * @author fanxuankai
  */
 public class AdjacencyList {
-    public interface Entity extends BaseEntity {
-        /**
-         * 父节点
-         *
-         * @return 如果没有父节点返回空
-         */
-        Long getPid();
-
-        /**
-         * (non-Javadoc)
-         *
-         * @param pid 父节点
-         */
-        void setPid(Long pid);
+    public interface Entity extends DefaultEntity {
     }
 
-    public interface Dao<T extends Entity> extends IdentifyTreeDao<T> {
+    public interface Dao<T extends Entity> extends DefaultTreeDao<T> {
         /**
          * 祖先(ancestor)节点：A是所有节点的祖先，F是K与L的祖先。
          *
@@ -57,7 +44,7 @@ public class AdjacencyList {
          * 父节点(parent node)：B直接连到E与F且只差一个阶度，则B为E与F的父节点
          *
          * @param id 节点 id
-         * @return T
+         * @return /
          */
         @Override
         default T parent(Long id) {

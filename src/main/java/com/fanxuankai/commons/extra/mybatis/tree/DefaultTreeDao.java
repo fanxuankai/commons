@@ -1,38 +1,21 @@
 package com.fanxuankai.commons.extra.mybatis.tree;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import com.fanxuankai.commons.util.Node;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-/*
-https://baike.baidu.com/item/%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84
-
-                        阶度     高度    深度
-          A             - 1     - 3     - 0
-         /|\
-       /  |  \
-     /    |    \
-    B     C     D       - 2     - 2     - 1
-   / \    |    / \
-  E   F   G   H   I     - 3     - 1     - 2
- /   / \     / \
-J   K   L   M   N       - 4     - 0     - 3
-
-根节点: A
-叶节点: G I J K L M N
-*/
-
 /**
- * 树的通用 DAO
+ * 默认树的通用 DAO
  *
  * @param <T> 实体类泛型
  * @author fanxuankai
  */
-public interface IdentifyTreeDao<T extends BaseEntity> extends TreeDao<T> {
+public interface DefaultTreeDao<T extends DefaultEntity> extends TreeDao<T> {
     // Query Operations
 
     /**
@@ -50,6 +33,29 @@ public interface IdentifyTreeDao<T extends BaseEntity> extends TreeDao<T> {
     }
 
     /**
+     * 父节点(parent node)：B直接连到E与F且只差一个阶度，则B为E与F的父节点
+     *
+     * @param id 节点 id
+     * @return /
+     */
+    @Override
+    default T parent(Long id) {
+        T node = getById(id);
+        return getById(node.getPid());
+    }
+
+    /**
+     * 子节点(children node)：B直接连到E与F且只差一个阶度，则E与F为B的子节点。
+     *
+     * @param id 节点 id
+     * @return /
+     */
+    @Override
+    default List<T> children(Long id) {
+        return list(Wrappers.lambdaQuery(entityClass()).eq(T::getPid, id));
+    }
+
+    /**
      * 兄弟节点(sibling node)：拥有同一父节点的子节点。如：E与F。
      *
      * @param id 节点 id
@@ -57,13 +63,10 @@ public interface IdentifyTreeDao<T extends BaseEntity> extends TreeDao<T> {
      */
     @Override
     default List<T> sibling(Long id) {
-        T parent = parent(id);
-        if (parent == null) {
-            return Collections.emptyList();
-        }
-        List<T> list = children(parent.getId());
-        list.removeIf(o -> Objects.equals(o.getId(), id));
-        return list;
+        T node = getById(id);
+        return list(Wrappers.lambdaQuery(entityClass())
+                .ne(T::getId, id)
+                .eq(T::getPid, node.getPid()));
     }
 
     /**
@@ -94,6 +97,17 @@ public interface IdentifyTreeDao<T extends BaseEntity> extends TreeDao<T> {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 根节点(root node)：没有父节点的节点，为树的源头。 如：A。
+     *
+     * @param wrapper /
+     * @return /
+     */
+    @Override
+    default List<T> roots(LambdaQueryWrapper<T> wrapper) {
+        return list(wrapper.isNull(T::getPid));
+    }
+
     // Modification Operations
 
     /**
@@ -103,10 +117,16 @@ public interface IdentifyTreeDao<T extends BaseEntity> extends TreeDao<T> {
      * @param removeDescendant 是否删除子孙节点
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     default void removeNode(Long id, boolean removeDescendant) {
         removeById(id);
         if (removeDescendant) {
             children(id).forEach(o -> removeNode(o.getId(), true));
+        } else {
+            Class<T> entityClass = entityClass();
+            ColumnCache pidColumnCache = TreeUtils.getColumnCache(entityClass, T::getPid);
+            update(Wrappers.lambdaUpdate(entityClass).eq(T::getPid, id)
+                    .setSql(pidColumnCache.getColumnSelect() + " = null"));
         }
     }
 }

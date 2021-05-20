@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @author fanxuankai
  */
 public class PathEnumerations {
-    public interface Entity extends BaseEntity {
+    public interface Entity extends DefaultEntity {
         /**
          * 编码
          *
@@ -38,7 +38,7 @@ public class PathEnumerations {
         void setPath(String path);
     }
 
-    public interface Dao<T extends Entity> extends IdentifyTreeDao<T> {
+    public interface Dao<T extends Entity> extends DefaultTreeDao<T> {
         /**
          * 祖先(ancestor)节点：A是所有节点的祖先，F是K与L的祖先。
          *
@@ -50,8 +50,7 @@ public class PathEnumerations {
             T node = getById(id);
             List<String> codes = Arrays.stream(node.getPath().split(StrPool.SLASH)).collect(Collectors.toList());
             codes.remove(node.getCode());
-            List<T> nodes = list(Wrappers.lambdaQuery(entityClass())
-                    .in(T::getCode, codes));
+            List<T> nodes = list(Wrappers.lambdaQuery(entityClass()).in(T::getCode, codes));
             nodes.sort(Comparator.comparingInt(o -> o.getPath().length()));
             return nodes;
         }
@@ -75,7 +74,7 @@ public class PathEnumerations {
          * 父节点(parent node)：B直接连到E与F且只差一个阶度，则B为E与F的父节点
          *
          * @param id 节点 id
-         * @return T
+         * @return /
          */
         @Override
         default T parent(Long id) {
@@ -131,10 +130,13 @@ public class PathEnumerations {
          */
         @Override
         default void insertNode(T node, Long pid) {
-            String path = null;
-            if (pid != null) {
+            String path;
+            if (pid == null) {
+                path = StrPool.SLASH + node.getCode();
+            } else {
                 path = getById(pid).getPath() + StrPool.SLASH + node.getCode();
             }
+            node.setPid(pid);
             node.setPath(path);
             save(node);
         }
@@ -146,12 +148,17 @@ public class PathEnumerations {
          * @param removeDescendant 是否删除子孙节点
          */
         @Override
+        @Transactional(rollbackFor = Exception.class)
         default void removeNode(Long id, boolean removeDescendant) {
+            T node = getById(id);
+            removeById(id);
             if (removeDescendant) {
-                T node = getById(id);
                 remove(Wrappers.lambdaQuery(entityClass()).likeRight(T::getPath, node.getPath()));
             } else {
-                removeById(id);
+                Class<T> entityClass = entityClass();
+                ColumnCache pidColumnCache = TreeUtils.getColumnCache(entityClass, T::getPid);
+                update(Wrappers.lambdaUpdate(entityClass).eq(T::getPid, id)
+                        .setSql(pidColumnCache.getColumnSelect() + " = null"));
             }
         }
 
