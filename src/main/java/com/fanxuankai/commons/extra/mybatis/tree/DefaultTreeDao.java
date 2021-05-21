@@ -2,9 +2,7 @@ package com.fanxuankai.commons.extra.mybatis.tree;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import com.fanxuankai.commons.util.Node;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -106,27 +104,5 @@ public interface DefaultTreeDao<T extends DefaultEntity> extends TreeDao<T> {
     @Override
     default List<T> roots(LambdaQueryWrapper<T> wrapper) {
         return list(wrapper.isNull(T::getPid));
-    }
-
-    // Modification Operations
-
-    /**
-     * 删除节点
-     *
-     * @param id               节点 id
-     * @param removeDescendant 是否删除子孙节点
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    default void removeNode(Long id, boolean removeDescendant) {
-        removeById(id);
-        if (removeDescendant) {
-            children(id).forEach(o -> removeNode(o.getId(), true));
-        } else {
-            Class<T> entityClass = entityClass();
-            ColumnCache pidColumnCache = TreeUtils.getColumnCache(entityClass, T::getPid);
-            update(Wrappers.lambdaUpdate(entityClass).eq(T::getPid, id)
-                    .setSql(pidColumnCache.getColumnSelect() + " = null"));
-        }
     }
 }

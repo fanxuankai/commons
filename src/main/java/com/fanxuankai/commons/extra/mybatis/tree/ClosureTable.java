@@ -230,6 +230,26 @@ public class ClosureTable {
         }
 
         /**
+         * 删除节点
+         *
+         * @param id               节点 id
+         * @param removeDescendant 是否删除子孙节点
+         */
+        @Override
+        @Transactional(rollbackFor = Exception.class)
+        default void removeNode(Long id, boolean removeDescendant) {
+            // 移除与祖先的关联关系
+            remove(Wrappers.lambdaQuery(entityClass())
+                    .eq(T::getDescendant, id));
+            if (removeDescendant) {
+                // 删除子节点
+                children(id).forEach(o -> removeNode(o.getDescendant(), true));
+            }
+            // 移除与后代的关联关系
+            remove(Wrappers.lambdaQuery(entityClass()).eq(T::getAncestor, id));
+        }
+
+        /**
          * 移动节点
          *
          * @param id        节点 id
@@ -260,26 +280,6 @@ public class ClosureTable {
 
             // 子节点跟随移动触发更新与祖先的关联关系
             children(id).forEach(o -> moveNode(o.getDescendant(), o.getAncestor()));
-        }
-
-        /**
-         * 删除节点
-         *
-         * @param id               节点 id
-         * @param removeDescendant 是否删除子孙节点
-         */
-        @Override
-        @Transactional(rollbackFor = Exception.class)
-        default void removeNode(Long id, boolean removeDescendant) {
-            // 移除与祖先的关联关系
-            remove(Wrappers.lambdaQuery(entityClass())
-                    .eq(T::getDescendant, id));
-            if (removeDescendant) {
-                // 删除子节点
-                children(id).forEach(o -> removeNode(o.getDescendant(), true));
-            }
-            // 移除与后代的关联关系
-            remove(Wrappers.lambdaQuery(entityClass()).eq(T::getAncestor, id));
         }
     }
 }

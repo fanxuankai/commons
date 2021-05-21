@@ -51,6 +51,27 @@ public class PageResult<T> {
         this.pages = pageSize == 0 ? 1 : (int) Math.ceil((double) total / (double) pageSize);
     }
 
+    /**
+     * 空的
+     *
+     * @param <T> 数据类型泛型
+     * @return /
+     */
+    public static <T> PageResult<T> empty() {
+        return empty(new Page());
+    }
+
+    /**
+     * 空的
+     *
+     * @param page /
+     * @param <T>  数据类型泛型
+     * @return /
+     */
+    public static <T> PageResult<T> empty(Page page) {
+        return new PageResult<>(Collections.emptyList(), page, 0);
+    }
+
     public Integer getPageNum() {
         return pageNum;
     }
@@ -77,27 +98,6 @@ public class PageResult<T> {
 
     public Page getPage() {
         return page;
-    }
-
-    /**
-     * 空的
-     *
-     * @param <T> 数据类型泛型
-     * @return /
-     */
-    public static <T> PageResult<T> empty() {
-        return empty(new Page());
-    }
-
-    /**
-     * 空的
-     *
-     * @param page /
-     * @param <T>  数据类型泛型
-     * @return /
-     */
-    public static <T> PageResult<T> empty(Page page) {
-        return new PageResult<>(Collections.emptyList(), page, 0);
     }
 
     /**

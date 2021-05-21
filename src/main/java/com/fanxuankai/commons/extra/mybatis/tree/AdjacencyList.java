@@ -3,6 +3,8 @@ package com.fanxuankai.commons.extra.mybatis.tree;
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,6 +90,26 @@ public class AdjacencyList {
         default void insertNode(T node, Long pid) {
             node.setPid(pid);
             save(node);
+        }
+
+        /**
+         * 删除节点
+         *
+         * @param id               节点 id
+         * @param removeDescendant 是否删除子孙节点
+         */
+        @Override
+        @Transactional(rollbackFor = Exception.class)
+        default void removeNode(Long id, boolean removeDescendant) {
+            removeById(id);
+            if (removeDescendant) {
+                children(id).forEach(o -> removeNode(o.getId(), true));
+            } else {
+                Class<T> entityClass = entityClass();
+                ColumnCache pidColumnCache = TreeUtils.getColumnCache(entityClass, T::getPid);
+                update(Wrappers.lambdaUpdate(entityClass).eq(T::getPid, id)
+                        .setSql(pidColumnCache.getColumnSelect() + " = null"));
+            }
         }
 
         /**

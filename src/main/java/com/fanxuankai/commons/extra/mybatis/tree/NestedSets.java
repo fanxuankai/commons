@@ -95,18 +95,8 @@ public class NestedSets {
          * @param removeDescendant 是否删除子孙节点
          */
         @Override
-        @Transactional(rollbackFor = Exception.class)
         default void removeNode(Long id, boolean removeDescendant) {
-            T node = getById(id);
-            removeById(id);
-            if (removeDescendant) {
-                remove(Wrappers.lambdaQuery(entityClass()).between(T::getLft, node.getLft(), node.getRgt()));
-            } else {
-                Class<T> entityClass = entityClass();
-                ColumnCache pidColumnCache = TreeUtils.getColumnCache(entityClass, T::getPid);
-                update(Wrappers.lambdaUpdate(entityClass).eq(T::getPid, id)
-                        .setSql(pidColumnCache.getColumnSelect() + " = null"));
-            }
+            // 暂不支持
         }
 
         /**
@@ -117,6 +107,7 @@ public class NestedSets {
          */
         @Override
         default void moveNode(Long id, Long targetPid) {
+            // 暂不支持
         }
     }
 }
