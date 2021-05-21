@@ -7,22 +7,22 @@ import com.fanxuankai.commons.util.ParamUtils;
 import java.text.MessageFormat;
 
 /**
- * 异常基类
+ * 业务异常类
  *
  * @author fanxuankai
  */
-public class BaseException extends RuntimeException {
+public class BusinessException extends RuntimeException {
     private final Status status;
 
-    public BaseException() {
+    public BusinessException() {
         this(DefaultStatus.FAILED);
     }
 
-    public BaseException(Status status) {
+    public BusinessException(Status status) {
         this.status = status;
     }
 
-    public BaseException(int code, String message) {
+    public BusinessException(int code, String message) {
         this(new Status() {
             @Override
             public int getCode() {
@@ -36,17 +36,17 @@ public class BaseException extends RuntimeException {
         });
     }
 
-    public BaseException(Status status, Object... params) {
+    public BusinessException(Status status, Object... params) {
         super(ParamUtils.isNotEmpty(params) ? MessageFormat.format(status.getMessage(), params) : status.getMessage());
         this.status = status;
     }
 
-    public BaseException(Status status, Throwable cause) {
+    public BusinessException(Status status, Throwable cause) {
         super(status.getMessage(), cause);
         this.status = status;
     }
 
-    public BaseException(Status status, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public BusinessException(Status status, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(status.getMessage(), cause, enableSuppression, writableStackTrace);
         this.status = status;
     }

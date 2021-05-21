@@ -1,7 +1,7 @@
 package com.fanxuankai.commons.util;
 
 import com.fanxuankai.commons.domain.Status;
-import com.fanxuankai.commons.exception.BaseException;
+import com.fanxuankai.commons.exception.BusinessException;
 
 import java.util.function.Supplier;
 
@@ -16,11 +16,11 @@ public class Assert {
      *
      * @param object 检查的对象
      * @param status 处理结果状态
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void notEmpty(Object object, Status status) {
         if (ParamUtils.isEmpty(object)) {
-            throw new BaseException(status);
+            throw new BusinessException(status);
         }
     }
 
@@ -30,11 +30,11 @@ public class Assert {
      * @param object          检查的对象
      * @param code            代码
      * @param messageSupplier 错误信息
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void notEmpty(Object object, int code, Supplier<String> messageSupplier) {
         if (ParamUtils.isEmpty(object)) {
-            throw new BaseException(newStatus(code, messageSupplier.get()));
+            throw new BusinessException(newStatus(code, messageSupplier.get()));
         }
     }
 
@@ -44,11 +44,11 @@ public class Assert {
      * @param object 检查的对象
      * @param status 处理结果状态
      * @param params 参数
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void notEmpty(Object object, Status status, Object... params) {
         if (ParamUtils.isEmpty(object)) {
-            throw new BaseException(status, params);
+            throw new BusinessException(status, params);
         }
     }
 
@@ -59,11 +59,11 @@ public class Assert {
      * @param code            代码
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void notEmpty(Object object, int code, Supplier<String> messageSupplier, Object... params) {
         if (ParamUtils.isEmpty(object)) {
-            throw new BaseException(newStatus(code, messageSupplier.get()), params);
+            throw new BusinessException(newStatus(code, messageSupplier.get()), params);
         }
     }
 
@@ -72,11 +72,11 @@ public class Assert {
      *
      * @param object 检查的对象
      * @param status 处理结果状态
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void notNull(Object object, Status status) {
         if (object == null) {
-            throw new BaseException(status);
+            throw new BusinessException(status);
         }
     }
 
@@ -86,11 +86,11 @@ public class Assert {
      * @param object          检查的对象
      * @param code            代码
      * @param messageSupplier 错误信息
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void notNull(Object object, int code, Supplier<String> messageSupplier) {
         if (object == null) {
-            throw new BaseException(newStatus(code, messageSupplier.get()));
+            throw new BusinessException(newStatus(code, messageSupplier.get()));
         }
     }
 
@@ -100,11 +100,11 @@ public class Assert {
      * @param object 检查的对象
      * @param status 处理结果状态
      * @param params 参数
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void notNull(Object object, Status status, Object... params) {
         if (object == null) {
-            throw new BaseException(status, params);
+            throw new BusinessException(status, params);
         }
     }
 
@@ -115,11 +115,11 @@ public class Assert {
      * @param code            代码
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void notNull(Object object, int code, Supplier<String> messageSupplier, Object... params) {
         if (object == null) {
-            throw new BaseException(newStatus(code, messageSupplier.get()), params);
+            throw new BusinessException(newStatus(code, messageSupplier.get()), params);
         }
     }
 
@@ -128,11 +128,11 @@ public class Assert {
      *
      * @param object 检查的对象
      * @param status 处理结果状态
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isNull(Object object, Status status) {
         if (object != null) {
-            throw new BaseException(status);
+            throw new BusinessException(status);
         }
     }
 
@@ -142,11 +142,11 @@ public class Assert {
      * @param object          检查的对象
      * @param code            代码
      * @param messageSupplier 错误信息
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isNull(Object object, int code, Supplier<String> messageSupplier) {
         if (object != null) {
-            throw new BaseException(newStatus(code, messageSupplier.get()));
+            throw new BusinessException(newStatus(code, messageSupplier.get()));
         }
     }
 
@@ -156,7 +156,7 @@ public class Assert {
      * @param object 检查的对象
      * @param status 处理结果状态
      * @param params 参数
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isNull(Object object, Status status, Object... params) {
         isTrue(object != null, status, params);
@@ -169,11 +169,11 @@ public class Assert {
      * @param code            代码
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isNull(Object object, int code, Supplier<String> messageSupplier, Object... params) {
         if (object != null) {
-            throw new BaseException(newStatus(code, messageSupplier.get()), params);
+            throw new BusinessException(newStatus(code, messageSupplier.get()), params);
         }
     }
 
@@ -182,11 +182,11 @@ public class Assert {
      *
      * @param expression 表达式
      * @param status     处理结果状态
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isTrue(boolean expression, Status status) {
         if (!expression) {
-            throw new BaseException(status);
+            throw new BusinessException(status);
         }
     }
 
@@ -196,11 +196,11 @@ public class Assert {
      * @param expression      表达式
      * @param code            代码
      * @param messageSupplier 错误信息
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isTrue(boolean expression, int code, Supplier<String> messageSupplier) {
         if (!expression) {
-            throw new BaseException(newStatus(code, messageSupplier.get()));
+            throw new BusinessException(newStatus(code, messageSupplier.get()));
         }
     }
 
@@ -210,12 +210,12 @@ public class Assert {
      * @param expression 表达式
      * @param status     处理结果状态
      * @param params     参数
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isTrue(boolean expression, Status status,
                               Object... params) {
         if (!expression) {
-            throw new BaseException(status, params);
+            throw new BusinessException(status, params);
         }
     }
 
@@ -226,12 +226,12 @@ public class Assert {
      * @param code            代码
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isTrue(boolean expression, int code, Supplier<String> messageSupplier,
                               Object... params) {
         if (!expression) {
-            throw new BaseException(newStatus(code, messageSupplier.get()), params);
+            throw new BusinessException(newStatus(code, messageSupplier.get()), params);
         }
     }
 
@@ -240,11 +240,11 @@ public class Assert {
      *
      * @param expression 表达式
      * @param status     处理结果状态
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isFalse(boolean expression, Status status) {
         if (expression) {
-            throw new BaseException(status);
+            throw new BusinessException(status);
         }
     }
 
@@ -254,11 +254,11 @@ public class Assert {
      * @param expression      表达式
      * @param code            代码
      * @param messageSupplier 错误信息
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isFalse(boolean expression, int code, Supplier<String> messageSupplier) {
         if (expression) {
-            throw new BaseException(newStatus(code, messageSupplier.get()));
+            throw new BusinessException(newStatus(code, messageSupplier.get()));
         }
     }
 
@@ -268,11 +268,11 @@ public class Assert {
      * @param expression 表达式
      * @param status     处理结果状态
      * @param params     参数
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isFalse(boolean expression, Status status, Object... params) {
         if (expression) {
-            throw new BaseException(status, params);
+            throw new BusinessException(status, params);
         }
     }
 
@@ -283,12 +283,12 @@ public class Assert {
      * @param code            代码
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BaseException 断言成功后抛出异常
+     * @throws BusinessException 断言成功后抛出异常
      */
     public static void isFalse(boolean expression, int code, Supplier<String> messageSupplier,
                                Object... params) {
         if (expression) {
-            throw new BaseException(newStatus(code, messageSupplier.get()), params);
+            throw new BusinessException(newStatus(code, messageSupplier.get()), params);
         }
     }
 
