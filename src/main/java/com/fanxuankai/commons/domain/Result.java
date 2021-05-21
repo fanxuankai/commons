@@ -9,7 +9,7 @@ public class Result<T> {
     /**
      * 代码
      */
-    private int code;
+    private int status;
     /**
      * 提示信息
      */
@@ -19,12 +19,12 @@ public class Result<T> {
      */
     private T data;
 
-    public int getCode() {
-        return code;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getMessage() {

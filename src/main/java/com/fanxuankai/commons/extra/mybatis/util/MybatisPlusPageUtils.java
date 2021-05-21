@@ -65,7 +65,7 @@ public class MybatisPlusPageUtils {
      * @return /
      */
     public static <T> IPage<T> convert(Page page) {
-        return new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page.getPageNumber(),
+        return new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page.getPageIndex(),
                 page.getPageSize());
     }
 }

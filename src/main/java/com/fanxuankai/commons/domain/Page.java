@@ -17,14 +17,14 @@ public class Page {
     /**
      * 页码
      */
-    private final int pageNumber;
+    private final int pageIndex;
     /**
      * 每页数量
      */
     private final int pageSize;
 
-    public Page(int pageNumber, int pageSize) {
-        this.pageNumber = pageNumber;
+    public Page(int pageIndex, int pageSize) {
+        this.pageIndex = pageIndex;
         this.pageSize = pageSize;
     }
 
@@ -36,8 +36,8 @@ public class Page {
         return new Page(page, size);
     }
 
-    public int getPageNumber() {
-        return pageNumber;
+    public int getPageIndex() {
+        return pageIndex;
     }
 
     public int getPageSize() {

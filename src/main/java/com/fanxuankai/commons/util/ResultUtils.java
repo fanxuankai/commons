@@ -38,7 +38,7 @@ public class ResultUtils {
 
     public static <T> Result<T> newResult(Status status, T data) {
         Result<T> result = new Result<>();
-        result.setCode(status.getCode());
+        result.setStatus(status.getCode());
         result.setMessage(status.getMessage());
         result.setData(data);
         return result;
