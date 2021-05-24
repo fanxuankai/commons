@@ -12,10 +12,9 @@ import java.util.List;
  * DAO 接口
  *
  * @param <T> 实体类
- * @param <C> 条件类
  * @author fanxuankai
  */
-public interface BaseDao<T, C> extends IService<T> {
+public interface BaseDao<T> extends IService<T> {
     /**
      * 获取实体类类型
      *
@@ -32,7 +31,7 @@ public interface BaseDao<T, C> extends IService<T> {
      * @param page     分页参数
      * @return PageResult
      */
-    default PageResult<T> page(C criteria, Page page) {
+    default PageResult<T> page(Object criteria, Page page) {
         return MybatisPlusPageUtils.convert(page(MybatisPlusPageUtils.convert(page),
                 QueryHelper.getQueryWrapper(entityClass(), criteria)));
     }
@@ -43,7 +42,7 @@ public interface BaseDao<T, C> extends IService<T> {
      * @param criteria 条件参数
      * @return List
      */
-    default List<T> list(C criteria) {
+    default List<T> list(Object criteria) {
         return list(QueryHelper.getQueryWrapper(entityClass(), criteria));
     }
 
@@ -53,7 +52,7 @@ public interface BaseDao<T, C> extends IService<T> {
      * @param criteria 条件参数
      * @return int
      */
-    default int count(C criteria) {
+    default int count(Object criteria) {
         return count(QueryHelper.getQueryWrapper(entityClass(), criteria));
     }
 
@@ -63,7 +62,7 @@ public interface BaseDao<T, C> extends IService<T> {
      * @param criteria 条件参数
      * @return boolean
      */
-    default boolean exists(C criteria) {
+    default boolean exists(Object criteria) {
         return count(criteria) > 0;
     }
 
@@ -74,7 +73,7 @@ public interface BaseDao<T, C> extends IService<T> {
      * @param criteria 条件参数
      * @return 是否更新成功
      */
-    default boolean update(T t, C criteria) {
+    default boolean update(T t, Object criteria) {
         return update(t, QueryHelper.getUpdateWrapper(entityClass(), criteria));
     }
 
@@ -84,7 +83,7 @@ public interface BaseDao<T, C> extends IService<T> {
      * @param criteria 条件参数
      * @return 是否删除成功
      */
-    default boolean remove(C criteria) {
+    default boolean remove(Object criteria) {
         return remove(QueryHelper.getQueryWrapper(entityClass(), criteria));
     }
 }

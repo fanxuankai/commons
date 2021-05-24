@@ -18,11 +18,10 @@ import java.util.List;
  *
  * @param <D> DTO
  * @param <V> VO
- * @param <C> 条件类
  * @param <S> Service
  * @author fanxuankai
  */
-public class BaseController<D, V, C, S extends BaseService<D, V, C>> {
+public class BaseController<D, V, S extends BaseService<D, V>> {
     @Resource
     private S service;
 
@@ -34,7 +33,7 @@ public class BaseController<D, V, C, S extends BaseService<D, V, C>> {
      * @throws IOException /
      */
     @GetMapping("download")
-    public void download(C criteria, HttpServletResponse response) throws IOException {
+    public void download(Object criteria, HttpServletResponse response) throws IOException {
         service.download(service.list(criteria), response);
     }
 
@@ -46,7 +45,7 @@ public class BaseController<D, V, C, S extends BaseService<D, V, C>> {
      * @return Result
      */
     @GetMapping("page")
-    public Result<PageResult<V>> page(C criteria, Page page) {
+    public Result<PageResult<V>> page(Object criteria, Page page) {
         return ResultUtils.newResult(service.page(criteria, page));
     }
 
@@ -57,7 +56,7 @@ public class BaseController<D, V, C, S extends BaseService<D, V, C>> {
      * @return Result
      */
     @GetMapping("list")
-    public Result<List<V>> list(C criteria) {
+    public Result<List<V>> list(Object criteria) {
         return ResultUtils.newResult(service.list(criteria));
     }
 

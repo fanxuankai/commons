@@ -2,6 +2,7 @@ package com.fanxuankai.commons.extra.mybatis.base;
 
 import com.fanxuankai.commons.domain.Page;
 import com.fanxuankai.commons.domain.PageResult;
+import com.fanxuankai.commons.util.Converter;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
@@ -10,29 +11,27 @@ import java.util.List;
 /**
  * Service 接口实现类
  *
- * @param <T>         实体类
- * @param <D>         DTO
- * @param <V>         VO
- * @param <Criteria>  条件类
- * @param <Converter> 对象转换器
- * @param <DAO>       DAO
+ * @param <T>   实体类
+ * @param <D>   DTO
+ * @param <V>   VO
+ * @param <C>   对象转换器
+ * @param <DAO> DAO
  * @author fanxuankai
  */
-public class BaseServiceImpl<T extends BaseModel, D, V, Criteria,
-        Converter extends com.fanxuankai.commons.util.Converter<T, D, V>,
-        DAO extends BaseDao<T, Criteria>> implements BaseService<D, V, Criteria> {
+public class BaseServiceImpl<T extends BaseModel, D, V, C extends Converter<T, D, V>, DAO extends BaseDao<T>>
+        implements BaseService<D, V> {
     @Resource
-    private Converter converter;
+    private C converter;
     @Resource
     private DAO dao;
 
     @Override
-    public PageResult<V> page(Criteria criteria, Page page) {
+    public PageResult<V> page(Object criteria, Page page) {
         return dao.page(criteria, page).map(converter::toVo);
     }
 
     @Override
-    public List<V> list(Criteria criteria) {
+    public List<V> list(Object criteria) {
         return converter.toVo(dao.list(criteria));
     }
 

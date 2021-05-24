@@ -46,8 +46,7 @@ public class BaseModel implements Serializable {
     /**
      * 是否删除：0：否 1：是
      */
-    @TableField(fill = FieldFill.INSERT)
-    private Integer deleted;
+    private boolean deleted;
 
     public Long getId() {
         return id;
@@ -89,11 +88,11 @@ public class BaseModel implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public Integer getDeleted() {
+    public boolean isDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Integer deleted) {
+    public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 }

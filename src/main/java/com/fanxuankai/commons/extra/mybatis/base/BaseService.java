@@ -12,10 +12,9 @@ import java.util.List;
  *
  * @param <D> DTO
  * @param <V> VO
- * @param <C> 条件类
  * @author fanxuankai
  */
-public interface BaseService<D, V, C> {
+public interface BaseService<D, V> {
     /**
      * 查询数据分页
      *
@@ -23,7 +22,7 @@ public interface BaseService<D, V, C> {
      * @param page     分页参数
      * @return PageResult
      */
-    PageResult<V> page(C criteria, Page page);
+    PageResult<V> page(Object criteria, Page page);
 
     /**
      * 查询所有数据不分页
@@ -31,7 +30,7 @@ public interface BaseService<D, V, C> {
      * @param criteria 条件参数
      * @return List
      */
-    List<V> list(C criteria);
+    List<V> list(Object criteria);
 
     /**
      * 根据 ID 查询
