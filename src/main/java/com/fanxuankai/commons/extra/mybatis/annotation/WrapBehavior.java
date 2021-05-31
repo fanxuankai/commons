@@ -3,7 +3,7 @@ package com.fanxuankai.commons.extra.mybatis.annotation;
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 
 /**
- * 查询条件封装行为
+ * 条件封装行为
  *
  * @author fanxuankai
  */

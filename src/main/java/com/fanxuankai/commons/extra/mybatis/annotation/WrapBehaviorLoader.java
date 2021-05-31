@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.ServiceLoader;
 
 /**
- * 查询条件封装行为加载器
+ * 条件封装行为加载器
  *
  * @author fanxuankai
  */

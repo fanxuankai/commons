@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Query 帮助类
+ *
  * @author fanxuankai
  */
 public class QueryHelper {
