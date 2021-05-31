@@ -3,11 +3,11 @@ package com.fanxuankai.commons.extra.mybatis.annotation;
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 
 /**
- * 查询条件封装器
+ * 条件封装器
  *
  * @author fanxuankai
  */
-public class QueryCriteriaWrapper {
+public class CriteriaWrapper {
     private WrapBehavior wrapBehavior;
 
     /**

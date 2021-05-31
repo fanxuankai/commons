@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.*;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import com.fanxuankai.commons.extra.mybatis.annotation.Query;
-import com.fanxuankai.commons.extra.mybatis.annotation.QueryCriteriaWrapper;
+import com.fanxuankai.commons.extra.mybatis.annotation.CriteriaWrapper;
 import com.fanxuankai.commons.extra.mybatis.annotation.WrapBehaviorLoader;
 
 import java.lang.reflect.Field;
@@ -56,7 +56,7 @@ public class QueryHelper {
     private static <T, C> void wrap(AbstractWrapper<T, String, ?> wrapper, Class<T> entityClass, C criteria) {
         Map<String, ColumnCache> columnMap = LambdaUtils.getColumnMap(entityClass);
         List<Field> fields = ReflectionKit.getFieldList(criteria.getClass());
-        QueryCriteriaWrapper queryCriteriaWrapper = new QueryCriteriaWrapper();
+        CriteriaWrapper criteriaWrapper = new CriteriaWrapper();
         for (Field field : fields) {
             field.setAccessible(true);
             Query q = field.getAnnotation(Query.class);
@@ -85,8 +85,8 @@ public class QueryHelper {
             }
             ColumnCache columnCache = columnMap.get(LambdaUtils.formatKey(attributeName));
             String column = columnCache.getColumn();
-            queryCriteriaWrapper.setWrapBehavior(WrapBehaviorLoader.get(q.type()));
-            queryCriteriaWrapper.wrap(wrapper, column, val);
+            criteriaWrapper.setWrapBehavior(WrapBehaviorLoader.get(q.type()));
+            criteriaWrapper.wrap(wrapper, column, val);
         }
     }
 }
