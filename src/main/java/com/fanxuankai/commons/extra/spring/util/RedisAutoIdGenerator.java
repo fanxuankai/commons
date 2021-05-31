@@ -18,15 +18,9 @@ public class RedisAutoIdGenerator implements InitializingBean {
 
     public static final String DEFAULT_DATE_PATTERN = "yyyyMMdd";
     public static final int DEFAULT_LENGTH = 3;
-
-    @Resource(name = "redisTemplate")
-    private RedisTemplate<String, Object> injectRedisTemplate;
-    private static RedisTemplate<String, Object> redisTemplate;
-
-    @Override
-    public void afterPropertiesSet() {
-        RedisAutoIdGenerator.redisTemplate = injectRedisTemplate;
-    }
+    private static RedisTemplate<String, Object> rt;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * title+日期+增量数字, 基于 hash
@@ -80,7 +74,7 @@ public class RedisAutoIdGenerator implements InitializingBean {
      * @return FXK000
      */
     public static String increment(String key, String hashKey, int length, long delta) {
-        long increment = redisTemplate.opsForHash().increment(key, hashKey, delta);
+        long increment = rt.opsForHash().increment(key, hashKey, delta);
         return hashKey + String.format("%0" + length + "d", increment);
     }
 
@@ -100,6 +94,11 @@ public class RedisAutoIdGenerator implements InitializingBean {
      */
     public static String increment(String key, String hashKey) {
         return increment(key, hashKey, DEFAULT_LENGTH, 1);
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        RedisAutoIdGenerator.rt = redisTemplate;
     }
 
 }

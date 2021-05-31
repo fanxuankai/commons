@@ -12,13 +12,17 @@ import java.util.stream.Collectors;
  */
 public class PageResult<T> {
     /**
-     * 分页数据
+     * 当前页
      */
-    private final List<T> content;
+    private final Integer pageNum;
     /**
-     * 分页参数
+     * 每页的数量
      */
-    private final Page page;
+    private final Integer pageSize;
+    /**
+     * 当前页的数量
+     */
+    private final Integer size;
     /**
      * 总数
      */
@@ -26,14 +30,25 @@ public class PageResult<T> {
     /**
      * 总页数
      */
-    private final int totalPages;
+    private final int pages;
+    /**
+     * 分页数据
+     */
+    private final List<T> list;
+    /**
+     * 分页参数
+     */
+    private final Page page;
 
-    public PageResult(List<T> content, Page page, long total) {
-        this.content = content;
+    public PageResult(List<T> list, Page page, long total) {
+        this.list = list;
         this.page = page;
+        this.pageNum = page.getPageIndex();
+        this.pageSize = page.getPageSize();
+        this.size = list.size();
         this.total = total;
         int pageSize = page.getPageSize();
-        this.totalPages = pageSize == 0 ? 1 : (int) Math.ceil((double) total / (double) pageSize);
+        this.pages = pageSize == 0 ? 1 : (int) Math.ceil((double) total / (double) pageSize);
     }
 
     /**
@@ -57,35 +72,32 @@ public class PageResult<T> {
         return new PageResult<>(Collections.emptyList(), page, 0);
     }
 
-    public Page getPage() {
-        return page;
+    public Integer getPageNum() {
+        return pageNum;
     }
 
-    /**
-     * 总页数
-     *
-     * @return /
-     */
-    public int getTotalPages() {
-        return totalPages;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    /**
-     * 总数量
-     *
-     * @return /
-     */
+    public Integer getSize() {
+        return size;
+    }
+
     public long getTotal() {
         return total;
     }
 
-    /**
-     * 当前页数据
-     *
-     * @return /
-     */
-    public List<T> getContent() {
-        return content;
+    public int getPages() {
+        return pages;
+    }
+
+    public List<T> getList() {
+        return list;
+    }
+
+    public Page getPage() {
+        return page;
     }
 
     /**
@@ -96,6 +108,6 @@ public class PageResult<T> {
      * @return /
      */
     public <U> PageResult<U> map(Function<? super T, ? extends U> converter) {
-        return new PageResult<>(content.stream().map(converter).collect(Collectors.toList()), page, total);
+        return new PageResult<>(list.stream().map(converter).collect(Collectors.toList()), page, total);
     }
 }
