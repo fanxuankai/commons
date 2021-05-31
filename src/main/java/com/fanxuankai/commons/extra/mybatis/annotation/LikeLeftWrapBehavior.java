@@ -5,14 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 /**
  * @author fanxuankai
  */
-public class LikeLeftWrapBehavior extends AbstractWrapBehavior {
+public class LikeLeftWrapBehavior implements WrapBehavior {
     @Override
     public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
         wrapper.likeLeft(column, val);
     }
 
     @Override
-    protected Query.Type getType() {
+    public Query.Type getType() {
         return Query.Type.LIKE_LEFT;
     }
 }

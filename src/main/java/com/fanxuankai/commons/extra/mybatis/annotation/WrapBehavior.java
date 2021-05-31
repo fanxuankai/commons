@@ -16,4 +16,11 @@ public interface WrapBehavior {
      * @param val     值
      */
     void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val);
+
+    /**
+     * 对应的处理方式
+     *
+     * @return /
+     */
+    Query.Type getType();
 }

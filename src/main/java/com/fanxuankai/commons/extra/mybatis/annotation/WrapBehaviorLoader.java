@@ -14,7 +14,7 @@ public class WrapBehaviorLoader {
 
     static {
         WRAP_BEHAVIOR_MAP = new HashMap<>();
-        ServiceLoader<AbstractWrapBehavior> loader = ServiceLoader.load(AbstractWrapBehavior.class);
+        ServiceLoader<WrapBehavior> loader = ServiceLoader.load(WrapBehavior.class);
         loader.forEach(behavior -> WRAP_BEHAVIOR_MAP.put(behavior.getType(), behavior));
     }
 

@@ -7,7 +7,7 @@ import java.util.Collection;
 /**
  * @author fanxuankai
  */
-public class NotInWrapBehavior extends AbstractWrapBehavior {
+public class NotInWrapBehavior implements WrapBehavior {
     @Override
     public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
         if (val instanceof Collection) {
@@ -16,7 +16,7 @@ public class NotInWrapBehavior extends AbstractWrapBehavior {
     }
 
     @Override
-    protected Query.Type getType() {
+    public Query.Type getType() {
         return Query.Type.NOT_IN;
     }
 }

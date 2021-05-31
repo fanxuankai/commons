@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author fanxuankai
  */
-public class NotBetweenWrapBehavior extends AbstractWrapBehavior {
+public class NotBetweenWrapBehavior implements WrapBehavior {
     @Override
     public void wrap(AbstractWrapper<?, String, ?> wrapper, String column, Object val) {
         if (val instanceof Collection) {
@@ -19,7 +19,7 @@ public class NotBetweenWrapBehavior extends AbstractWrapBehavior {
     }
 
     @Override
-    protected Query.Type getType() {
+    public Query.Type getType() {
         return Query.Type.NOT_BETWEEN;
     }
 }

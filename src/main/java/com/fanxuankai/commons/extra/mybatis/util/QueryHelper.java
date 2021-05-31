@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.*;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
-import com.fanxuankai.commons.extra.mybatis.annotation.Query;
 import com.fanxuankai.commons.extra.mybatis.annotation.CriteriaWrapper;
+import com.fanxuankai.commons.extra.mybatis.annotation.Query;
 import com.fanxuankai.commons.extra.mybatis.annotation.WrapBehaviorLoader;
 
 import java.lang.reflect.Field;
