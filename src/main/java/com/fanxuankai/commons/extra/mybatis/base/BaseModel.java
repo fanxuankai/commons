@@ -44,7 +44,7 @@ public class BaseModel implements Serializable {
     private Date lastModifiedDate;
 
     /**
-     * 是否删除：0：否 1：是
+     * 是否删除
      */
     private boolean deleted;
 

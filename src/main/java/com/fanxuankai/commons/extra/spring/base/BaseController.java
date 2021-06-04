@@ -5,10 +5,10 @@ import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.domain.Result;
 import com.fanxuankai.commons.extra.mybatis.base.BaseService;
 import com.fanxuankai.commons.util.ResultUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -22,8 +22,8 @@ import java.util.List;
  * @author fanxuankai
  */
 public class BaseController<D, V, S extends BaseService<D, V>> {
-    @Resource
-    private S service;
+    @Autowired
+    private S baseService;
 
     /**
      * 导出数据
@@ -34,7 +34,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @GetMapping("download")
     public void download(Object criteria, HttpServletResponse response) throws IOException {
-        service.download(service.list(criteria), response);
+        baseService.download(baseService.list(criteria), response);
     }
 
     /**
@@ -46,7 +46,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @GetMapping("page")
     public Result<PageResult<V>> page(Object criteria, Page page) {
-        return ResultUtils.newResult(service.page(criteria, page));
+        return ResultUtils.newResult(baseService.page(criteria, page));
     }
 
     /**
@@ -57,7 +57,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @GetMapping("list")
     public Result<List<V>> list(Object criteria) {
-        return ResultUtils.newResult(service.list(criteria));
+        return ResultUtils.newResult(baseService.list(criteria));
     }
 
     /**
@@ -68,7 +68,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @GetMapping("get/{id}")
     public Result<V> get(@PathVariable Long id) {
-        return ResultUtils.newResult(service.get(id));
+        return ResultUtils.newResult(baseService.get(id));
     }
 
     /**
@@ -79,7 +79,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @PostMapping("create")
     public Result<Void> create(@Validated @RequestBody D dto) {
-        service.create(dto);
+        baseService.create(dto);
         return ResultUtils.newResult();
     }
 
@@ -92,7 +92,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @PutMapping("update/{id}")
     public Result<Void> update(@PathVariable Long id, @Validated @RequestBody D dto) {
-        service.update(id, dto);
+        baseService.update(id, dto);
         return ResultUtils.newResult();
     }
 
@@ -104,7 +104,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @DeleteMapping("delete")
     public Result<Void> delete(@RequestBody Long[] ids) {
-        service.deleteAll(ids);
+        baseService.deleteAll(ids);
         return ResultUtils.newResult();
     }
 }

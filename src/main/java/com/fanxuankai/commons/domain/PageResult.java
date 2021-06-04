@@ -35,14 +35,9 @@ public class PageResult<T> {
      * 分页数据
      */
     private final List<T> list;
-    /**
-     * 分页参数
-     */
-    private final Page page;
 
     public PageResult(List<T> list, Page page, long total) {
         this.list = list;
-        this.page = page;
         this.pageNum = page.getPageIndex();
         this.pageSize = page.getPageSize();
         this.size = list.size();
@@ -96,10 +91,6 @@ public class PageResult<T> {
         return list;
     }
 
-    public Page getPage() {
-        return page;
-    }
-
     /**
      * 映射
      *
@@ -108,6 +99,7 @@ public class PageResult<T> {
      * @return /
      */
     public <U> PageResult<U> map(Function<? super T, ? extends U> converter) {
-        return new PageResult<>(list.stream().map(converter).collect(Collectors.toList()), page, total);
+        return new PageResult<>(list.stream().map(converter).collect(Collectors.toList()), new Page(pageNum,
+                pageSize), total);
     }
 }
