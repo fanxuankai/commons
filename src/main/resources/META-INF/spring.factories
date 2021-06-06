@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fanxuankai.commons.extra.spring.util.RedisAutoIdGenerator
+  com.fanxuankai.commons.extra.spring.util.RedisAutoIdGeneratorAutoConfiguration

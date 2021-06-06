@@ -1,10 +1,10 @@
 package com.fanxuankai.commons.extra.spring.util;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,8 +19,12 @@ public class RedisAutoIdGenerator implements InitializingBean {
     public static final String DEFAULT_DATE_PATTERN = "yyyyMMdd";
     public static final int DEFAULT_LENGTH = 3;
     private static RedisTemplate<String, Object> rt;
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired(required = false)
+    public RedisAutoIdGenerator(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     /**
      * title+日期+增量数字, 基于 hash
