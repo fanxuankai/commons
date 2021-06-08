@@ -1,12 +1,12 @@
 package com.fanxuankai.commons.extra.spring.util;
 
+import com.fanxuankai.commons.util.DateUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  * 自动 ID 生成器, 基于 Redis incr
@@ -33,7 +33,7 @@ public class RedisAutoIdGenerator implements InitializingBean {
      * @return FXK20210109000
      */
     public static String incrementWithDate(String key, String title, String datePattern, int length, long delta) {
-        String hashKey = title + LocalDateTime.now().format(DateTimeFormatter.ofPattern(datePattern));
+        String hashKey = title + DateUtils.toText(new Date(), datePattern);
         return increment(key, hashKey, length, delta);
     }
 
