@@ -7,7 +7,6 @@ import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class LogPointcutAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
-
     private final Advice advice;
     private final Pointcut pointcut;
 
@@ -25,22 +23,19 @@ public class LogPointcutAdvisor extends AbstractPointcutAdvisor implements BeanF
     }
 
     @Override
-    @NonNull
     public Pointcut getPointcut() {
         return this.pointcut;
     }
 
     @Override
-    @NonNull
     public Advice getAdvice() {
         return this.advice;
     }
 
     @Override
-    public void setBeanFactory(@NonNull BeanFactory beanFactory) throws BeansException {
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         if (this.advice instanceof BeanFactoryAware) {
             ((BeanFactoryAware) this.advice).setBeanFactory(beanFactory);
         }
     }
-
 }

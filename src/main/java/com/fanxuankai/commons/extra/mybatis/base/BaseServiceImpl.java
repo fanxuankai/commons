@@ -21,9 +21,9 @@ import java.util.List;
 public class BaseServiceImpl<T extends BaseModel, D, V, C extends Converter<T, D, V>, DAO extends BaseDao<T>>
         implements BaseService<D, V> {
     @Autowired
-    private C converter;
+    protected C converter;
     @Autowired
-    private DAO baseDao;
+    protected DAO baseDao;
 
     @Override
     public PageResult<V> page(Object criteria, Page page) {

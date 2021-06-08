@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class BaseController<D, V, S extends BaseService<D, V>> {
     @Autowired
-    private S baseService;
+    protected S baseService;
 
     /**
      * 导出数据
