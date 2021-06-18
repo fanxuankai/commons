@@ -12,4 +12,8 @@ public class IdUtils {
     public static long nextId() {
         return SNOW_FLAKE.nextId();
     }
+
+    public static String nextIdStr() {
+        return SNOW_FLAKE.nextIdStr();
+    }
 }

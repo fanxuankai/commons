@@ -68,4 +68,15 @@ public class MybatisPlusPageUtils {
         return new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page.getPageIndex(),
                 page.getPageSize());
     }
+
+    /**
+     * Page 转空的 PageResult
+     *
+     * @param page /
+     * @param <T>  /
+     * @return /
+     */
+    public static <T> PageResult<T> convertEmpty(Page page) {
+        return convert(convert(page));
+    }
 }

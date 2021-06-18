@@ -11,18 +11,18 @@ import java.text.MessageFormat;
  *
  * @author fanxuankai
  */
-public class BusinessException extends RuntimeException {
+public class BizException extends RuntimeException {
     private final Status status;
 
-    public BusinessException() {
+    public BizException() {
         this(DefaultStatus.FAILED);
     }
 
-    public BusinessException(Status status) {
+    public BizException(Status status) {
         this.status = status;
     }
 
-    public BusinessException(int code, String message) {
+    public BizException(int code, String message) {
         this(new Status() {
             @Override
             public int getCode() {
@@ -36,17 +36,17 @@ public class BusinessException extends RuntimeException {
         });
     }
 
-    public BusinessException(Status status, Object... params) {
+    public BizException(Status status, Object... params) {
         super(ParamUtils.isNotEmpty(params) ? MessageFormat.format(status.getMessage(), params) : status.getMessage());
         this.status = status;
     }
 
-    public BusinessException(Status status, Throwable cause) {
+    public BizException(Status status, Throwable cause) {
         super(status.getMessage(), cause);
         this.status = status;
     }
 
-    public BusinessException(Status status, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public BizException(Status status, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(status.getMessage(), cause, enableSuppression, writableStackTrace);
         this.status = status;
     }
