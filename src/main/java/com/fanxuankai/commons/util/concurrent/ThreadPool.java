@@ -25,10 +25,6 @@ public enum ThreadPool {
         init();
     }
 
-    public static void main(String[] args) {
-        ThreadPool.INSTANCE.execute(() -> System.out.println(1));
-    }
-
     private void init() {
         int corePoolSize = (int) SystemUtil.getInt(PROPERTY_CPS, Runtime.getRuntime().availableProcessors() * 2);
         executor = new ThreadPoolExecutor(corePoolSize, corePoolSize * 2, SystemUtil.getLong(PROPERTY_KAT,

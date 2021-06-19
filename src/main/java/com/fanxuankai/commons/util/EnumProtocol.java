@@ -11,7 +11,7 @@ public interface EnumProtocol {
      *
      * @return /
      */
-    int getCode();
+    Integer getCode();
 
     /**
      * 值
