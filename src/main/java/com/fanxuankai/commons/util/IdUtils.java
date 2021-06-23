@@ -30,6 +30,9 @@ public class IdUtils {
 
     /**
      * 获取 maxWorkerId
+     *
+     * @param dataCenterId /
+     * @return /
      */
     protected static long getWorkerId(long dataCenterId) {
         StringBuilder pid = new StringBuilder();

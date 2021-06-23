@@ -46,7 +46,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @GetMapping("page")
     public Result<PageResult<V>> page(Object criteria, Page page) {
-        return ResultUtils.newResult(baseService.page(criteria, page));
+        return ResultUtils.ok(baseService.page(criteria, page));
     }
 
     /**
@@ -57,7 +57,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @GetMapping("list")
     public Result<List<V>> list(Object criteria) {
-        return ResultUtils.newResult(baseService.list(criteria));
+        return ResultUtils.ok(baseService.list(criteria));
     }
 
     /**
@@ -68,7 +68,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @GetMapping("get/{id}")
     public Result<V> get(@PathVariable Long id) {
-        return ResultUtils.newResult(baseService.get(id));
+        return ResultUtils.ok(baseService.get(id));
     }
 
     /**
@@ -80,7 +80,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
     @PostMapping("create")
     public Result<Void> create(@Validated @RequestBody D dto) {
         baseService.create(dto);
-        return ResultUtils.newResult();
+        return ResultUtils.ok();
     }
 
     /**
@@ -93,7 +93,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
     @PutMapping("update/{id}")
     public Result<Void> update(@PathVariable Long id, @Validated @RequestBody D dto) {
         baseService.update(id, dto);
-        return ResultUtils.newResult();
+        return ResultUtils.ok();
     }
 
     /**
@@ -105,6 +105,6 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
     @DeleteMapping("delete")
     public Result<Void> delete(@RequestBody Long[] ids) {
         baseService.deleteAll(ids);
-        return ResultUtils.newResult();
+        return ResultUtils.ok();
     }
 }

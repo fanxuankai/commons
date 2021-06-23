@@ -28,6 +28,7 @@ public class ParamUtils {
      * 判断参数是否为空
      *
      * @param param        参数
+     * @param <T>          参数类型
      * @param runIfChecked 校验通过时执行
      */
     public static <T> void isEmpty(T param, Runnable runIfChecked) {
@@ -81,6 +82,7 @@ public class ParamUtils {
      *
      * @param param            参数
      * @param consumeIfChecked 校验通过时消费
+     * @param <T>              参数类型
      */
     public static <T> void isNotEmpty(T param, Consumer<T> consumeIfChecked) {
         if (ObjectUtil.isNotEmpty(param)) {
@@ -113,6 +115,7 @@ public class ParamUtils {
      * 去除集合中的空元素
      *
      * @param list 集合
+     * @param <T>  参数类型
      * @return /
      */
     public static <T> List<T> trim(List<T> list) {

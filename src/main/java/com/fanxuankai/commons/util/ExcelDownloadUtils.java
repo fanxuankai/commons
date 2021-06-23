@@ -35,6 +35,10 @@ public class ExcelDownloadUtils {
 
     /**
      * 导出excel
+     *
+     * @param list     /
+     * @param response /
+     * @throws IOException /
      */
     public static void downloadExcel(List<Map<String, Object>> list, HttpServletResponse response) throws IOException {
         String tempPath = SYS_TEM_DIR + IdUtil.fastSimpleUUID() + ".xlsx";

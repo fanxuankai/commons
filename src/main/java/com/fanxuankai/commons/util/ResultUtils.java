@@ -3,6 +3,7 @@ package com.fanxuankai.commons.util;
 import com.fanxuankai.commons.domain.Result;
 import com.fanxuankai.commons.domain.Status;
 
+import static com.fanxuankai.commons.domain.DefaultStatus.FAILED;
 import static com.fanxuankai.commons.domain.DefaultStatus.SUCCESS;
 
 /**
@@ -11,31 +12,81 @@ import static com.fanxuankai.commons.domain.DefaultStatus.SUCCESS;
  * @author fanxuankai
  */
 public class ResultUtils {
-    private static final Result<?> SUCCESS_RESULT = newResult();
-    private static final Result<?> FAILED_RESULT = newResult();
+    private static final Result<?> SUCCESS_RESULT = newResult(SUCCESS);
+    private static final Result<?> FAILED_RESULT = newResult(FAILED);
 
+    /**
+     * 操作成功
+     *
+     * @param <T> 响应体类型
+     * @return /
+     */
     @SuppressWarnings("unchecked")
     public static <T> Result<T> ok() {
         return (Result<T>) SUCCESS_RESULT;
     }
 
+    /**
+     * 操作成功
+     *
+     * @param data 响应体
+     * @param <T>  响应体类型
+     * @return /
+     */
+    public static <T> Result<T> ok(T data) {
+        return newResult(SUCCESS, data);
+    }
+
+    /**
+     * 操作失败
+     *
+     * @param <T> 响应体类型
+     * @return /
+     */
     @SuppressWarnings("unchecked")
     public static <T> Result<T> fail() {
         return (Result<T>) FAILED_RESULT;
     }
 
-    public static <T> Result<T> newResult() {
-        return newResult(SUCCESS, null);
+    /**
+     * 操作失败
+     *
+     * @param message 错误信息
+     * @return /
+     */
+    public static Result<String> fail(String message) {
+        return newResult(new Status() {
+            @Override
+            public int getCode() {
+                return FAILED.getCode();
+            }
+
+            @Override
+            public String getMessage() {
+                return message;
+            }
+        });
     }
 
-    public static <T> Result<T> newResult(T data) {
-        return newResult(SUCCESS, data);
-    }
-
+    /**
+     * 操作结果
+     *
+     * @param status 响应状态
+     * @param <T>    响应体类型
+     * @return /
+     */
     public static <T> Result<T> newResult(Status status) {
         return newResult(status, null);
     }
 
+    /**
+     * 操作结果
+     *
+     * @param status 响应状态
+     * @param data   响应体
+     * @param <T>    响应体类型
+     * @return /
+     */
     public static <T> Result<T> newResult(Status status, T data) {
         Result<T> result = new Result<>();
         result.setStatus(status.getCode());

@@ -63,6 +63,14 @@ public interface TreeDao<T> extends IService<T> {
     }
 
     /**
+     * 加载树
+     *
+     * @param wrapper /
+     * @return /
+     */
+    List<Node<T>> tree(LambdaQueryWrapper<T> wrapper);
+
+    /**
      * 子孙(descendant)节点：所有节点是A的子孙，K与L是F的子孙。
      *
      * @param id 节点 id

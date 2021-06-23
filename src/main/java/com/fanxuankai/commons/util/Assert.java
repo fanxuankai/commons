@@ -297,6 +297,7 @@ public class Assert {
      *
      * @param object            检查的对象
      * @param exceptionSupplier 异常
+     * @param <E>               异常类型
      * @throws E 断言成功后抛出异常
      */
     public static <E extends Throwable> void notEmpty(Object object, Supplier<E> exceptionSupplier) throws E {
@@ -310,6 +311,7 @@ public class Assert {
      *
      * @param object            检查的对象
      * @param exceptionSupplier 异常
+     * @param <E>               异常类型
      * @throws E 断言成功后抛出异常
      */
     public static <E extends Throwable> void notNull(Object object, Supplier<E> exceptionSupplier) throws E {
@@ -323,6 +325,7 @@ public class Assert {
      *
      * @param object            检查的对象
      * @param exceptionSupplier 异常
+     * @param <E>               异常类型
      * @throws E 断言成功后抛出异常
      */
     public static <E extends Throwable> void isNull(Object object, Supplier<E> exceptionSupplier) throws E {
@@ -336,6 +339,7 @@ public class Assert {
      *
      * @param expression        表达式
      * @param exceptionSupplier 异常
+     * @param <E>               异常类型
      * @throws E 断言成功后抛出异常
      */
     public static <E extends Throwable> void isTrue(boolean expression, Supplier<E> exceptionSupplier) throws E {
@@ -349,6 +353,7 @@ public class Assert {
      *
      * @param expression        表达式
      * @param exceptionSupplier 异常
+     * @param <E>               异常类型
      * @throws E 断言成功后抛出异常
      */
     public static <E extends Throwable> void isFalse(boolean expression, Supplier<E> exceptionSupplier) throws E {
