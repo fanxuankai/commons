@@ -17,14 +17,33 @@ public class PageRequest {
     /**
      * 页码
      */
-    private final int pageIndex;
+    private int pageIndex;
     /**
      * 每页数量
      */
-    private final int pageSize;
+    private int pageSize;
 
-    protected PageRequest(int pageIndex, int pageSize) {
+    public PageRequest() {
+    }
+
+    public PageRequest(int pageIndex, int pageSize) {
         this.pageIndex = pageIndex;
+        this.pageSize = pageSize;
+    }
+
+    public int getPageIndex() {
+        return pageIndex;
+    }
+
+    public void setPageIndex(int pageIndex) {
+        this.pageIndex = pageIndex;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
 
@@ -33,14 +52,9 @@ public class PageRequest {
     }
 
     public static PageRequest defaultPage() {
-        return of(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE);
-    }
-
-    public int getPageIndex() {
-        return pageIndex;
-    }
-
-    public int getPageSize() {
-        return pageSize;
+        PageRequest pageRequest = new PageRequest();
+        pageRequest.pageIndex = DEFAULT_PAGE_NUMBER;
+        pageRequest.pageSize = DEFAULT_PAGE_SIZE;
+        return pageRequest;
     }
 }

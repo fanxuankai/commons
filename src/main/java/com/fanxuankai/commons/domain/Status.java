@@ -20,7 +20,7 @@ public interface Status {
      *
      * @return /
      */
-    int getCode();
+    Integer getCode();
 
     /**
      * 提示信息

@@ -362,10 +362,10 @@ public class Assert {
         }
     }
 
-    private static Status newStatus(int code, String message) {
+    private static Status newStatus(Integer code, String message) {
         return new Status() {
             @Override
-            public int getCode() {
+            public Integer getCode() {
                 return code;
             }
 

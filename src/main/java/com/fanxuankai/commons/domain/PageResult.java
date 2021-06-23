@@ -99,7 +99,7 @@ public class PageResult<T> {
      * @return /
      */
     public <U> PageResult<U> map(Function<? super T, ? extends U> converter) {
-        return new PageResult<>(list.stream().map(converter).collect(Collectors.toList()), new PageRequest(pageNum,
-                pageSize), total);
+        return new PageResult<>(list.stream().map(converter).collect(Collectors.toList()),
+                new PageRequest(pageNum, pageSize), total);
     }
 }

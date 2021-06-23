@@ -39,9 +39,7 @@ public class MybatisPlusPageUtils {
      * @return /
      */
     public static <T, R> PageResult<R> convert(IPage<T> page, Function<T, R> converter) {
-        return new PageResult<>(page.getRecords(), PageRequest.of((int) page.getCurrent(),
-                (int) page.getSize()),
-                page.getTotal()).map(converter);
+        return convert(page).map(converter);
     }
 
     /**
@@ -59,13 +57,13 @@ public class MybatisPlusPageUtils {
     }
 
     /**
-     * Page 转 Mybatis Plus IPage
+     * Page 转 Mybatis Plus Page
      *
      * @param pageRequest /
      * @param <T>         /
      * @return /
      */
-    public static <T> IPage<T> convert(PageRequest pageRequest) {
+    public static <T> Page<T> convert(PageRequest pageRequest) {
         return new Page<>(pageRequest.getPageIndex(), pageRequest.getPageSize());
     }
 

@@ -12,16 +12,16 @@ public enum DefaultStatus implements Status {
     SUCCESS(200, "操作成功"),
     FAILED(500, "操作失败"),
     ;
-    private final int code;
+    private final Integer code;
     private final String message;
 
-    DefaultStatus(int code, String message) {
+    DefaultStatus(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
 
     @Override
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 

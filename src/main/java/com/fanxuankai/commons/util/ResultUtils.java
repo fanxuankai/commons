@@ -3,6 +3,8 @@ package com.fanxuankai.commons.util;
 import com.fanxuankai.commons.domain.Result;
 import com.fanxuankai.commons.domain.Status;
 
+import java.util.Objects;
+
 import static com.fanxuankai.commons.domain.DefaultStatus.FAILED;
 import static com.fanxuankai.commons.domain.DefaultStatus.SUCCESS;
 
@@ -52,12 +54,13 @@ public class ResultUtils {
      * 操作失败
      *
      * @param message 错误信息
+     * @param <T>     响应体类型
      * @return /
      */
-    public static Result<String> fail(String message) {
+    public static <T> Result<T> fail(String message) {
         return newResult(new Status() {
             @Override
-            public int getCode() {
+            public Integer getCode() {
                 return FAILED.getCode();
             }
 
@@ -103,6 +106,6 @@ public class ResultUtils {
      * @return /
      */
     public static <T> boolean isSuccess(Result<T> result) {
-        return result.getStatus() == SUCCESS_RESULT.getStatus();
+        return Objects.equals(result.getStatus(), SUCCESS_RESULT.getStatus());
     }
 }
