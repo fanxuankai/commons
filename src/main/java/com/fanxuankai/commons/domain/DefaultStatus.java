@@ -7,7 +7,7 @@ package com.fanxuankai.commons.domain;
  */
 public enum DefaultStatus implements Status {
     /**
-     * /
+     * 操作成功
      */
     SUCCESS(200, "操作成功"),
     FAILED(500, "操作失败"),
