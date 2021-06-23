@@ -94,4 +94,15 @@ public class ResultUtils {
         result.setData(data);
         return result;
     }
+
+    /**
+     * 判断是否操作成功
+     *
+     * @param result 操作结果
+     * @param <T>    响应体类型
+     * @return /
+     */
+    public static <T> boolean isSuccess(Result<T> result) {
+        return result.getStatus() == SUCCESS_RESULT.getStatus();
+    }
 }
