@@ -1,7 +1,7 @@
 package com.fanxuankai.commons.extra.mybatis.base;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fanxuankai.commons.domain.Page;
+import com.fanxuankai.commons.domain.PageRequest;
 import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.extra.mybatis.util.MybatisPlusPageUtils;
 import com.fanxuankai.commons.extra.mybatis.util.QueryHelper;
@@ -28,11 +28,11 @@ public interface BaseDao<T> extends IService<T> {
      * 查询数据分页
      *
      * @param criteria 条件
-     * @param page     分页参数
+     * @param pageRequest     分页参数
      * @return PageResult
      */
-    default PageResult<T> page(Object criteria, Page page) {
-        return MybatisPlusPageUtils.convert(page(MybatisPlusPageUtils.convert(page),
+    default PageResult<T> page(Object criteria, PageRequest pageRequest) {
+        return MybatisPlusPageUtils.convert(page(MybatisPlusPageUtils.convert(pageRequest),
                 QueryHelper.getQueryWrapper(entityClass(), criteria)));
     }
 

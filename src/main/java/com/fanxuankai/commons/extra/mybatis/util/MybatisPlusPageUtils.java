@@ -1,7 +1,8 @@
 package com.fanxuankai.commons.extra.mybatis.util;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.fanxuankai.commons.domain.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fanxuankai.commons.domain.PageRequest;
 import com.fanxuankai.commons.domain.PageResult;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class MybatisPlusPageUtils {
      * @return /
      */
     public static <T> PageResult<T> convert(IPage<T> page) {
-        return new PageResult<>(page.getRecords(), Page.of((int) page.getCurrent(), (int) page.getSize()),
+        return new PageResult<>(page.getRecords(), PageRequest.of((int) page.getCurrent(), (int) page.getSize()),
                 page.getTotal());
     }
 
@@ -38,7 +39,7 @@ public class MybatisPlusPageUtils {
      * @return /
      */
     public static <T, R> PageResult<R> convert(IPage<T> page, Function<T, R> converter) {
-        return new PageResult<>(page.getRecords(), Page.of((int) page.getCurrent(),
+        return new PageResult<>(page.getRecords(), PageRequest.of((int) page.getCurrent(),
                 (int) page.getSize()),
                 page.getTotal()).map(converter);
     }
@@ -53,30 +54,29 @@ public class MybatisPlusPageUtils {
      * @return /
      */
     public static <T, R> PageResult<R> convert(IPage<T> page, List<R> content) {
-        return new PageResult<>(content, Page.of((int) page.getCurrent(), (int) page.getSize()),
+        return new PageResult<>(content, PageRequest.of((int) page.getCurrent(), (int) page.getSize()),
                 page.getTotal());
     }
 
     /**
      * Page 转 Mybatis Plus IPage
      *
-     * @param page /
-     * @param <T>  /
+     * @param pageRequest /
+     * @param <T>         /
      * @return /
      */
-    public static <T> IPage<T> convert(Page page) {
-        return new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page.getPageIndex(),
-                page.getPageSize());
+    public static <T> IPage<T> convert(PageRequest pageRequest) {
+        return new Page<>(pageRequest.getPageIndex(), pageRequest.getPageSize());
     }
 
     /**
      * Page 转空的 PageResult
      *
-     * @param page /
-     * @param <T>  /
+     * @param pageRequest /
+     * @param <T>         /
      * @return /
      */
-    public static <T> PageResult<T> convertEmpty(Page page) {
-        return convert(convert(page));
+    public static <T> PageResult<T> convertEmpty(PageRequest pageRequest) {
+        return convert(convert(pageRequest));
     }
 }

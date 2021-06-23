@@ -1,6 +1,6 @@
 package com.fanxuankai.commons.extra.mybatis.base;
 
-import com.fanxuankai.commons.domain.Page;
+import com.fanxuankai.commons.domain.PageRequest;
 import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ public class BaseServiceImpl<T extends BaseModel, D, V, C extends Converter<T, D
     protected DAO baseDao;
 
     @Override
-    public PageResult<V> page(Object criteria, Page page) {
-        return baseDao.page(criteria, page).map(converter::toVo);
+    public PageResult<V> page(Object criteria, PageRequest pageRequest) {
+        return baseDao.page(criteria, pageRequest).map(converter::toVo);
     }
 
     @Override

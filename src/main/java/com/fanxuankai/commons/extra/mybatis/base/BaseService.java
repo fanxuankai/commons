@@ -1,6 +1,6 @@
 package com.fanxuankai.commons.extra.mybatis.base;
 
-import com.fanxuankai.commons.domain.Page;
+import com.fanxuankai.commons.domain.PageRequest;
 import com.fanxuankai.commons.domain.PageResult;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +19,10 @@ public interface BaseService<D, V> {
      * 查询数据分页
      *
      * @param criteria 条件
-     * @param page     分页参数
+     * @param pageRequest     分页参数
      * @return PageResult
      */
-    PageResult<V> page(Object criteria, Page page);
+    PageResult<V> page(Object criteria, PageRequest pageRequest);
 
     /**
      * 查询所有数据不分页

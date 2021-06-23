@@ -36,13 +36,13 @@ public class PageResult<T> {
      */
     private final List<T> list;
 
-    public PageResult(List<T> list, Page page, long total) {
+    public PageResult(List<T> list, PageRequest pageRequest, long total) {
         this.list = list;
-        this.pageNum = page.getPageIndex();
-        this.pageSize = page.getPageSize();
+        this.pageNum = pageRequest.getPageIndex();
+        this.pageSize = pageRequest.getPageSize();
         this.size = list.size();
         this.total = total;
-        int pageSize = page.getPageSize();
+        int pageSize = pageRequest.getPageSize();
         this.pages = pageSize == 0 ? 1 : (int) Math.ceil((double) total / (double) pageSize);
     }
 
@@ -53,18 +53,18 @@ public class PageResult<T> {
      * @return /
      */
     public static <T> PageResult<T> empty() {
-        return empty(new Page());
+        return empty(PageRequest.defaultPage());
     }
 
     /**
      * 空的
      *
-     * @param page /
-     * @param <T>  数据类型泛型
+     * @param pageRequest /
+     * @param <T>         数据类型泛型
      * @return /
      */
-    public static <T> PageResult<T> empty(Page page) {
-        return new PageResult<>(Collections.emptyList(), page, 0);
+    public static <T> PageResult<T> empty(PageRequest pageRequest) {
+        return new PageResult<>(Collections.emptyList(), pageRequest, 0);
     }
 
     public Integer getPageNum() {
@@ -99,7 +99,7 @@ public class PageResult<T> {
      * @return /
      */
     public <U> PageResult<U> map(Function<? super T, ? extends U> converter) {
-        return new PageResult<>(list.stream().map(converter).collect(Collectors.toList()), new Page(pageNum,
+        return new PageResult<>(list.stream().map(converter).collect(Collectors.toList()), new PageRequest(pageNum,
                 pageSize), total);
     }
 }

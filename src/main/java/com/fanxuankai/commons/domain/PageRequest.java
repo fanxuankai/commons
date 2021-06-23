@@ -5,7 +5,7 @@ package com.fanxuankai.commons.domain;
  *
  * @author fanxuankai
  */
-public class Page {
+public class PageRequest {
     /**
      * 默认页码
      */
@@ -23,17 +23,17 @@ public class Page {
      */
     private final int pageSize;
 
-    public Page(int pageIndex, int pageSize) {
+    protected PageRequest(int pageIndex, int pageSize) {
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
     }
 
-    public Page() {
-        this(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE);
+    public static PageRequest of(int page, int size) {
+        return new PageRequest(page, size);
     }
 
-    public static Page of(int page, int size) {
-        return new Page(page, size);
+    public static PageRequest defaultPage() {
+        return of(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE);
     }
 
     public int getPageIndex() {

@@ -1,6 +1,6 @@
 package com.fanxuankai.commons.extra.spring.base;
 
-import com.fanxuankai.commons.domain.Page;
+import com.fanxuankai.commons.domain.PageRequest;
 import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.domain.Result;
 import com.fanxuankai.commons.extra.mybatis.base.BaseService;
@@ -41,12 +41,12 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      * 查询数据分页
      *
      * @param criteria 条件
-     * @param page     分页参数
+     * @param pageRequest     分页参数
      * @return Result
      */
     @GetMapping("page")
-    public Result<PageResult<V>> page(Object criteria, Page page) {
-        return ResultUtils.ok(baseService.page(criteria, page));
+    public Result<PageResult<V>> page(Object criteria, PageRequest pageRequest) {
+        return ResultUtils.ok(baseService.page(criteria, pageRequest));
     }
 
     /**
