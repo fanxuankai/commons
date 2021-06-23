@@ -26,7 +26,7 @@ public class MybatisPlusPageUtils {
      */
     public static <T> PageResult<T> convert(IPage<T> page) {
         return new PageResult<>(page.getRecords(), PageRequest.of((int) page.getCurrent(), (int) page.getSize()),
-                page.getTotal());
+                (int) page.getTotal());
     }
 
     /**
@@ -53,7 +53,7 @@ public class MybatisPlusPageUtils {
      */
     public static <T, R> PageResult<R> convert(IPage<T> page, List<R> content) {
         return new PageResult<>(content, PageRequest.of((int) page.getCurrent(), (int) page.getSize()),
-                page.getTotal());
+                (int) page.getTotal());
     }
 
     /**

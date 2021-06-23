@@ -14,19 +14,19 @@ public class PageResult<T> {
     /**
      * 当前页
      */
-    private final Integer pageNum;
+    private final int pageNum;
     /**
      * 每页的数量
      */
-    private final Integer pageSize;
+    private final int pageSize;
     /**
      * 当前页的数量
      */
-    private final Integer size;
+    private final int size;
     /**
      * 总数
      */
-    private final long total;
+    private final int total;
     /**
      * 总页数
      */
@@ -36,7 +36,7 @@ public class PageResult<T> {
      */
     private final List<T> list;
 
-    public PageResult(List<T> list, PageRequest pageRequest, long total) {
+    public PageResult(List<T> list, PageRequest pageRequest, int total) {
         this.list = list;
         this.pageNum = pageRequest.getPageIndex();
         this.pageSize = pageRequest.getPageSize();
@@ -67,19 +67,19 @@ public class PageResult<T> {
         return new PageResult<>(Collections.emptyList(), pageRequest, 0);
     }
 
-    public Integer getPageNum() {
+    public int getPageNum() {
         return pageNum;
     }
 
-    public Integer getPageSize() {
+    public int getPageSize() {
         return pageSize;
     }
 
-    public Integer getSize() {
+    public int getSize() {
         return size;
     }
 
-    public long getTotal() {
+    public int getTotal() {
         return total;
     }
 

@@ -26,7 +26,7 @@ public class SpringPageUtils {
      */
     public static <T> PageResult<T> convert(Page<T> page) {
         return new PageResult<>(page.getContent(), PageRequest.of(page.getNumber() + 1,
-                page.getSize()), page.getTotalElements());
+                page.getSize()), (int) page.getTotalElements());
     }
 
     /**
@@ -40,7 +40,7 @@ public class SpringPageUtils {
      */
     public static <T, R> PageResult<R> convert(Page<T> page, Function<T, R> converter) {
         return new PageResult<>(page.getContent(),
-                PageRequest.of(page.getNumber() + 1, page.getSize()), page.getTotalElements())
+                PageRequest.of(page.getNumber() + 1, page.getSize()), (int) page.getTotalElements())
                 .map(converter);
     }
 
@@ -55,7 +55,7 @@ public class SpringPageUtils {
      */
     public static <T, R> PageResult<R> convert(Page<T> page, List<R> content) {
         return new PageResult<>(content,
-                PageRequest.of(page.getNumber() + 1, page.getSize()), page.getTotalElements());
+                PageRequest.of(page.getNumber() + 1, page.getSize()), (int) page.getTotalElements());
     }
 
     /**
