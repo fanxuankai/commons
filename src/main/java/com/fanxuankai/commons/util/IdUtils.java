@@ -1,9 +1,9 @@
 package com.fanxuankai.commons.util;
 
 import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.IdUtil;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import cn.hutool.core.util.StrUtil;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
@@ -38,11 +38,11 @@ public class IdUtils {
         StringBuilder pid = new StringBuilder();
         pid.append(dataCenterId);
         String name = ManagementFactory.getRuntimeMXBean().getName();
-        if (StringUtils.isNotBlank(name)) {
+        if (StrUtil.isNotBlank(name)) {
             /*
              * GET jvmPid
              */
-            pid.append(name.split(StringPool.AT)[0]);
+            pid.append(name.split(StrPool.AT)[0]);
         }
         /*
          * MAC + PID 的 hashcode 获取16个低位
