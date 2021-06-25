@@ -17,11 +17,11 @@ public class PageRequest {
     /**
      * 页码
      */
-    private int pageIndex;
+    private int pageIndex = DEFAULT_PAGE_NUMBER;
     /**
      * 每页数量
      */
-    private int pageSize;
+    private int pageSize = DEFAULT_PAGE_SIZE;
 
     public PageRequest() {
     }
@@ -52,9 +52,6 @@ public class PageRequest {
     }
 
     public static PageRequest defaultPage() {
-        PageRequest pageRequest = new PageRequest();
-        pageRequest.pageIndex = DEFAULT_PAGE_NUMBER;
-        pageRequest.pageSize = DEFAULT_PAGE_SIZE;
-        return pageRequest;
+        return new PageRequest();
     }
 }
