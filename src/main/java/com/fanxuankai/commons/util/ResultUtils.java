@@ -58,17 +58,19 @@ public class ResultUtils {
      * @return /
      */
     public static <T> Result<T> fail(String message) {
-        return newResult(new Status() {
-            @Override
-            public Integer getCode() {
-                return FAILED.getCode();
-            }
+        return newResult(Status.newInstance(FAILED.getCode(), message));
+    }
 
-            @Override
-            public String getMessage() {
-                return message;
-            }
-        });
+    /**
+     * 操作失败
+     *
+     * @param code    代码
+     * @param message 错误信息
+     * @param <T>     响应体类型
+     * @return /
+     */
+    public static <T> Result<T> fail(Integer code, String message) {
+        return newResult(Status.newInstance(code, message));
     }
 
     /**

@@ -23,31 +23,11 @@ public class BizException extends RuntimeException {
     }
 
     public BizException(Integer code, String message) {
-        this(new Status() {
-            @Override
-            public Integer getCode() {
-                return code;
-            }
-
-            @Override
-            public String getMessage() {
-                return message;
-            }
-        });
+        this(Status.newInstance(code, message));
     }
 
     public BizException(String message) {
-        this(new Status() {
-            @Override
-            public Integer getCode() {
-                return DefaultStatus.FAILED.getCode();
-            }
-
-            @Override
-            public String getMessage() {
-                return message;
-            }
-        });
+        this(Status.newInstance(DefaultStatus.FAILED.getCode(), message));
     }
 
     public BizException(Status status, Object... params) {

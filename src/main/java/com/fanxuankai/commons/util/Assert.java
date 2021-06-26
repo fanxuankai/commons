@@ -82,7 +82,7 @@ public class Assert {
      * @throws BizException 断言成功后抛出异常
      */
     public static void notEmpty(Object object, int code, Supplier<String> messageSupplier) {
-        notEmpty(object, newStatus(code, messageSupplier.get()));
+        notEmpty(object, Status.newInstance(code, messageSupplier.get()));
     }
 
     /**
@@ -132,7 +132,7 @@ public class Assert {
      * @throws BizException 断言成功后抛出异常
      */
     public static void notEmpty(Object object, int code, Supplier<String> messageSupplier, Object... params) {
-        notEmpty(object, newStatus(code, messageSupplier.get()), params);
+        notEmpty(object, Status.newInstance(code, messageSupplier.get()), params);
     }
 
     /**
@@ -205,7 +205,7 @@ public class Assert {
      * @throws BizException 断言成功后抛出异常
      */
     public static void notNull(Object object, int code, Supplier<String> messageSupplier) {
-        notNull(object, newStatus(code, messageSupplier.get()));
+        notNull(object, Status.newInstance(code, messageSupplier.get()));
     }
 
     /**
@@ -255,7 +255,7 @@ public class Assert {
      * @throws BizException 断言成功后抛出异常
      */
     public static void notNull(Object object, int code, Supplier<String> messageSupplier, Object... params) {
-        notNull(object, newStatus(code, messageSupplier.get()), params);
+        notNull(object, Status.newInstance(code, messageSupplier.get()), params);
     }
 
     /**
@@ -326,7 +326,7 @@ public class Assert {
      * @throws BizException 断言成功后抛出异常
      */
     public static void isNull(Object object, int code, Supplier<String> messageSupplier) {
-        isNull(object, newStatus(code, messageSupplier.get()));
+        isNull(object, Status.newInstance(code, messageSupplier.get()));
     }
 
     /**
@@ -376,7 +376,7 @@ public class Assert {
      * @throws BizException 断言成功后抛出异常
      */
     public static void isNull(Object object, int code, Supplier<String> messageSupplier, Object... params) {
-        isNull(object, newStatus(code, messageSupplier.get()), params);
+        isNull(object, Status.newInstance(code, messageSupplier.get()), params);
     }
 
     /**
@@ -473,7 +473,7 @@ public class Assert {
      * @throws BizException 断言成功后抛出异常
      */
     public static void isTrue(boolean expression, int code, Supplier<String> messageSupplier) {
-        isTrue(expression, newStatus(code, messageSupplier.get()));
+        isTrue(expression, Status.newInstance(code, messageSupplier.get()));
     }
 
     /**
@@ -499,7 +499,7 @@ public class Assert {
      * @throws BizException 断言成功后抛出异常
      */
     public static void isTrue(boolean expression, int code, Supplier<String> messageSupplier, Object... params) {
-        isTrue(expression, newStatus(code, messageSupplier.get()), params);
+        isTrue(expression, Status.newInstance(code, messageSupplier.get()), params);
     }
 
     /**
@@ -572,7 +572,7 @@ public class Assert {
      * @throws BizException 断言成功后抛出异常
      */
     public static void isFalse(boolean expression, int code, Supplier<String> messageSupplier) {
-        isFalse(expression, newStatus(code, messageSupplier.get()));
+        isFalse(expression, Status.newInstance(code, messageSupplier.get()));
     }
 
     /**
@@ -622,7 +622,7 @@ public class Assert {
      * @throws BizException 断言成功后抛出异常
      */
     public static void isFalse(boolean expression, int code, Supplier<String> messageSupplier, Object... params) {
-        isFalse(expression, newStatus(code, messageSupplier.get()), params);
+        isFalse(expression, Status.newInstance(code, messageSupplier.get()), params);
     }
 
     /**
@@ -693,19 +693,5 @@ public class Assert {
         if (expression) {
             throw exceptionSupplier.get();
         }
-    }
-
-    private static Status newStatus(Integer code, String message) {
-        return new Status() {
-            @Override
-            public Integer getCode() {
-                return code;
-            }
-
-            @Override
-            public String getMessage() {
-                return message;
-            }
-        };
     }
 }

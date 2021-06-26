@@ -26,4 +26,25 @@ public interface Status {
      * @return /
      */
     String getMessage();
+
+    /**
+     * 创建实例
+     *
+     * @param code    代码
+     * @param message 提示信息
+     * @return /
+     */
+    static Status newInstance(Integer code, String message) {
+        return new Status() {
+            @Override
+            public Integer getCode() {
+                return code;
+            }
+
+            @Override
+            public String getMessage() {
+                return message;
+            }
+        };
+    }
 }
