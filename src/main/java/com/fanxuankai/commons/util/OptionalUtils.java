@@ -16,7 +16,7 @@ public class OptionalUtils {
      * @param <T>   泛型
      * @return an {@code Optional} 如果参数为空返回 Optional.empty()
      */
-    public static <T> Optional<T> of(T value) {
+    public static <T> Optional<T> ofNullable(T value) {
         if (ParamUtils.isEmpty(value)) {
             return Optional.empty();
         }

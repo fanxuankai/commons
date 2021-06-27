@@ -20,11 +20,11 @@ public class AnnotationUtils {
      * @param tableName   表名,为空时不修改
      */
     public static void modifyTableInfo(Class<?> entityClass, String schemaName, String tableName) {
-        OptionalUtils.of(schemaName)
-                .ifPresent(value -> OptionalUtils.of(entityClass.getAnnotation(TableName.class))
+        OptionalUtils.ofNullable(schemaName)
+                .ifPresent(value -> OptionalUtils.ofNullable(entityClass.getAnnotation(TableName.class))
                         .ifPresent(annotation -> AnnotationUtil.setValue(annotation, "schema", value)));
-        OptionalUtils.of(tableName)
-                .ifPresent(value -> OptionalUtils.of(entityClass.getAnnotation(TableName.class))
+        OptionalUtils.ofNullable(tableName)
+                .ifPresent(value -> OptionalUtils.ofNullable(entityClass.getAnnotation(TableName.class))
                         .ifPresent(annotation -> AnnotationUtil.setValue(annotation, "value", value)));
     }
 
@@ -35,10 +35,10 @@ public class AnnotationUtils {
      * @param fieldMap    key: 实体类属性名 value: 数据库字段名,为空时不修改
      */
     public static void modifyFieldInfo(Class<?> entityClass, Map<String, String> fieldMap) {
-        OptionalUtils.of(fieldMap)
-                .ifPresent(map -> map.forEach((field, value) -> OptionalUtils.of(value)
+        OptionalUtils.ofNullable(fieldMap)
+                .ifPresent(map -> map.forEach((field, value) -> OptionalUtils.ofNullable(value)
                         // 如果 value 不为空
-                        .ifPresent(s -> OptionalUtils.of(ReflectUtil.getField(entityClass, field))
+                        .ifPresent(s -> OptionalUtils.ofNullable(ReflectUtil.getField(entityClass, field))
                                 // 获取 field 的注解
                                 .map(f -> f.getAnnotation(TableField.class))
                                 // 如果注解不为空
