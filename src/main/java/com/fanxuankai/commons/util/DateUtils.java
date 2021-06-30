@@ -347,6 +347,17 @@ public class DateUtils {
     }
 
     /**
+     * 获得指定日期的小时数部分<br>
+     *
+     * @param date          日期
+     * @param is24HourClock 是否24小时制
+     * @return 小时数
+     */
+    public static int getHourOfDay(Date date, boolean is24HourClock) {
+        return DateUtil.hour(date, is24HourClock);
+    }
+
+    /**
      * 获得指定日期是星期几，1表示周日，2表示周一
      *
      * @param date 时间对象
@@ -773,6 +784,7 @@ public class DateUtils {
         System.out.println(toTimestamp("2021-04-16 08:00:00", DatePattern.NORM_DATETIME_PATTERN));
         System.out.println(toCalendar("2021-04-16 08:00:00", DatePattern.NORM_DATETIME_PATTERN));
         System.out.println(getAllDaysOfMonth(date));
+        System.out.println(getHourOfDay(date, true));
         System.out.println(getDayOfWeek(date));
         System.out.println(getDayOfMonth(date));
         System.out.println(getWeekOfMonth(date));
