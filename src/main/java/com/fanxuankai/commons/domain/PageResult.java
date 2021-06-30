@@ -14,27 +14,30 @@ public class PageResult<T> {
     /**
      * 当前页
      */
-    private final int pageNum;
+    private int pageNum;
     /**
      * 每页的数量
      */
-    private final int pageSize;
+    private int pageSize;
     /**
      * 当前页的数量
      */
-    private final int size;
+    private int size;
     /**
      * 总数
      */
-    private final int total;
+    private int total;
     /**
      * 总页数
      */
-    private final int pages;
+    private int pages;
     /**
      * 分页数据
      */
-    private final List<T> list;
+    private List<T> list;
+
+    public PageResult() {
+    }
 
     public PageResult(List<T> list, PageRequest pageRequest, int total) {
         this.list = list;
@@ -44,6 +47,54 @@ public class PageResult<T> {
         this.total = total;
         int pageSize = pageRequest.getPageSize();
         this.pages = pageSize == 0 ? 1 : (int) Math.ceil((double) total / (double) pageSize);
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public List<T> getList() {
+        return list;
+    }
+
+    public void setList(List<T> list) {
+        this.list = list;
     }
 
     /**
@@ -65,30 +116,6 @@ public class PageResult<T> {
      */
     public static <T> PageResult<T> empty(PageRequest pageRequest) {
         return new PageResult<>(Collections.emptyList(), pageRequest, 0);
-    }
-
-    public int getPageNum() {
-        return pageNum;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public int getPages() {
-        return pages;
-    }
-
-    public List<T> getList() {
-        return list;
     }
 
     /**
