@@ -19,6 +19,7 @@ public class BizException extends RuntimeException {
     }
 
     public BizException(Status status) {
+        super(status.getMessage());
         this.status = status;
     }
 
@@ -31,8 +32,8 @@ public class BizException extends RuntimeException {
     }
 
     public BizException(Status status, Object... params) {
-        super(ParamUtils.isNotEmpty(params) ? MessageFormat.format(status.getMessage(), params) : status.getMessage());
-        this.status = status;
+        this(status.getCode(), ParamUtils.isNotEmpty(params) ?
+                MessageFormat.format(status.getMessage(), params) : status.getMessage());
     }
 
     public BizException(Status status, Throwable cause) {
