@@ -414,7 +414,7 @@ public class DateUtils {
      * @param date 时间对象
      * @return years
      */
-    public static int getYears(Date date) {
+    public static int getYear(Date date) {
         return DateUtil.year(date);
     }
 
