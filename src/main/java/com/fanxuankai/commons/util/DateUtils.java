@@ -23,7 +23,8 @@ import java.util.Date;
  * toLocalDateTime: 转 LocalDateTime 类<p>
  * get: 获取日期、年分、月分、天数等等<p>
  * between: 获取间隔月份、天数、小时、分、秒等等<p>
- * add: 增加年份、月份、天数、小时、分、秒等等
+ * plus: 加上年份、月份、天数、小时、分、秒等等
+ * minus: 减去年份、月份、天数、小时、分、秒等等
  *
  * @author fanxuankai
  */
@@ -518,80 +519,157 @@ public class DateUtils {
     }
 
     /**
-     * 在日期上增加秒
+     * 在日期上加上秒
      *
      * @param date 日期
      * @param n    数量
      * @return date
      */
-    public static Date addSecond(Date date, int n) {
+    public static Date plusSeconds(Date date, int n) {
         return DateUtil.offset(date, DateField.SECOND, n);
     }
 
     /**
-     * 在日期上增加分
+     * 在日期上加上分
      *
      * @param date 日期
      * @param n    数量
      * @return date
      */
-    public static Date addMinute(Date date, int n) {
+    public static Date plusMinutes(Date date, int n) {
         return DateUtil.offset(date, DateField.MINUTE, n);
     }
 
     /**
-     * 在日期上增加小时
+     * 在日期上加上小时
      *
      * @param date 日期
      * @param n    数量
      * @return date
      */
-    public static Date addHour(Date date, int n) {
+    public static Date plusHours(Date date, int n) {
         return DateUtil.offset(date, DateField.HOUR, n);
     }
 
     /**
-     * 在日期上增加天数
+     * 在日期上加上天数
      *
      * @param date 日期
      * @param n    数量
      * @return date
      */
-    public static Date addDay(Date date, int n) {
+    public static Date plusDays(Date date, int n) {
         return DateUtil.offset(date, DateField.DAY_OF_MONTH, n);
     }
 
     /**
-     * 在日期上增加天数
+     * 在日期上加上天数
      *
      * @param date 日期
      * @param n    数量
      * @return date
      */
-    public static Date addWeek(Date date, int n) {
+    public static Date plusWeeks(Date date, int n) {
         return DateUtil.offset(date, DateField.WEEK_OF_MONTH, n);
     }
 
     /**
-     * 在日期上增加数个整月
+     * 在日期上加上数个整月
      *
      * @param date 日期
      * @param n    数量
      * @return date
      */
-    public static Date addMonth(Date date, int n) {
+    public static Date plusMonths(Date date, int n) {
         return DateUtil.offset(date, DateField.MONTH, n);
     }
 
     /**
-     * 在日期上增加数个整年
+     * 在日期上加上数个整年
      *
      * @param date 日期
      * @param n    数量
      * @return date
      */
-    public static Date addYear(Date date, int n) {
+    public static Date plusYears(Date date, int n) {
         return DateUtil.offset(date, DateField.YEAR, n);
+    }
+
+    /**
+     * 在日期上减去秒
+     *
+     * @param date 日期
+     * @param n    数量
+     * @return date
+     */
+    public static Date minusSeconds(Date date, int n) {
+        return DateUtil.offset(date, DateField.SECOND, -n);
+    }
+
+    /**
+     * 在日期上减去分
+     *
+     * @param date 日期
+     * @param n    数量
+     * @return date
+     */
+    public static Date minusMinutes(Date date, int n) {
+        return DateUtil.offset(date, DateField.MINUTE, -n);
+    }
+
+    /**
+     * 在日期上减去小时
+     *
+     * @param date 日期
+     * @param n    数量
+     * @return date
+     */
+    public static Date minusHours(Date date, int n) {
+        return DateUtil.offset(date, DateField.HOUR, -n);
+    }
+
+    /**
+     * 在日期上减去天数
+     *
+     * @param date 日期
+     * @param n    数量
+     * @return date
+     */
+    public static Date minusDays(Date date, int n) {
+        return DateUtil.offset(date, DateField.DAY_OF_MONTH, -n);
+    }
+
+    /**
+     * 在日期上减去天数
+     *
+     * @param date 日期
+     * @param n    数量
+     * @return date
+     */
+    public static Date minusWeeks(Date date, int n) {
+        return DateUtil.offset(date, DateField.WEEK_OF_MONTH, -n);
+    }
+
+    /**
+     * 在日期上减去数个整月
+     *
+     * @param date 日期
+     * @param n    数量
+     * @return date
+     */
+    public static Date minusMonths(Date date, int n) {
+        return DateUtil.offset(date, DateField.MONTH, -n);
+    }
+
+    /**
+     * 在日期上减去数个整年
+     *
+     * @param date 日期
+     * @param n    数量
+     * @return date
+     */
+    public static Date minusYears(Date date, int n) {
+        return DateUtil.offset(date, DateField.YEAR, -n);
     }
 
     /**
@@ -746,81 +824,5 @@ public class DateUtils {
      */
     public static long betweenDaysIncludeToday(Date startDate, Date endDate) {
         return DateUtil.between(startDate, endDate, DateUnit.DAY, false) + 1;
-    }
-
-    public static void main(String[] args) {
-        Date date = new Date();
-        LocalDate localDate = LocalDate.now();
-        LocalTime localTime = LocalTime.now();
-        LocalDateTime localDateTime = LocalDateTime.now();
-        System.out.println(toText(date));
-        System.out.println(toTextForNormalDate(date));
-        System.out.println(toTextForNormalTime(date));
-        System.out.println(toTextForChineseDate(date));
-        System.out.println(toTextForChineseDateTime(date));
-        System.out.println(toTextForNormalDateTimeMin(date));
-        System.out.println(toTextForNormalDateTimeMs(date));
-        System.out.println(toText(localDate));
-        System.out.println(toText(localDateTime));
-        System.out.println(toText(localTime));
-        System.out.println(toText(localTime, DatePattern.NORM_DATETIME_PATTERN));
-        System.out.println(toText(Calendar.getInstance()));
-        System.out.println(toText(Calendar.getInstance(), DatePattern.CHINESE_DATE_PATTERN));
-        System.out.println(toText(System.currentTimeMillis()));
-        System.out.println(toText(System.currentTimeMillis(), DatePattern.NORM_DATETIME_PATTERN));
-        System.out.println(toText(date, DatePattern.NORM_DATETIME_PATTERN));
-        System.out.println(toDate("2021-04-16 08:00:00"));
-        System.out.println(toDate("2021-04-16 08:00:00", DatePattern.NORM_DATETIME_PATTERN));
-        System.out.println(toDate(localDateTime));
-        System.out.println(toDate(localDate));
-        System.out.println(toDate(Calendar.getInstance(), DatePattern.NORM_DATETIME_PATTERN));
-        System.out.println(toLocalDateTime(date));
-        System.out.println(toLocalDate(date));
-        System.out.println(toLocalDate("2021-04-16"));
-        System.out.println(toLocalDateTime("2021-04-16T08:00:00"));
-        System.out.println(toTimestamp(localDateTime));
-        System.out.println(toLocalDateTime(System.currentTimeMillis()));
-        System.out.println(toTimestamp("2021-04-16 08:00:00"));
-        System.out.println(toTimestamp("2021-04-16 08:00:00", DatePattern.NORM_DATETIME_PATTERN));
-        System.out.println(toCalendar("2021-04-16 08:00:00", DatePattern.NORM_DATETIME_PATTERN));
-        System.out.println(getAllDaysOfMonth(date));
-        System.out.println(getHourOfDay(date, true));
-        System.out.println(getDayOfWeek(date));
-        System.out.println(getDayOfMonth(date));
-        System.out.println(getWeekOfMonth(date));
-        System.out.println(getWeekOfYear(date));
-        System.out.println(getYears(date));
-        System.out.println(getMonth(date));
-        System.out.println(getBeginOfHour(date));
-        System.out.println(getBeginOfDay(date));
-        System.out.println(getBeginOfWeek(date));
-        System.out.println(getBeginOfMonth(date));
-        System.out.println(getEndOfHour(date));
-        System.out.println(getEndOfDay(date));
-        System.out.println(getEndOfWeek(date));
-        System.out.println(getEndOfMonth(date));
-        System.out.println(getWeekValue(date));
-        System.out.println(getWeekChinese(date));
-        System.out.println(addSecond(date, 1));
-        System.out.println(addMinute(date, 1));
-        System.out.println(addHour(date, 1));
-        System.out.println(addDay(date, 1));
-        System.out.println(addWeek(date, 1));
-        System.out.println(addMonth(date, 1));
-        System.out.println(addYear(date, 1));
-        System.out.println(betweenMillis("2021-04-16 08:00:00", "2021-04-26 08:00:00"));
-        System.out.println(betweenSeconds("2021-04-16 08:00:00", "2021-04-26 08:00:00"));
-        System.out.println(betweenMinutes("2021-04-16 08:00:00", "2021-04-26 08:00:00"));
-        System.out.println(betweenHours("2021-04-16 08:00:00", "2021-04-26 08:00:00"));
-        System.out.println(betweenDays("2021-04-16 08:00:00", "2021-04-26 08:00:00"));
-        System.out.println(betweenDaysIncludeToday("2021-04-16 08:00:00", "2021-04-26 08:00:00"));
-        System.out.println(betweenWeeks("2021-04-16 08:00:00", "2021-04-26 08:00:00"));
-        System.out.println(betweenMillis(date, new Date()));
-        System.out.println(betweenSeconds(date, new Date()));
-        System.out.println(betweenMinutes(date, new Date()));
-        System.out.println(betweenHours(date, new Date()));
-        System.out.println(betweenDays(date, new Date()));
-        System.out.println(betweenWeeks(date, new Date()));
-        System.out.println(betweenDaysIncludeToday(date, new Date()));
     }
 }
