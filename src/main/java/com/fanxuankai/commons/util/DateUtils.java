@@ -602,7 +602,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenMillis(String startDate, String endDate) {
-        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.MS);
+        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.MS, false);
     }
 
     /**
@@ -613,7 +613,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenSeconds(String startDate, String endDate) {
-        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.SECOND);
+        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.SECOND, false);
     }
 
     /**
@@ -624,7 +624,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenMinutes(String startDate, String endDate) {
-        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.MINUTE);
+        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.MINUTE, false);
     }
 
     /**
@@ -635,7 +635,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenHours(String startDate, String endDate) {
-        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.HOUR);
+        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.HOUR, false);
     }
 
     /**
@@ -646,7 +646,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenDays(String startDate, String endDate) {
-        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.DAY);
+        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.DAY, false);
     }
 
     /**
@@ -657,7 +657,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenWeeks(String startDate, String endDate) {
-        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.WEEK);
+        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.WEEK, false);
     }
 
     /**
@@ -668,7 +668,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenMillis(Date startDate, Date endDate) {
-        return DateUtil.between(startDate, endDate, DateUnit.MS);
+        return DateUtil.between(startDate, endDate, DateUnit.MS, false);
     }
 
     /**
@@ -679,7 +679,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenSeconds(Date startDate, Date endDate) {
-        return DateUtil.between(startDate, endDate, DateUnit.SECOND);
+        return DateUtil.between(startDate, endDate, DateUnit.SECOND, false);
     }
 
     /**
@@ -690,7 +690,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenMinutes(Date startDate, Date endDate) {
-        return DateUtil.between(startDate, endDate, DateUnit.MINUTE);
+        return DateUtil.between(startDate, endDate, DateUnit.MINUTE, false);
     }
 
     /**
@@ -701,7 +701,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenHours(Date startDate, Date endDate) {
-        return DateUtil.between(startDate, endDate, DateUnit.HOUR);
+        return DateUtil.between(startDate, endDate, DateUnit.HOUR, false);
     }
 
     /**
@@ -712,7 +712,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenDays(Date startDate, Date endDate) {
-        return DateUtil.between(startDate, endDate, DateUnit.DAY);
+        return DateUtil.between(startDate, endDate, DateUnit.DAY, false);
     }
 
     /**
@@ -723,7 +723,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenWeeks(Date startDate, Date endDate) {
-        return DateUtil.between(startDate, endDate, DateUnit.WEEK);
+        return DateUtil.between(startDate, endDate, DateUnit.WEEK, false);
     }
 
     /**
@@ -734,7 +734,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenDaysIncludeToday(String startDate, String endDate) {
-        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.DAY) + 1;
+        return DateUtil.between(toDate(startDate), toDate(endDate), DateUnit.DAY, false) + 1;
     }
 
     /**
@@ -745,7 +745,7 @@ public class DateUtils {
      * @return 相差的天数
      */
     public static long betweenDaysIncludeToday(Date startDate, Date endDate) {
-        return DateUtil.between(startDate, endDate, DateUnit.DAY) + 1;
+        return DateUtil.between(startDate, endDate, DateUnit.DAY, false) + 1;
     }
 
     public static void main(String[] args) {
