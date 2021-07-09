@@ -489,6 +489,16 @@ public class DateUtils {
     }
 
     /**
+     * 获取某年的开始时间
+     *
+     * @param date 日期
+     * @return date
+     */
+    public static Date getBeginOfYear(Date date) {
+        return DateUtil.beginOfYear(date);
+    }
+
+    /**
      * 获取某月的结束时间
      *
      * @param date 日期
@@ -496,6 +506,16 @@ public class DateUtils {
      */
     public static Date getEndOfMonth(Date date) {
         return DateUtil.endOfMonth(date);
+    }
+
+    /**
+     * 获取某年的结束时间
+     *
+     * @param date 日期
+     * @return date
+     */
+    public static Date getEndOfYear(Date date) {
+        return DateUtil.endOfYear(date);
     }
 
     /**
