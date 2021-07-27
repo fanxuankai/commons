@@ -18,20 +18,22 @@ import java.util.List;
  * @param <DAO> DAO
  * @author fanxuankai
  */
-public class BaseServiceImpl<T extends BaseModel, D, V, C extends Converter<T, D, V>, DAO extends BaseDao<T>>
-        implements BaseService<D, V> {
+public class BaseServiceImpl<T extends BaseModel, D, V, Criteria,
+        C extends Converter<T, D, V>,
+        DAO extends BaseDao<T, Criteria>>
+        implements BaseService<D, V, Criteria> {
     @Autowired
     protected C converter;
     @Autowired
     protected DAO baseDao;
 
     @Override
-    public PageResult<V> page(Object criteria, PageRequest pageRequest) {
+    public PageResult<V> page(Criteria criteria, PageRequest pageRequest) {
         return baseDao.page(criteria, pageRequest).map(converter::toVo);
     }
 
     @Override
-    public List<V> list(Object criteria) {
+    public List<V> list(Criteria criteria) {
         return converter.toVo(baseDao.list(criteria));
     }
 

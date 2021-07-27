@@ -21,7 +21,7 @@ import java.util.List;
  * @param <S> Service
  * @author fanxuankai
  */
-public class BaseController<D, V, S extends BaseService<D, V>> {
+public class BaseController<D, V, Criteria, S extends BaseService<D, V, Criteria>> {
     @Autowired
     protected S baseService;
 
@@ -33,19 +33,19 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      * @throws IOException /
      */
     @GetMapping("download")
-    public void download(Object criteria, HttpServletResponse response) throws IOException {
+    public void download(Criteria criteria, HttpServletResponse response) throws IOException {
         baseService.download(baseService.list(criteria), response);
     }
 
     /**
      * 查询数据分页
      *
-     * @param criteria 条件
-     * @param pageRequest     分页参数
+     * @param criteria    条件
+     * @param pageRequest 分页参数
      * @return Result
      */
     @GetMapping("page")
-    public Result<PageResult<V>> page(Object criteria, PageRequest pageRequest) {
+    public Result<PageResult<V>> page(Criteria criteria, PageRequest pageRequest) {
         return ResultUtils.ok(baseService.page(criteria, pageRequest));
     }
 
@@ -56,7 +56,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      * @return Result
      */
     @GetMapping("list")
-    public Result<List<V>> list(Object criteria) {
+    public Result<List<V>> list(Criteria criteria) {
         return ResultUtils.ok(baseService.list(criteria));
     }
 
