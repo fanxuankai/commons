@@ -5,7 +5,6 @@ import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,7 +55,7 @@ public class BaseServiceImpl<T extends BaseModel, D, V, Criteria,
     }
 
     @Override
-    public void deleteAll(Long[] ids) {
-        baseDao.removeByIds(Arrays.asList(ids));
+    public void deleteAll(List<Long> ids) {
+        baseDao.removeByIds(ids);
     }
 }

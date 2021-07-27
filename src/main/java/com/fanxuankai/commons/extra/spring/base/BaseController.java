@@ -103,7 +103,7 @@ public class BaseController<D, V, Criteria, S extends BaseService<D, V, Criteria
      * @return Result
      */
     @DeleteMapping("delete")
-    public Result<Void> delete(@RequestBody Long[] ids) {
+    public Result<Void> delete(@RequestBody List<Long> ids) {
         baseService.deleteAll(ids);
         return ResultUtils.ok();
     }

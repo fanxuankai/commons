@@ -61,7 +61,7 @@ public interface BaseService<D, V, Criteria> {
      *
      * @param ids ID 列表
      */
-    void deleteAll(Long[] ids);
+    void deleteAll(List<Long> ids);
 
     /**
      * 导出数据
