@@ -13,9 +13,13 @@ public class Node<E> {
      */
     private final E item;
     /**
-     * 子孙
+     * 子节点
      */
-    private final List<Node<E>> children;
+    private List<Node<E>> children;
+    /**
+     * 是否有子节点
+     */
+    private Boolean hasChildren;
 
     public Node(E item, List<Node<E>> children) {
         this.item = item;
@@ -28,5 +32,17 @@ public class Node<E> {
 
     public List<Node<E>> getChildren() {
         return children;
+    }
+
+    public void setChildren(List<Node<E>> children) {
+        this.children = children;
+    }
+
+    public Boolean getHasChildren() {
+        return hasChildren;
+    }
+
+    public void setHasChildren(Boolean hasChildren) {
+        this.hasChildren = hasChildren;
     }
 }

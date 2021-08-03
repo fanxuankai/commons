@@ -1,6 +1,7 @@
 package com.fanxuankai.commons.extra.mybatis.tree;
 
 import cn.hutool.core.util.ReflectUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fanxuankai.commons.util.Node;
@@ -68,7 +69,7 @@ public class ClosureTable {
          */
         @Override
         default List<T> ancestors(Long id) {
-            List<T> list = list(Wrappers.lambdaQuery(entityClass())
+            List<T> list = list(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass()))
                     .ne(T::getAncestor, id)
                     .eq(T::getDescendant, id));
             list.sort(Comparator.comparing(Entity::getDistance));
@@ -83,7 +84,7 @@ public class ClosureTable {
          */
         @Override
         default Node<T> tree(Long id) {
-            T node = getOne(Wrappers.lambdaQuery(entityClass())
+            T node = getOne(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass()))
                     .eq(T::getAncestor, id)
                     .eq(T::getDescendant, id)
                     .eq(T::getDistance, 0));
@@ -113,7 +114,7 @@ public class ClosureTable {
          */
         @Override
         default T parent(Long id) {
-            return getOne(Wrappers.lambdaQuery(entityClass())
+            return getOne(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass()))
                     .eq(T::getDescendant, id)
                     .eq(T::getDistance, 1), false);
         }
@@ -126,7 +127,7 @@ public class ClosureTable {
          */
         @Override
         default List<T> children(Long id) {
-            return list(Wrappers.lambdaQuery(entityClass())
+            return list(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass()))
                     .eq(T::getAncestor, id)
                     .eq(T::getDistance, 1));
         }
@@ -191,11 +192,9 @@ public class ClosureTable {
          * 插入新节点
          *
          * @param node 节点
-         * @param pid  父节点
          */
         @Override
-        default void insertNode(T node, Long pid) {
-            node.setAncestor(pid);
+        default void saveNode(T node) {
             if (node.getDescendant() == null) {
                 throw new NullPointerException("descendant 不能为空");
             }
@@ -205,7 +204,7 @@ public class ClosureTable {
             List<T> nodes = new ArrayList<>();
             nodes.add(node);
             if (node.getAncestor() == null) {
-                T root = ReflectUtil.newInstance(entityClass());
+                T root = ReflectUtil.newInstance(EntityClassCache.entityClass(getClass()));
                 root.setDescendant(node.getDescendant());
                 root.setDistance(-1);
                 nodes.add(root);
@@ -214,7 +213,7 @@ public class ClosureTable {
                 node.setDistance(0);
             } else {
                 node.setDistance(1);
-                T selfLink = ReflectUtil.newInstance(entityClass());
+                T selfLink = ReflectUtil.newInstance(EntityClassCache.entityClass(getClass()));
                 selfLink.setAncestor(node.getDescendant());
                 selfLink.setDescendant(node.getDescendant());
                 selfLink.setDistance(0);
@@ -239,14 +238,35 @@ public class ClosureTable {
         @Transactional(rollbackFor = Exception.class)
         default void removeNode(Long id, boolean removeDescendant) {
             // 移除与祖先的关联关系
-            remove(Wrappers.lambdaQuery(entityClass())
+            remove(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass()))
                     .eq(T::getDescendant, id));
             if (removeDescendant) {
                 // 删除子节点
                 children(id).forEach(o -> removeNode(o.getDescendant(), true));
             }
             // 移除与后代的关联关系
-            remove(Wrappers.lambdaQuery(entityClass()).eq(T::getAncestor, id));
+            remove(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass())).eq(T::getAncestor, id));
+        }
+
+        /**
+         * 修改节点
+         *
+         * @param node 节点
+         */
+        @Override
+        default void updateNode(T node) {
+            // do nothing
+        }
+
+        /**
+         * 修改节点
+         *
+         * @param node          节点
+         * @param updateWrapper /
+         */
+        @Override
+        default void updateNode(T node, Wrapper<T> updateWrapper) {
+            // do nothing
         }
 
         /**
@@ -259,7 +279,7 @@ public class ClosureTable {
         @Transactional(rollbackFor = Exception.class)
         default void moveNode(Long id, Long targetPid) {
             // 移除与旧祖先的关联关系
-            remove(Wrappers.lambdaQuery(entityClass())
+            remove(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass()))
                     .gt(T::getDistance, 0)
                     .eq(T::getDescendant, id));
 
@@ -271,7 +291,7 @@ public class ClosureTable {
             });
 
             // 创建与新祖先的关联关系
-            T node = ReflectUtil.newInstance(entityClass());
+            T node = ReflectUtil.newInstance(EntityClassCache.entityClass(getClass()));
             node.setAncestor(targetPid);
             node.setDescendant(id);
             node.setDistance(1);

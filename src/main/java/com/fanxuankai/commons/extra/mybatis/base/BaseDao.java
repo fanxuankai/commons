@@ -16,15 +16,6 @@ import java.util.List;
  */
 public interface BaseDao<T, Criteria> extends IService<T> {
     /**
-     * 获取实体类类型
-     *
-     * @return /
-     */
-    default Class<T> entityClass() {
-        return EntityClassCache.entityClass(getClass());
-    }
-
-    /**
      * 查询数据分页
      *
      * @param criteria    条件
@@ -33,7 +24,7 @@ public interface BaseDao<T, Criteria> extends IService<T> {
      */
     default PageResult<T> page(Criteria criteria, PageRequest pageRequest) {
         return MybatisPlusPageUtils.convert(page(MybatisPlusPageUtils.convert(pageRequest),
-                QueryHelper.getQueryWrapper(entityClass(), criteria)));
+                QueryHelper.getQueryWrapper(EntityClassCache.entityClass(getClass()), criteria)));
     }
 
     /**
@@ -43,7 +34,7 @@ public interface BaseDao<T, Criteria> extends IService<T> {
      * @return List
      */
     default List<T> list(Criteria criteria) {
-        return list(QueryHelper.getQueryWrapper(entityClass(), criteria));
+        return list(QueryHelper.getQueryWrapper(EntityClassCache.entityClass(getClass()), criteria));
     }
 
     /**
@@ -53,7 +44,7 @@ public interface BaseDao<T, Criteria> extends IService<T> {
      * @return int
      */
     default int count(Criteria criteria) {
-        return count(QueryHelper.getQueryWrapper(entityClass(), criteria));
+        return count(QueryHelper.getQueryWrapper(EntityClassCache.entityClass(getClass()), criteria));
     }
 
     /**
@@ -74,7 +65,7 @@ public interface BaseDao<T, Criteria> extends IService<T> {
      * @return 是否更新成功
      */
     default boolean update(T t, Criteria criteria) {
-        return update(t, QueryHelper.getUpdateWrapper(entityClass(), criteria));
+        return update(t, QueryHelper.getUpdateWrapper(EntityClassCache.entityClass(getClass()), criteria));
     }
 
     /**
@@ -84,6 +75,6 @@ public interface BaseDao<T, Criteria> extends IService<T> {
      * @return 是否删除成功
      */
     default boolean remove(Criteria criteria) {
-        return remove(QueryHelper.getQueryWrapper(entityClass(), criteria));
+        return remove(QueryHelper.getQueryWrapper(EntityClassCache.entityClass(getClass()), criteria));
     }
 }

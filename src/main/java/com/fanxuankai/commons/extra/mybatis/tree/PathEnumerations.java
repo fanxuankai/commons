@@ -2,6 +2,7 @@ package com.fanxuankai.commons.extra.mybatis.tree;
 
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.ReflectUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
@@ -50,7 +51,7 @@ public class PathEnumerations {
             T node = getById(id);
             List<String> codes = Arrays.stream(node.getPath().split(StrPool.SLASH)).collect(Collectors.toList());
             codes.remove(node.getCode());
-            List<T> nodes = list(Wrappers.lambdaQuery(entityClass()).in(T::getCode, codes));
+            List<T> nodes = list(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass())).in(T::getCode, codes));
             nodes.sort(Comparator.comparingInt(o -> o.getPath().length()));
             return nodes;
         }
@@ -64,7 +65,7 @@ public class PathEnumerations {
         @Override
         default List<Node<T>> descendants(Long id) {
             T node = getById(id);
-            List<T> nodes = list(Wrappers.lambdaQuery(entityClass())
+            List<T> nodes = list(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass()))
                     .ne(T::getId, node.getId())
                     .likeRight(T::getPath, node.getPath()));
             return PathEnumerationsUtils.buildDescendants(node, nodes);
@@ -83,7 +84,7 @@ public class PathEnumerations {
             if (parentPath == null) {
                 return null;
             }
-            return getOne(Wrappers.lambdaQuery(entityClass()).eq(T::getPath, parentPath));
+            return getOne(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass())).eq(T::getPath, parentPath));
         }
 
         /**
@@ -96,9 +97,9 @@ public class PathEnumerations {
         default List<T> children(Long id) {
             T node = getById(id);
             String parentPath = node.getPath();
-            Class<T> entityClass = entityClass();
-            ColumnCache codeColumnCache = TreeUtils.getColumnCache(entityClass, T::getCode);
-            ColumnCache pathColumnCache = TreeUtils.getColumnCache(entityClass, T::getPath);
+            Class<T> entityClass = EntityClassCache.entityClass(getClass());
+            ColumnCache codeColumnCache = TreeNodeUtils.getColumnCache(entityClass, T::getCode);
+            ColumnCache pathColumnCache = TreeNodeUtils.getColumnCache(entityClass, T::getPath);
             String last = String.format(" AND %s = CONCAT( '%s', '%s', %s)", pathColumnCache.getColumnSelect(),
                     parentPath, StrPool.SLASH, codeColumnCache.getColumnSelect());
             return list(Wrappers.lambdaQuery(entityClass)
@@ -114,9 +115,9 @@ public class PathEnumerations {
          */
         @Override
         default List<T> roots(LambdaQueryWrapper<T> wrapper) {
-            Class<T> entityClass = entityClass();
-            ColumnCache codeColumnCache = TreeUtils.getColumnCache(entityClass, T::getCode);
-            ColumnCache pathColumnCache = TreeUtils.getColumnCache(entityClass, T::getPath);
+            Class<T> entityClass = EntityClassCache.entityClass(getClass());
+            ColumnCache codeColumnCache = TreeNodeUtils.getColumnCache(entityClass, T::getCode);
+            ColumnCache pathColumnCache = TreeNodeUtils.getColumnCache(entityClass, T::getPath);
             String last = String.format(" AND %s = CONCAT( '%s', %s)", pathColumnCache.getColumnSelect(),
                     StrPool.SLASH, codeColumnCache.getColumnSelect());
             return list(wrapper.isNotNull(T::getPath).last(last));
@@ -126,17 +127,15 @@ public class PathEnumerations {
          * 插入新节点
          *
          * @param node 节点
-         * @param pid  父节点
          */
         @Override
-        default void insertNode(T node, Long pid) {
+        default void saveNode(T node) {
             String path;
-            if (pid == null) {
+            if (node.getPid() == null) {
                 path = StrPool.SLASH + node.getCode();
             } else {
-                path = getById(pid).getPath() + StrPool.SLASH + node.getCode();
+                path = getById(node.getPid()).getPath() + StrPool.SLASH + node.getCode();
             }
-            node.setPid(pid);
             node.setPath(path);
             save(node);
         }
@@ -153,12 +152,42 @@ public class PathEnumerations {
             T node = getById(id);
             removeById(id);
             if (removeDescendant) {
-                remove(Wrappers.lambdaQuery(entityClass()).likeRight(T::getPath, node.getPath()));
+                remove(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass())).likeRight(T::getPath, node.getPath()));
             } else {
-                Class<T> entityClass = entityClass();
-                ColumnCache pidColumnCache = TreeUtils.getColumnCache(entityClass, T::getPid);
+                Class<T> entityClass = EntityClassCache.entityClass(getClass());
+                ColumnCache pidColumnCache = TreeNodeUtils.getColumnCache(entityClass, T::getPid);
                 update(Wrappers.lambdaUpdate(entityClass).eq(T::getPid, id)
                         .setSql(pidColumnCache.getColumnSelect() + " = null"));
+            }
+        }
+
+        /**
+         * 修改节点
+         *
+         * @param node 节点
+         */
+        @Override
+        @Transactional(rollbackFor = {Exception.class})
+        default void updateNode(T node) {
+            updateById(node);
+            Long pid = getById(node.getId()).getPid();
+            if (!Objects.equals(pid, node.getPid())) {
+                moveNode(node.getId(), node.getPid());
+            }
+        }
+
+        /**
+         * 修改节点
+         *
+         * @param node          节点
+         * @param updateWrapper /
+         */
+        @Override
+        default void updateNode(T node, Wrapper<T> updateWrapper) {
+            update(node, updateWrapper);
+            Long pid = getById(node.getId()).getPid();
+            if (!Objects.equals(pid, node.getPid())) {
+                moveNode(node.getId(), node.getPid());
             }
         }
 
@@ -185,20 +214,20 @@ public class PathEnumerations {
             } else {
                 // 修改上级节点
                 // 需要移动节点以及所有子节点
-                List<T> descendantNodes = TreeUtils.flat(nodes);
+                List<T> descendantNodes = TreeNodeUtils.flat(nodes);
                 if (descendantNodes.stream().anyMatch(t -> Objects.equals(t.getId(), targetPid))) {
                     throw new IllegalArgumentException("不能以子孙节点作为自己的父节点");
                 }
                 path = parent.getPath() + StrPool.SLASH + node.getCode();
             }
-            T nodeEntity = ReflectUtil.newInstance(entityClass());
+            T nodeEntity = ReflectUtil.newInstance(EntityClassCache.entityClass(getClass()));
             nodeEntity.setPath(path);
             // 修改本身
-            update(nodeEntity, Wrappers.lambdaUpdate(entityClass()).eq(T::getId, id));
+            update(nodeEntity, Wrappers.lambdaUpdate(EntityClassCache.<T>entityClass(getClass())).eq(T::getId, id));
             // 修改子孙节点
             for (Map.Entry<Long, String> entry : PathEnumerationsUtils.updatePath(path, nodes).entrySet()) {
                 nodeEntity.setPath(entry.getValue());
-                update(nodeEntity, Wrappers.lambdaUpdate(entityClass()).eq(T::getId, entry.getKey()));
+                update(nodeEntity, Wrappers.lambdaUpdate(EntityClassCache.<T>entityClass(getClass())).eq(T::getId, entry.getKey()));
             }
         }
     }

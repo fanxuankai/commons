@@ -1,5 +1,6 @@
 package com.fanxuankai.commons.extra.mybatis.tree;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fanxuankai.commons.util.Node;
@@ -31,15 +32,6 @@ J   K   L   M   N       - 4     - 0     - 3
  * @author fanxuankai
  */
 public interface TreeDao<T> extends IService<T> {
-    /**
-     * 获取实体类类型
-     *
-     * @return /
-     */
-    default Class<T> entityClass() {
-        return EntityClassCache.entityClass(getClass());
-    }
-
     // Query Operations
 
     /**
@@ -145,7 +137,7 @@ public interface TreeDao<T> extends IService<T> {
      * @return /
      */
     default int height(Long id) {
-        return TreeUtils.calcHeight(tree(id));
+        return TreeNodeUtils.calcHeight(tree(id));
     }
 
     /**
@@ -164,9 +156,10 @@ public interface TreeDao<T> extends IService<T> {
      * 插入新节点
      *
      * @param node 节点
-     * @param pid  父节点
      */
-    void insertNode(T node, Long pid);
+    default void saveNode(T node) {
+        save(node);
+    }
 
     /**
      * 删除节点
@@ -175,6 +168,25 @@ public interface TreeDao<T> extends IService<T> {
      * @param removeDescendant 是否删除子孙节点
      */
     void removeNode(Long id, boolean removeDescendant);
+
+    /**
+     * 修改节点
+     *
+     * @param node 节点
+     */
+    default void updateNode(T node) {
+        updateById(node);
+    }
+
+    /**
+     * 修改节点
+     *
+     * @param node          节点
+     * @param updateWrapper /
+     */
+    default void updateNode(T node, Wrapper<T> updateWrapper) {
+        update(node, updateWrapper);
+    }
 
     /**
      * 移动节点

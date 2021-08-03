@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -36,9 +37,9 @@ public class TreeUtils {
     }
 
     /**
-     * 扁平化子孙节点
+     * 扁平化树节点
      *
-     * @param nodes 子孙
+     * @param nodes 树节点
      * @param <T>   实体类类型
      * @return /
      */
@@ -53,5 +54,25 @@ public class TreeUtils {
             return list;
         }).flatMap(Collection::stream)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * item 映射
+     *
+     * @param node   树节点
+     * @param mapper 映射函数
+     * @param <T>    映射前
+     * @param <R>    映射后
+     * @return 映射后的树节点
+     */
+    public static <T, R> Node<R> mapItem(Node<T> node, Function<T, R> mapper) {
+        Node<R> rNode = new Node<>(mapper.apply(node.getItem()),
+                OptionalUtils.ofNullable(node.getChildren())
+                        .map(nodes -> nodes.stream()
+                                .map(o -> mapItem(o, mapper))
+                                .collect(Collectors.toList()))
+                        .orElse(Collections.emptyList()));
+        rNode.setHasChildren(node.getHasChildren());
+        return rNode;
     }
 }

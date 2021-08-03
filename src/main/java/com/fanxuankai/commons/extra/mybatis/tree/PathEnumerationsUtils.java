@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * @author fanxuankai
  */
-public class PathEnumerationsUtils {
+class PathEnumerationsUtils {
     /**
      * 构建子孙对象
      *
