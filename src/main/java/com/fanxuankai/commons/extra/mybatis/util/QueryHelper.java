@@ -12,6 +12,7 @@ import com.fanxuankai.commons.extra.mybatis.annotation.WrapBehaviorLoader;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Query 帮助类
@@ -85,10 +86,11 @@ public class QueryHelper {
                 });
                 continue;
             }
-            ColumnCache columnCache = columnMap.get(LambdaUtils.formatKey(attributeName));
-            String column = columnCache.getColumn();
             criteriaWrapper.setWrapBehavior(WrapBehaviorLoader.get(q.type()));
-            criteriaWrapper.wrap(wrapper, column, val);
+            // 部分查询方式 field 为空
+            criteriaWrapper.wrap(wrapper, Optional.ofNullable(columnMap.get(LambdaUtils.formatKey(attributeName)))
+                    .map(ColumnCache::getColumn)
+                    .orElse(null), val);
         }
     }
 }

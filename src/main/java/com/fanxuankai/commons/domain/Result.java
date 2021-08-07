@@ -9,7 +9,7 @@ public class Result<T> {
     /**
      * 代码
      */
-    private int status;
+    private Integer status;
     /**
      * 提示信息
      */
@@ -19,11 +19,11 @@ public class Result<T> {
      */
     private T data;
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

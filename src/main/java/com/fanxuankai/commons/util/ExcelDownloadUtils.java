@@ -35,8 +35,24 @@ public class ExcelDownloadUtils {
 
     /**
      * 导出excel
+     *
+     * @param list     数据
+     * @param response /
+     * @throws IOException /
      */
     public static void downloadExcel(List<Map<String, Object>> list, HttpServletResponse response) throws IOException {
+        downloadExcel(list, response, "file");
+    }
+
+    /**
+     * 导出excel
+     *
+     * @param list     数据
+     * @param response /
+     * @param filename 文件名
+     * @throws IOException /
+     */
+    public static void downloadExcel(List<Map<String, Object>> list, HttpServletResponse response, String filename) throws IOException {
         String tempPath = SYS_TEM_DIR + IdUtil.fastSimpleUUID() + ".xlsx";
         File file = new File(tempPath);
         BigExcelWriter writer = ExcelUtil.getBigWriter(file);
@@ -50,7 +66,7 @@ public class ExcelDownloadUtils {
         //response为HttpServletResponse对象
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
         //test.xls是弹出下载对话框的文件名，不能为中文，中文请自行编码
-        response.setHeader("Content-Disposition", "attachment;filename=file.xlsx");
+        response.setHeader("Content-Disposition", "attachment;filename=" + filename + ".xlsx");
         ServletOutputStream out = response.getOutputStream();
         // 终止后删除临时文件
         file.deleteOnExit();

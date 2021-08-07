@@ -1,14 +1,14 @@
 package com.fanxuankai.commons.extra.spring.base;
 
-import com.fanxuankai.commons.domain.Page;
+import com.fanxuankai.commons.domain.PageRequest;
 import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.domain.Result;
 import com.fanxuankai.commons.extra.mybatis.base.BaseService;
 import com.fanxuankai.commons.util.ResultUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -21,9 +21,9 @@ import java.util.List;
  * @param <S> Service
  * @author fanxuankai
  */
-public class BaseController<D, V, S extends BaseService<D, V>> {
-    @Resource
-    private S service;
+public class BaseController<D, V, Criteria, S extends BaseService<D, V, Criteria>> {
+    @Autowired
+    protected S baseService;
 
     /**
      * 导出数据
@@ -33,20 +33,20 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      * @throws IOException /
      */
     @GetMapping("download")
-    public void download(Object criteria, HttpServletResponse response) throws IOException {
-        service.download(service.list(criteria), response);
+    public void download(Criteria criteria, HttpServletResponse response) throws IOException {
+        baseService.download(baseService.list(criteria), response);
     }
 
     /**
      * 查询数据分页
      *
-     * @param criteria 条件
-     * @param page     分页参数
+     * @param criteria    条件
+     * @param pageRequest 分页参数
      * @return Result
      */
     @GetMapping("page")
-    public Result<PageResult<V>> page(Object criteria, Page page) {
-        return ResultUtils.newResult(service.page(criteria, page));
+    public Result<PageResult<V>> page(Criteria criteria, PageRequest pageRequest) {
+        return ResultUtils.ok(baseService.page(criteria, pageRequest));
     }
 
     /**
@@ -56,8 +56,8 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      * @return Result
      */
     @GetMapping("list")
-    public Result<List<V>> list(Object criteria) {
-        return ResultUtils.newResult(service.list(criteria));
+    public Result<List<V>> list(Criteria criteria) {
+        return ResultUtils.ok(baseService.list(criteria));
     }
 
     /**
@@ -68,7 +68,7 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @GetMapping("get/{id}")
     public Result<V> get(@PathVariable Long id) {
-        return ResultUtils.newResult(service.get(id));
+        return ResultUtils.ok(baseService.get(id));
     }
 
     /**
@@ -79,8 +79,8 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @PostMapping("create")
     public Result<Void> create(@Validated @RequestBody D dto) {
-        service.create(dto);
-        return ResultUtils.newResult();
+        baseService.create(dto);
+        return ResultUtils.ok();
     }
 
     /**
@@ -92,8 +92,8 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      */
     @PutMapping("update/{id}")
     public Result<Void> update(@PathVariable Long id, @Validated @RequestBody D dto) {
-        service.update(id, dto);
-        return ResultUtils.newResult();
+        baseService.update(id, dto);
+        return ResultUtils.ok();
     }
 
     /**
@@ -103,8 +103,8 @@ public class BaseController<D, V, S extends BaseService<D, V>> {
      * @return Result
      */
     @DeleteMapping("delete")
-    public Result<Void> delete(@RequestBody Long[] ids) {
-        service.deleteAll(ids);
-        return ResultUtils.newResult();
+    public Result<Void> delete(@RequestBody List<Long> ids) {
+        baseService.deleteAll(ids);
+        return ResultUtils.ok();
     }
 }

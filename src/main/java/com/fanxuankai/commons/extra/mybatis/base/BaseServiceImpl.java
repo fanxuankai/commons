@@ -1,11 +1,10 @@
 package com.fanxuankai.commons.extra.mybatis.base;
 
-import com.fanxuankai.commons.domain.Page;
+import com.fanxuankai.commons.domain.PageRequest;
 import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.util.Converter;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,43 +17,45 @@ import java.util.List;
  * @param <DAO> DAO
  * @author fanxuankai
  */
-public class BaseServiceImpl<T extends BaseModel, D, V, C extends Converter<T, D, V>, DAO extends BaseDao<T>>
-        implements BaseService<D, V> {
-    @Resource
-    private C converter;
-    @Resource
-    private DAO dao;
+public class BaseServiceImpl<T extends BaseModel, D, V, Criteria,
+        C extends Converter<T, D, V>,
+        DAO extends BaseDao<T, Criteria>>
+        implements BaseService<D, V, Criteria> {
+    @Autowired
+    protected C converter;
+    @Autowired
+    protected DAO baseDao;
 
     @Override
-    public PageResult<V> page(Object criteria, Page page) {
-        return dao.page(criteria, page).map(converter::toVo);
+    public PageResult<V> page(Criteria criteria, PageRequest pageRequest) {
+        return baseDao.page(criteria, pageRequest).map(converter::toVo);
     }
 
     @Override
-    public List<V> list(Object criteria) {
-        return converter.toVo(dao.list(criteria));
+    public List<V> list(Criteria criteria) {
+        return converter.toVo(baseDao.list(criteria));
     }
 
     @Override
     public V get(Long id) {
-        return converter.toVo(dao.getById(id));
+        return converter.toVo(baseDao.getById(id));
     }
 
     @Override
     public void create(D dto) {
-        dao.save(converter.toEntity(dto));
+        baseDao.save(converter.toEntity(dto));
     }
 
     @Override
     public void update(Long id, D dto) {
-        T existsUser = dao.getById(id);
+        T existsUser = baseDao.getById(id);
         T t = converter.toEntity(dto);
         t.setId(existsUser.getId());
-        dao.updateById(t);
+        baseDao.updateById(t);
     }
 
     @Override
-    public void deleteAll(Long[] ids) {
-        dao.removeByIds(Arrays.asList(ids));
+    public void deleteAll(List<Long> ids) {
+        baseDao.removeByIds(ids);
     }
 }

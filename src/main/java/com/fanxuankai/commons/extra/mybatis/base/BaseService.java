@@ -1,6 +1,6 @@
 package com.fanxuankai.commons.extra.mybatis.base;
 
-import com.fanxuankai.commons.domain.Page;
+import com.fanxuankai.commons.domain.PageRequest;
 import com.fanxuankai.commons.domain.PageResult;
 
 import javax.servlet.http.HttpServletResponse;
@@ -10,19 +10,20 @@ import java.util.List;
 /**
  * Service 接口
  *
- * @param <D> DTO
- * @param <V> VO
+ * @param <D>        DTO
+ * @param <V>        VO
+ * @param <Criteria> Criteria
  * @author fanxuankai
  */
-public interface BaseService<D, V> {
+public interface BaseService<D, V, Criteria> {
     /**
      * 查询数据分页
      *
-     * @param criteria 条件
-     * @param page     分页参数
+     * @param criteria    条件
+     * @param pageRequest 分页参数
      * @return PageResult
      */
-    PageResult<V> page(Object criteria, Page page);
+    PageResult<V> page(Criteria criteria, PageRequest pageRequest);
 
     /**
      * 查询所有数据不分页
@@ -30,7 +31,7 @@ public interface BaseService<D, V> {
      * @param criteria 条件参数
      * @return List
      */
-    List<V> list(Object criteria);
+    List<V> list(Criteria criteria);
 
     /**
      * 根据 ID 查询
@@ -60,7 +61,7 @@ public interface BaseService<D, V> {
      *
      * @param ids ID 列表
      */
-    void deleteAll(Long[] ids);
+    void deleteAll(List<Long> ids);
 
     /**
      * 导出数据

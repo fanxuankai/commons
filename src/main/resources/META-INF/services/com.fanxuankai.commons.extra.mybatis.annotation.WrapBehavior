@@ -16,3 +16,4 @@ com.fanxuankai.commons.extra.mybatis.annotation.NotLikeWrapBehavior
 com.fanxuankai.commons.extra.mybatis.annotation.NotNullWrapBehavior
 com.fanxuankai.commons.extra.mybatis.annotation.OrderByAscWrapBehavior
 com.fanxuankai.commons.extra.mybatis.annotation.OrderByDescWrapBehavior
+com.fanxuankai.commons.extra.mybatis.annotation.OrderWrapBehavior

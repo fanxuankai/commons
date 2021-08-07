@@ -1,7 +1,7 @@
 package com.fanxuankai.commons.extra.mybatis.base;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fanxuankai.commons.domain.Page;
+import com.fanxuankai.commons.domain.PageRequest;
 import com.fanxuankai.commons.domain.PageResult;
 import com.fanxuankai.commons.extra.mybatis.util.MybatisPlusPageUtils;
 import com.fanxuankai.commons.extra.mybatis.util.QueryHelper;
@@ -14,26 +14,17 @@ import java.util.List;
  * @param <T> 实体类
  * @author fanxuankai
  */
-public interface BaseDao<T> extends IService<T> {
-    /**
-     * 获取实体类类型
-     *
-     * @return /
-     */
-    default Class<T> entityClass() {
-        return EntityClassCache.entityClass(getClass());
-    }
-
+public interface BaseDao<T, Criteria> extends IService<T> {
     /**
      * 查询数据分页
      *
-     * @param criteria 条件
-     * @param page     分页参数
+     * @param criteria    条件
+     * @param pageRequest 分页参数
      * @return PageResult
      */
-    default PageResult<T> page(Object criteria, Page page) {
-        return MybatisPlusPageUtils.convert(page(MybatisPlusPageUtils.convert(page),
-                QueryHelper.getQueryWrapper(entityClass(), criteria)));
+    default PageResult<T> page(Criteria criteria, PageRequest pageRequest) {
+        return MybatisPlusPageUtils.convert(page(MybatisPlusPageUtils.convert(pageRequest),
+                QueryHelper.getQueryWrapper(EntityClassCache.entityClass(getClass()), criteria)));
     }
 
     /**
@@ -42,8 +33,8 @@ public interface BaseDao<T> extends IService<T> {
      * @param criteria 条件参数
      * @return List
      */
-    default List<T> list(Object criteria) {
-        return list(QueryHelper.getQueryWrapper(entityClass(), criteria));
+    default List<T> list(Criteria criteria) {
+        return list(QueryHelper.getQueryWrapper(EntityClassCache.entityClass(getClass()), criteria));
     }
 
     /**
@@ -52,8 +43,8 @@ public interface BaseDao<T> extends IService<T> {
      * @param criteria 条件参数
      * @return int
      */
-    default int count(Object criteria) {
-        return count(QueryHelper.getQueryWrapper(entityClass(), criteria));
+    default int count(Criteria criteria) {
+        return count(QueryHelper.getQueryWrapper(EntityClassCache.entityClass(getClass()), criteria));
     }
 
     /**
@@ -62,7 +53,7 @@ public interface BaseDao<T> extends IService<T> {
      * @param criteria 条件参数
      * @return boolean
      */
-    default boolean exists(Object criteria) {
+    default boolean exists(Criteria criteria) {
         return count(criteria) > 0;
     }
 
@@ -73,8 +64,8 @@ public interface BaseDao<T> extends IService<T> {
      * @param criteria 条件参数
      * @return 是否更新成功
      */
-    default boolean update(T t, Object criteria) {
-        return update(t, QueryHelper.getUpdateWrapper(entityClass(), criteria));
+    default boolean update(T t, Criteria criteria) {
+        return update(t, QueryHelper.getUpdateWrapper(EntityClassCache.entityClass(getClass()), criteria));
     }
 
     /**
@@ -83,7 +74,7 @@ public interface BaseDao<T> extends IService<T> {
      * @param criteria 条件参数
      * @return 是否删除成功
      */
-    default boolean remove(Object criteria) {
-        return remove(QueryHelper.getQueryWrapper(entityClass(), criteria));
+    default boolean remove(Criteria criteria) {
+        return remove(QueryHelper.getQueryWrapper(EntityClassCache.entityClass(getClass()), criteria));
     }
 }

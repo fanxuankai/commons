@@ -14,41 +14,87 @@ public class PageResult<T> {
     /**
      * 当前页
      */
-    private final Integer pageNum;
+    private int pageNum;
     /**
      * 每页的数量
      */
-    private final Integer pageSize;
+    private int pageSize;
     /**
      * 当前页的数量
      */
-    private final Integer size;
+    private int size;
     /**
      * 总数
      */
-    private final long total;
+    private int total;
     /**
      * 总页数
      */
-    private final int pages;
+    private int pages;
     /**
      * 分页数据
      */
-    private final List<T> list;
-    /**
-     * 分页参数
-     */
-    private final Page page;
+    private List<T> list;
 
-    public PageResult(List<T> list, Page page, long total) {
+    public PageResult() {
+    }
+
+    public PageResult(List<T> list, PageRequest pageRequest, int total) {
         this.list = list;
-        this.page = page;
-        this.pageNum = page.getPageIndex();
-        this.pageSize = page.getPageSize();
+        this.pageNum = pageRequest.getPageIndex();
+        this.pageSize = pageRequest.getPageSize();
         this.size = list.size();
         this.total = total;
-        int pageSize = page.getPageSize();
+        int pageSize = pageRequest.getPageSize();
         this.pages = pageSize == 0 ? 1 : (int) Math.ceil((double) total / (double) pageSize);
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public List<T> getList() {
+        return list;
+    }
+
+    public void setList(List<T> list) {
+        this.list = list;
     }
 
     /**
@@ -58,46 +104,18 @@ public class PageResult<T> {
      * @return /
      */
     public static <T> PageResult<T> empty() {
-        return empty(new Page());
+        return empty(PageRequest.defaultPage());
     }
 
     /**
      * 空的
      *
-     * @param page /
-     * @param <T>  数据类型泛型
+     * @param pageRequest /
+     * @param <T>         数据类型泛型
      * @return /
      */
-    public static <T> PageResult<T> empty(Page page) {
-        return new PageResult<>(Collections.emptyList(), page, 0);
-    }
-
-    public Integer getPageNum() {
-        return pageNum;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public long getTotal() {
-        return total;
-    }
-
-    public int getPages() {
-        return pages;
-    }
-
-    public List<T> getList() {
-        return list;
-    }
-
-    public Page getPage() {
-        return page;
+    public static <T> PageResult<T> empty(PageRequest pageRequest) {
+        return new PageResult<>(Collections.emptyList(), pageRequest, 0);
     }
 
     /**
@@ -108,6 +126,7 @@ public class PageResult<T> {
      * @return /
      */
     public <U> PageResult<U> map(Function<? super T, ? extends U> converter) {
-        return new PageResult<>(list.stream().map(converter).collect(Collectors.toList()), page, total);
+        return new PageResult<>(list.stream().map(converter).collect(Collectors.toList()),
+                new PageRequest(pageNum, pageSize), total);
     }
 }

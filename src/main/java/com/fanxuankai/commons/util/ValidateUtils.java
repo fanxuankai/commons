@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  *
  * @author fanxuankai
  */
-public class ValidateUtil {
+public class ValidateUtils {
     /**
      * 密码规则（6-16位字母、数字）
      */

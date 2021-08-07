@@ -1,5 +1,6 @@
 package com.fanxuankai.commons.extra.mybatis.tree;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +51,7 @@ public class NestedSets {
         @Override
         default List<T> ancestors(Long id) {
             T node = getById(id);
-            return list(Wrappers.lambdaQuery(entityClass())
+            return list(Wrappers.lambdaQuery(EntityClassCache.<T>entityClass(getClass()))
                     .lt(T::getLft, node.getLft())
                     .gt(T::getRgt, node.getRgt())
                     .orderByAsc(T::getLft));
@@ -60,22 +61,20 @@ public class NestedSets {
          * 插入新节点
          *
          * @param node 节点
-         * @param pid  父节点
          */
         @Override
         @Transactional(rollbackFor = Exception.class)
-        default void insertNode(T node, Long pid) {
-            if (pid == null) {
+        default void saveNode(T node) {
+            if (node.getPid() == null) {
                 node.setLft(1L);
                 node.setRgt(2L);
-                node.setPid(null);
             } else {
-                Class<T> entityClass = entityClass();
-                ColumnCache leftColumnCache = TreeUtils.getColumnCache(entityClass, T::getLft);
-                ColumnCache rightColumnCache = TreeUtils.getColumnCache(entityClass, T::getRgt);
+                Class<T> entityClass = EntityClassCache.entityClass(getClass());
+                ColumnCache leftColumnCache = TreeNodeUtils.getColumnCache(entityClass, T::getLft);
+                ColumnCache rightColumnCache = TreeNodeUtils.getColumnCache(entityClass, T::getRgt);
                 String leftColumn = leftColumnCache.getColumnSelect();
                 String rightColumn = rightColumnCache.getColumnSelect();
-                T parent = getById(pid);
+                T parent = getById(node.getPid());
                 Long left = parent.getLft();
                 String updateLeftSql = String.format("%s = %s + 2", leftColumn, leftColumn);
                 update(Wrappers.lambdaUpdate(entityClass).setSql(updateLeftSql).gt(T::getLft, left));
@@ -83,7 +82,6 @@ public class NestedSets {
                 update(Wrappers.lambdaUpdate(entityClass).setSql(updateRightSql).gt(T::getRgt, left));
                 node.setLft(left + 1);
                 node.setRgt(left + 2);
-                node.setPid(pid);
             }
             save(node);
         }
@@ -96,6 +94,27 @@ public class NestedSets {
          */
         @Override
         default void removeNode(Long id, boolean removeDescendant) {
+            // 暂不支持
+        }
+
+        /**
+         * 修改节点
+         *
+         * @param node 节点
+         */
+        @Override
+        default void updateNode(T node) {
+            // 暂不支持
+        }
+
+        /**
+         * 修改节点
+         *
+         * @param node          节点
+         * @param updateWrapper /
+         */
+        @Override
+        default void updateNode(T node, Wrapper<T> updateWrapper) {
             // 暂不支持
         }
 
