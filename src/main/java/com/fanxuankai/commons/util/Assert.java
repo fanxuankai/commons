@@ -17,7 +17,7 @@ public class Assert {
      *
      * @param object 检查的对象
      * @param status 响应状态
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notEmpty(Object object, Status status) {
         if (ParamUtils.isEmpty(object)) {
@@ -31,7 +31,7 @@ public class Assert {
      * @param object 检查的对象
      * @param status 响应状态
      * @param params 参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notEmpty(Object object, Status status, Object... params) {
         if (ParamUtils.isEmpty(object)) {
@@ -44,7 +44,7 @@ public class Assert {
      *
      * @param object  检查的对象
      * @param message 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notEmpty(Object object, String message) {
         notEmpty(object, () -> message);
@@ -55,7 +55,7 @@ public class Assert {
      *
      * @param object          检查的对象
      * @param messageSupplier 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notEmpty(Object object, Supplier<String> messageSupplier) {
         notEmpty(object, DefaultStatus.FAILED.getCode(), messageSupplier);
@@ -67,7 +67,7 @@ public class Assert {
      * @param object  检查的对象
      * @param code    代码
      * @param message 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notEmpty(Object object, int code, String message) {
         notEmpty(object, code, () -> message);
@@ -79,7 +79,7 @@ public class Assert {
      * @param object          检查的对象
      * @param code            代码
      * @param messageSupplier 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notEmpty(Object object, int code, Supplier<String> messageSupplier) {
         notEmpty(object, Status.newInstance(code, messageSupplier.get()));
@@ -91,7 +91,7 @@ public class Assert {
      * @param object  检查的对象
      * @param message 错误信息
      * @param params  参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notEmpty(Object object, String message, Object... params) {
         notEmpty(object, () -> message, params);
@@ -103,7 +103,7 @@ public class Assert {
      * @param object          检查的对象
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notEmpty(Object object, Supplier<String> messageSupplier, Object... params) {
         notEmpty(object, DefaultStatus.FAILED.getCode(), messageSupplier, params);
@@ -116,7 +116,7 @@ public class Assert {
      * @param code    代码
      * @param message 错误信息
      * @param params  参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notEmpty(Object object, int code, String message, Object... params) {
         notEmpty(object, code, () -> message, params);
@@ -129,7 +129,7 @@ public class Assert {
      * @param code            代码
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notEmpty(Object object, int code, Supplier<String> messageSupplier, Object... params) {
         notEmpty(object, Status.newInstance(code, messageSupplier.get()), params);
@@ -140,7 +140,7 @@ public class Assert {
      *
      * @param object 检查的对象
      * @param status 响应状态
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notNull(Object object, Status status) {
         if (object == null) {
@@ -154,7 +154,7 @@ public class Assert {
      * @param object 检查的对象
      * @param status 响应状态
      * @param params 参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notNull(Object object, Status status, Object... params) {
         if (object == null) {
@@ -167,7 +167,7 @@ public class Assert {
      *
      * @param object  检查的对象
      * @param message 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notNull(Object object, String message) {
         notNull(object, () -> message);
@@ -178,7 +178,7 @@ public class Assert {
      *
      * @param object          检查的对象
      * @param messageSupplier 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notNull(Object object, Supplier<String> messageSupplier) {
         notNull(object, DefaultStatus.FAILED.getCode(), messageSupplier);
@@ -190,7 +190,7 @@ public class Assert {
      * @param object  检查的对象
      * @param code    代码
      * @param message 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notNull(Object object, int code, String message) {
         notNull(object, code, () -> message);
@@ -202,7 +202,7 @@ public class Assert {
      * @param object          检查的对象
      * @param code            代码
      * @param messageSupplier 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notNull(Object object, int code, Supplier<String> messageSupplier) {
         notNull(object, Status.newInstance(code, messageSupplier.get()));
@@ -214,7 +214,7 @@ public class Assert {
      * @param object  检查的对象
      * @param message 错误信息
      * @param params  参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notNull(Object object, String message, Object... params) {
         notNull(object, () -> message, params);
@@ -226,7 +226,7 @@ public class Assert {
      * @param object          检查的对象
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notNull(Object object, Supplier<String> messageSupplier, Object... params) {
         notNull(object, DefaultStatus.FAILED.getCode(), messageSupplier, params);
@@ -239,7 +239,7 @@ public class Assert {
      * @param code    代码
      * @param message 错误信息
      * @param params  参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notNull(Object object, int code, String message, Object... params) {
         notNull(object, code, () -> message, params);
@@ -252,7 +252,7 @@ public class Assert {
      * @param code            代码
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void notNull(Object object, int code, Supplier<String> messageSupplier, Object... params) {
         notNull(object, Status.newInstance(code, messageSupplier.get()), params);
@@ -263,7 +263,7 @@ public class Assert {
      *
      * @param object 检查的对象
      * @param status 响应状态
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isNull(Object object, Status status) {
         if (object != null) {
@@ -277,7 +277,7 @@ public class Assert {
      * @param object 检查的对象
      * @param status 响应状态
      * @param params 参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isNull(Object object, Status status, Object... params) {
         isTrue(object != null, status, params);
@@ -288,7 +288,7 @@ public class Assert {
      *
      * @param object  检查的对象
      * @param message 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isNull(Object object, String message) {
         isNull(object, () -> message);
@@ -299,7 +299,7 @@ public class Assert {
      *
      * @param object          检查的对象
      * @param messageSupplier 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isNull(Object object, Supplier<String> messageSupplier) {
         isNull(object, DefaultStatus.FAILED.getCode(), messageSupplier);
@@ -311,7 +311,7 @@ public class Assert {
      * @param object  检查的对象
      * @param code    代码
      * @param message 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isNull(Object object, int code, String message) {
         isNull(object, code, () -> message);
@@ -323,7 +323,7 @@ public class Assert {
      * @param object          检查的对象
      * @param code            代码
      * @param messageSupplier 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isNull(Object object, int code, Supplier<String> messageSupplier) {
         isNull(object, Status.newInstance(code, messageSupplier.get()));
@@ -335,7 +335,7 @@ public class Assert {
      * @param object  检查的对象
      * @param message 错误信息
      * @param params  参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isNull(Object object, String message, Object... params) {
         isNull(object, () -> message, params);
@@ -347,7 +347,7 @@ public class Assert {
      * @param object          检查的对象
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isNull(Object object, Supplier<String> messageSupplier, Object... params) {
         isNull(object, DefaultStatus.FAILED.getCode(), messageSupplier, params);
@@ -360,7 +360,7 @@ public class Assert {
      * @param code    代码
      * @param message 错误信息
      * @param params  参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isNull(Object object, int code, String message, Object... params) {
         isNull(object, code, () -> message, params);
@@ -373,7 +373,7 @@ public class Assert {
      * @param code            代码
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isNull(Object object, int code, Supplier<String> messageSupplier, Object... params) {
         isNull(object, Status.newInstance(code, messageSupplier.get()), params);
@@ -384,7 +384,7 @@ public class Assert {
      *
      * @param expression 表达式
      * @param status     响应状态
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isTrue(boolean expression, Status status) {
         if (!expression) {
@@ -398,7 +398,7 @@ public class Assert {
      * @param expression 表达式
      * @param status     响应状态
      * @param params     参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isTrue(boolean expression, Status status, Object... params) {
         if (!expression) {
@@ -411,7 +411,7 @@ public class Assert {
      *
      * @param expression 表达式
      * @param message    错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isTrue(boolean expression, String message) {
         isTrue(expression, () -> message);
@@ -422,7 +422,7 @@ public class Assert {
      *
      * @param expression      表达式
      * @param messageSupplier 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isTrue(boolean expression, Supplier<String> messageSupplier) {
         isTrue(expression, DefaultStatus.FAILED.getCode(), messageSupplier);
@@ -434,7 +434,7 @@ public class Assert {
      * @param expression 表达式
      * @param message    错误信息
      * @param params     参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isTrue(boolean expression, String message, Object... params) {
         isTrue(expression, () -> message, params);
@@ -446,7 +446,7 @@ public class Assert {
      * @param expression      表达式
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isTrue(boolean expression, Supplier<String> messageSupplier, Object... params) {
         isTrue(expression, DefaultStatus.FAILED.getCode(), messageSupplier, params);
@@ -458,7 +458,7 @@ public class Assert {
      * @param expression 表达式
      * @param code       代码
      * @param message    错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isTrue(boolean expression, int code, String message) {
         isTrue(expression, code, () -> message);
@@ -470,7 +470,7 @@ public class Assert {
      * @param expression      表达式
      * @param code            代码
      * @param messageSupplier 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isTrue(boolean expression, int code, Supplier<String> messageSupplier) {
         isTrue(expression, Status.newInstance(code, messageSupplier.get()));
@@ -483,7 +483,7 @@ public class Assert {
      * @param code       代码
      * @param message    错误信息
      * @param params     参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isTrue(boolean expression, int code, String message, Object... params) {
         isTrue(expression, code, () -> message, params);
@@ -496,7 +496,7 @@ public class Assert {
      * @param code            代码
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isTrue(boolean expression, int code, Supplier<String> messageSupplier, Object... params) {
         isTrue(expression, Status.newInstance(code, messageSupplier.get()), params);
@@ -507,7 +507,7 @@ public class Assert {
      *
      * @param expression 表达式
      * @param status     响应状态
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isFalse(boolean expression, Status status) {
         if (expression) {
@@ -521,7 +521,7 @@ public class Assert {
      * @param expression 表达式
      * @param status     响应状态
      * @param params     参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isFalse(boolean expression, Status status, Object... params) {
         if (expression) {
@@ -534,7 +534,7 @@ public class Assert {
      *
      * @param expression 表达式
      * @param message    错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isFalse(boolean expression, String message) {
         isFalse(expression, () -> message);
@@ -545,7 +545,7 @@ public class Assert {
      *
      * @param expression      表达式
      * @param messageSupplier 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isFalse(boolean expression, Supplier<String> messageSupplier) {
         isFalse(expression, DefaultStatus.FAILED.getCode(), messageSupplier);
@@ -557,7 +557,7 @@ public class Assert {
      * @param expression 表达式
      * @param code       代码
      * @param message    错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isFalse(boolean expression, int code, String message) {
         isFalse(expression, code, () -> message);
@@ -569,7 +569,7 @@ public class Assert {
      * @param expression      表达式
      * @param code            代码
      * @param messageSupplier 错误信息
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isFalse(boolean expression, int code, Supplier<String> messageSupplier) {
         isFalse(expression, Status.newInstance(code, messageSupplier.get()));
@@ -581,7 +581,7 @@ public class Assert {
      * @param expression 表达式
      * @param message    错误信息
      * @param params     参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isFalse(boolean expression, String message, Object... params) {
         isFalse(expression, () -> message, params);
@@ -593,7 +593,7 @@ public class Assert {
      * @param expression      表达式
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isFalse(boolean expression, Supplier<String> messageSupplier, Object... params) {
         isFalse(expression, DefaultStatus.FAILED.getCode(), messageSupplier, params);
@@ -606,7 +606,7 @@ public class Assert {
      * @param code       代码
      * @param message    错误信息
      * @param params     参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isFalse(boolean expression, int code, String message, Object... params) {
         isFalse(expression, code, () -> message, params);
@@ -619,7 +619,7 @@ public class Assert {
      * @param code            代码
      * @param messageSupplier 错误信息
      * @param params          参数
-     * @throws BizException 断言成功后抛出异常
+     * @throws BizException 断言失败后抛出异常
      */
     public static void isFalse(boolean expression, int code, Supplier<String> messageSupplier, Object... params) {
         isFalse(expression, Status.newInstance(code, messageSupplier.get()), params);
@@ -631,7 +631,7 @@ public class Assert {
      * @param object            检查的对象
      * @param exceptionSupplier 异常
      * @param <E>               异常类型
-     * @throws E 断言成功后抛出异常
+     * @throws E 断言失败后抛出异常
      */
     public static <E extends Throwable> void notEmptyWithThrowable(Object object, Supplier<E> exceptionSupplier) throws E {
         if (ParamUtils.isEmpty(object)) {
@@ -645,7 +645,7 @@ public class Assert {
      * @param object            检查的对象
      * @param exceptionSupplier 异常
      * @param <E>               异常类型
-     * @throws E 断言成功后抛出异常
+     * @throws E 断言失败后抛出异常
      */
     public static <E extends Throwable> void notNullWithThrowable(Object object, Supplier<E> exceptionSupplier) throws E {
         if (object == null) {
@@ -659,7 +659,7 @@ public class Assert {
      * @param object            检查的对象
      * @param exceptionSupplier 异常
      * @param <E>               异常类型
-     * @throws E 断言成功后抛出异常
+     * @throws E 断言失败后抛出异常
      */
     public static <E extends Throwable> void isNullWithThrowable(Object object, Supplier<E> exceptionSupplier) throws E {
         if (object != null) {
@@ -673,7 +673,7 @@ public class Assert {
      * @param expression        表达式
      * @param exceptionSupplier 异常
      * @param <E>               异常类型
-     * @throws E 断言成功后抛出异常
+     * @throws E 断言失败后抛出异常
      */
     public static <E extends Throwable> void isTrueWithThrowable(boolean expression, Supplier<E> exceptionSupplier) throws E {
         if (!expression) {
@@ -687,7 +687,7 @@ public class Assert {
      * @param expression        表达式
      * @param exceptionSupplier 异常
      * @param <E>               异常类型
-     * @throws E 断言成功后抛出异常
+     * @throws E 断言失败后抛出异常
      */
     public static <E extends Throwable> void isFalseWithThrowable(boolean expression, Supplier<E> exceptionSupplier) throws E {
         if (expression) {
