@@ -65,6 +65,7 @@ public class SpringPageUtils {
      * @return /
      */
     public static Pageable convert(PageRequest pageRequest) {
-        return org.springframework.data.domain.PageRequest.of(pageRequest.getPageIndex(), pageRequest.getPageSize());
+        return org.springframework.data.domain.PageRequest.of(pageRequest.getPageIndex() - 1,
+                pageRequest.getPageSize());
     }
 }
