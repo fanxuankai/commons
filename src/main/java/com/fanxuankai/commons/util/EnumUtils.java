@@ -87,6 +87,18 @@ public class EnumUtils {
     }
 
     /**
+     * 查枚举描述
+     *
+     * @param enumClass 枚举类
+     * @param code      枚举代码
+     * @param <E>       枚举泛型
+     * @return 可能为 null
+     */
+    public static <E extends EnumProtocol> String getDescription(Class<E> enumClass, @Nullable Integer code) {
+        return find(enumClass, code).map(EnumProtocol::getDescription).orElse(null);
+    }
+
+    /**
      * 查枚举 code
      *
      * @param enumClass 枚举类
