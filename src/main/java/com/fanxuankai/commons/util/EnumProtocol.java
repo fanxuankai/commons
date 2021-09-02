@@ -19,4 +19,13 @@ public interface EnumProtocol {
      * @return /
      */
     String getValue();
+
+    /**
+     * 描述
+     *
+     * @return /
+     */
+    default String getDescription() {
+        return null;
+    }
 }
