@@ -41,7 +41,7 @@ public class ValidResultMethodInterceptor implements MethodInterceptor {
             }
             // 失败时抛异常
             if (!ResultUtils.isSuccess(result) && annotation.behaviorOnFail() == ValidResult.BehaviorOnFail.FAIL) {
-                throw new BizException(result.toString());
+                throw new BizException(result.getStatus(), result.getMessage());
             }
         }
         return proceed;
