@@ -19,11 +19,11 @@ public interface BaseService<D, V, Criteria> {
     /**
      * 查询数据分页
      *
-     * @param criteria    条件
      * @param pageRequest 分页参数
+     * @param criteria    条件
      * @return PageResult
      */
-    PageResult<V> page(Criteria criteria, PageRequest pageRequest);
+    PageResult<V> page(PageRequest pageRequest, Criteria criteria);
 
     /**
      * 查询所有数据不分页

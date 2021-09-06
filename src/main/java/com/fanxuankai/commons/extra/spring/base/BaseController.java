@@ -40,13 +40,13 @@ public class BaseController<D, V, Criteria, S extends BaseService<D, V, Criteria
     /**
      * 查询数据分页
      *
-     * @param criteria    条件
      * @param pageRequest 分页参数
+     * @param criteria    条件
      * @return Result
      */
     @GetMapping("page")
-    public Result<PageResult<V>> page(Criteria criteria, PageRequest pageRequest) {
-        return ResultUtils.ok(baseService.page(criteria, pageRequest));
+    public Result<PageResult<V>> page(PageRequest pageRequest, Criteria criteria) {
+        return ResultUtils.ok(baseService.page(pageRequest, criteria));
     }
 
     /**

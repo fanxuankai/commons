@@ -27,8 +27,8 @@ public class BaseServiceImpl<T extends BaseModel, D, V, Criteria,
     protected DAO baseDao;
 
     @Override
-    public PageResult<V> page(Criteria criteria, PageRequest pageRequest) {
-        return baseDao.page(criteria, pageRequest).map(converter::toVo);
+    public PageResult<V> page(PageRequest pageRequest, Criteria criteria) {
+        return baseDao.page(pageRequest, criteria).map(converter::toVo);
     }
 
     @Override
