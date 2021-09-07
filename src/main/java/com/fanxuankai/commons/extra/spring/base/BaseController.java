@@ -38,7 +38,7 @@ public class BaseController<D, V, Criteria, S extends BaseService<D, V, Criteria
     }
 
     /**
-     * 查询数据分页
+     * 翻页查询
      *
      * @param pageRequest 分页参数
      * @param criteria    条件
@@ -50,7 +50,7 @@ public class BaseController<D, V, Criteria, S extends BaseService<D, V, Criteria
     }
 
     /**
-     * 查询所有数据不分页
+     * 查询列表
      *
      * @param criteria 条件参数
      * @return Result
