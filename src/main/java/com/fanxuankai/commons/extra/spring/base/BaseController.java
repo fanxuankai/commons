@@ -61,7 +61,7 @@ public class BaseController<D, V, Criteria, S extends BaseService<D, V, Criteria
     }
 
     /**
-     * 根据 ID 查询
+     * 查详情
      *
      * @param id ID
      * @return Result
