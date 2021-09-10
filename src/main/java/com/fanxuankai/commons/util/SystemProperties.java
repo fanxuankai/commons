@@ -9,7 +9,6 @@ import java.util.Optional;
  * @deprecated {@link SystemUtil}
  */
 public class SystemProperties {
-
     public static Optional<Integer> getInteger(String key) {
         Integer value = null;
         String valueStr = System.getProperty(key);

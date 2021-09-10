@@ -15,7 +15,6 @@ import java.util.Date;
  */
 @Component
 public class RedisAutoIdGenerator implements InitializingBean {
-
     public static final String DEFAULT_DATE_PATTERN = "yyyyMMdd";
     public static final int DEFAULT_LENGTH = 3;
     private static RedisTemplate<String, Object> rt;
@@ -100,5 +99,4 @@ public class RedisAutoIdGenerator implements InitializingBean {
     public void afterPropertiesSet() {
         RedisAutoIdGenerator.rt = redisTemplate;
     }
-
 }

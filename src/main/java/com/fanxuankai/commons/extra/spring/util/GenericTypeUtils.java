@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
  * @author fanxuankai
  */
 public class GenericTypeUtils {
-
     /**
      * 获取泛型
      *
@@ -78,5 +77,4 @@ public class GenericTypeUtils {
                 .filter(entry -> genericDeclaration.isAssignableFrom((Class<?>) entry.getKey().getGenericDeclaration()))
                 .collect(Collectors.toMap(o -> o.getKey().getName(), Map.Entry::getValue, (o, o2) -> o2));
     }
-
 }

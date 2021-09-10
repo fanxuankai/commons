@@ -10,7 +10,6 @@ import java.util.stream.IntStream;
  * @author fanxuankai
  */
 public class MockUtils extends JMockData {
-
     /**
      * Mock Data
      *

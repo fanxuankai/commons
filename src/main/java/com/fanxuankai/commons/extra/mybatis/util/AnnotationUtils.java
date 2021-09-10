@@ -43,7 +43,6 @@ public class AnnotationUtils {
                                 .map(f -> f.getAnnotation(TableField.class))
                                 // 如果注解不为空
                                 .ifPresent(annotation -> AnnotationUtil.setValue(annotation, "value", s)))
-
                 ));
     }
 }

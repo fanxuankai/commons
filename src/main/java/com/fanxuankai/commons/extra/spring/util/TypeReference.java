@@ -4,7 +4,6 @@ package com.fanxuankai.commons.extra.spring.util;
  * @author fanxuankai
  */
 public class TypeReference<T> {
-
     protected final Class<T> type;
 
     protected TypeReference() {
@@ -14,5 +13,4 @@ public class TypeReference<T> {
     public Class<T> getType() {
         return type;
     }
-
 }

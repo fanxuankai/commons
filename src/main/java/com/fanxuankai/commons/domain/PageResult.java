@@ -97,14 +97,18 @@ public class PageResult<T> {
         this.list = list;
     }
 
+    @SuppressWarnings("rawtypes")
+    private static final PageResult EMPTY_PAGE = empty(PageRequest.defaultPage());
+
     /**
      * 空的
      *
      * @param <T> 数据类型泛型
      * @return /
      */
+    @SuppressWarnings("unchecked")
     public static <T> PageResult<T> empty() {
-        return empty(PageRequest.defaultPage());
+        return EMPTY_PAGE;
     }
 
     /**

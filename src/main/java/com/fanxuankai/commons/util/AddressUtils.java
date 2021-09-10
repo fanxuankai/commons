@@ -10,7 +10,6 @@ import java.net.UnknownHostException;
  * @deprecated {@link NetUtil}
  */
 public class AddressUtils {
-
     /**
      * 获取本机网卡IP地址
      *
