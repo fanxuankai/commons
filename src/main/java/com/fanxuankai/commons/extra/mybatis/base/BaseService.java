@@ -2,6 +2,7 @@ package com.fanxuankai.commons.extra.mybatis.base;
 
 import com.fanxuankai.commons.domain.PageRequest;
 import com.fanxuankai.commons.domain.PageResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -71,6 +72,16 @@ public interface BaseService<D, V, Criteria> {
      * @throws IOException /
      */
     default void download(List<V> all, HttpServletResponse response) throws IOException {
+
+    }
+
+    /**
+     * 上传数据
+     *
+     * @param file /
+     * @throws IOException /
+     */
+    default void upload(MultipartFile file) throws IOException {
 
     }
 }

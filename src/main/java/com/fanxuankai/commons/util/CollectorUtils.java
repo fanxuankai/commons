@@ -35,6 +35,7 @@ public class CollectorUtils {
      * @param <T>         the type of the input elements
      * @param <K>         the output type of the key mapping function
      * @param <U>         the output type of the value mapping function
+     * @param stream      /
      * @param keyMapper   a mapping function to produce keys
      * @param valueMapper a mapping function to produce values
      * @return a {@code Collector} which collects elements into a {@code Map}
@@ -56,6 +57,7 @@ public class CollectorUtils {
      * @param <T>         the type of the input elements
      * @param <K>         the output type of the key mapping function
      * @param <U>         the output type of the value mapping function
+     * @param stream      /
      * @param keyMapper   a mapping function to produce keys
      * @param valueMapper a mapping function to produce values
      * @return a {@code Collector} which collects elements into a {@code Map}

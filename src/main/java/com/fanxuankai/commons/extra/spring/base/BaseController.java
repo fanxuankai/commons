@@ -8,6 +8,7 @@ import com.fanxuankai.commons.util.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,18 +25,6 @@ import java.util.List;
 public class BaseController<D, V, Criteria, S extends BaseService<D, V, Criteria>> {
     @Autowired
     protected S baseService;
-
-    /**
-     * 导出数据
-     *
-     * @param criteria 条件
-     * @param response /
-     * @throws IOException /
-     */
-    @GetMapping("download")
-    public void download(Criteria criteria, HttpServletResponse response) throws IOException {
-        baseService.download(baseService.list(criteria), response);
-    }
 
     /**
      * 翻页查询
@@ -106,5 +95,28 @@ public class BaseController<D, V, Criteria, S extends BaseService<D, V, Criteria
     public Result<Void> delete(@RequestBody List<Long> ids) {
         baseService.deleteAll(ids);
         return ResultUtils.ok();
+    }
+
+    /**
+     * 导出数据
+     *
+     * @param criteria 条件
+     * @param response /
+     * @throws IOException /
+     */
+    @GetMapping("download")
+    public void download(Criteria criteria, HttpServletResponse response) throws IOException {
+        baseService.download(baseService.list(criteria), response);
+    }
+
+    /**
+     * 上传数据
+     *
+     * @param file /
+     * @throws IOException /
+     */
+    @PostMapping("upload")
+    public void upload(@RequestPart("file") MultipartFile file) throws IOException {
+        baseService.upload(file);
     }
 }
