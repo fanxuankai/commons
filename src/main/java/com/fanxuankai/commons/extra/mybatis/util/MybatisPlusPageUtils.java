@@ -75,6 +75,6 @@ public class MybatisPlusPageUtils {
      * @return /
      */
     public static <T> PageResult<T> convertEmpty(PageRequest pageRequest) {
-        return convert(convert(pageRequest));
+        return PageResult.empty(pageRequest);
     }
 }
