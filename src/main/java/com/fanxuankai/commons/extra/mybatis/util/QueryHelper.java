@@ -69,7 +69,7 @@ public class QueryHelper {
             String propName = q.field();
             String fuzzy = q.fuzzy();
             String attributeName = StringUtils.isBlank(propName) ? field.getName() : propName;
-            Object val = ReflectionKit.getMethodValue(criteria, field.getName());
+            Object val = ReflectionKit.getFieldValue(criteria, field.getName());
             if (ObjectUtils.isEmpty(val)) {
                 continue;
             }
