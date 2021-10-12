@@ -17,7 +17,7 @@ import java.util.List;
  * @param <DAO> DAO
  * @author fanxuankai
  */
-public class BaseServiceImpl<T extends BaseModel, D, V, Criteria,
+public class BaseServiceImpl<T, D, V, Criteria,
         C extends Converter<T, D, V>,
         DAO extends BaseDao<T, Criteria>>
         implements BaseService<D, V, Criteria> {
@@ -48,9 +48,10 @@ public class BaseServiceImpl<T extends BaseModel, D, V, Criteria,
 
     @Override
     public void update(Long id, D dto) {
-        T existsUser = baseDao.getById(id);
         T t = converter.toEntity(dto);
-        t.setId(existsUser.getId());
+        if (t instanceof BaseModel) {
+            ((BaseModel) t).setId(id);
+        }
         baseDao.updateById(t);
     }
 
