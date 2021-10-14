@@ -39,9 +39,7 @@ public class SpringPageUtils {
      * @return /
      */
     public static <T, R> PageResult<R> convert(Page<T> page, Function<T, R> converter) {
-        return new PageResult<>(page.getContent(),
-                PageRequest.of(page.getNumber() + 1, page.getSize()), (int) page.getTotalElements())
-                .map(converter);
+        return convert(page).map(converter);
     }
 
     /**

@@ -66,15 +66,4 @@ public class MybatisPlusPageUtils {
     public static <T> Page<T> convert(PageRequest pageRequest) {
         return new Page<>(pageRequest.getPageIndex(), pageRequest.getPageSize());
     }
-
-    /**
-     * Page 转空的 PageResult
-     *
-     * @param pageRequest /
-     * @param <T>         /
-     * @return /
-     */
-    public static <T> PageResult<T> convertEmpty(PageRequest pageRequest) {
-        return PageResult.empty(pageRequest);
-    }
 }
