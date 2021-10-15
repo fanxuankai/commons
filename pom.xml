@@ -36,6 +36,7 @@
         <spring-boot.version>2.2.7.RELEASE</spring-boot.version>
         <!-- Mybatis Plus 与 Spring Boot 版本对应 -->
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
+        <alibaba-dingtalk-service-sdk.version>1.0.1</alibaba-dingtalk-service-sdk.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -104,6 +105,13 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>4.1.2</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibaba-dingtalk-service-sdk</artifactId>
+            <version>${alibaba-dingtalk-service-sdk.version}</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
