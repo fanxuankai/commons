@@ -101,10 +101,10 @@ public interface BaseDao<T, Criteria> extends IService<T> {
      * 查询总记录数
      *
      * @param criteria 条件参数
-     * @return int
+     * @return long
      * @see IService#count(com.baomidou.mybatisplus.core.conditions.Wrapper)
      */
-    default int count(Criteria criteria) {
+    default long count(Criteria criteria) {
         return count(QueryHelper.getQueryWrapper(EntityClassCache.entityClass(getClass()), criteria));
     }
 

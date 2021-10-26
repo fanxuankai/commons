@@ -3,8 +3,8 @@ package com.fanxuankai.commons.extra.mybatis.tree;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.LambdaUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
+import com.baomidou.mybatisplus.core.toolkit.support.LambdaMeta;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.baomidou.mybatisplus.core.toolkit.support.SerializedLambda;
 import com.fanxuankai.commons.util.Node;
 import com.fanxuankai.commons.util.TreeUtils;
 import org.apache.ibatis.reflection.property.PropertyNamer;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 class TreeNodeUtils extends TreeUtils {
     public static <T> ColumnCache getColumnCache(Class<T> entityClass, SFunction<T, ?> function) {
         Map<String, ColumnCache> columnMap = LambdaUtils.getColumnMap(entityClass);
-        SerializedLambda pathResolve = LambdaUtils.resolve(function);
+        LambdaMeta pathResolve = LambdaUtils.extract(function);
         return columnMap.get(LambdaUtils.formatKey(PropertyNamer.methodToProperty(pathResolve.getImplMethodName())));
     }
 

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fanxuankai</groupId>
     <artifactId>commons</artifactId>
-    <version>1.1.1_2.4.4-SNAPSHOT</version>
+    <version>1.1.1_2.5.6-SNAPSHOT</version>
     <name>Commons</name>
     <description>Commons</description>
     <licenses>
@@ -31,11 +31,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <hutool.version>5.6.3</hutool.version>
-        <jmockdata.version>4.2.0</jmockdata.version>
-        <spring-boot.version>2.4.4</spring-boot.version>
+        <hutool.version>5.7.15</hutool.version>
+        <jmockdata.version>4.3.0</jmockdata.version>
+        <spring-boot.version>2.5.6</spring-boot.version>
         <!-- Mybatis Plus 与 Spring Boot 版本对应 -->
-        <mybatis-plus.version>3.4.2</mybatis-plus.version>
+        <mybatis-plus.version>3.4.3.4</mybatis-plus.version>
         <alibaba-dingtalk-service-sdk.version>1.0.1</alibaba-dingtalk-service-sdk.version>
     </properties>
     <dependencyManagement>
